@@ -123,17 +123,17 @@ def format_mentioned_documents_as_context(documents: list[Document]) -> str:
     return "\n".join(context_parts)
 
 
-def format_mentioned_surfsense_docs_as_context(
+def format_mentioned_govsense_docs_as_context(
     documents: list[SurfsenseDocsDocument],
 ) -> str:
-    """Format mentioned SurfSense documentation as context for the agent."""
+    """Format mentioned GovSense documentation as context for the agent."""
     if not documents:
         return ""
 
-    context_parts = ["<mentioned_surfsense_docs>"]
+    context_parts = ["<mentioned_govsense_docs>"]
     context_parts.append(
-        "The user has explicitly mentioned the following SurfSense documentation pages. "
-        "These are official documentation about how to use SurfSense and should be used to answer questions about the application. "
+        "The user has explicitly mentioned the following GovSense documentation pages. "
+        "These are official documentation about how to use GovSense and should be used to answer questions about the application. "
         "Use [citation:CHUNK_ID] format for citations (e.g., [citation:doc-123])."
     )
 
@@ -143,7 +143,7 @@ def format_mentioned_surfsense_docs_as_context(
         context_parts.append("<document>")
         context_parts.append("<document_metadata>")
         context_parts.append(f"  <document_id>doc-{doc.id}</document_id>")
-        context_parts.append("  <document_type>SURFSENSE_DOCS</document_type>")
+        context_parts.append("  <document_type>GOVSENSE_DOCS</document_type>")
         context_parts.append(f"  <title><![CDATA[{doc.title}]]></title>")
         context_parts.append(f"  <url><![CDATA[{doc.source}]]></url>")
         context_parts.append(
@@ -167,7 +167,7 @@ def format_mentioned_surfsense_docs_as_context(
         context_parts.append("</document>")
         context_parts.append("")
 
-    context_parts.append("</mentioned_surfsense_docs>")
+    context_parts.append("</mentioned_govsense_docs>")
 
     return "\n".join(context_parts)
 
@@ -205,7 +205,7 @@ async def stream_new_chat(
     llm_config_id: int = -1,
     attachments: list[ChatAttachment] | None = None,
     mentioned_document_ids: list[int] | None = None,
-    mentioned_surfsense_doc_ids: list[int] | None = None,
+    mentioned_govsense_doc_ids: list[int] | None = None,
     checkpoint_id: str | None = None,
     needs_history_bootstrap: bool = False,
 ) -> AsyncGenerator[str, None]:
@@ -225,7 +225,7 @@ async def stream_new_chat(
         attachments: Optional attachments with extracted content
         needs_history_bootstrap: If True, load message history from DB (for cloned chats)
         mentioned_document_ids: Optional list of document IDs mentioned with @ in the chat
-        mentioned_surfsense_doc_ids: Optional list of SurfSense doc IDs mentioned with @ in the chat
+        mentioned_govsense_doc_ids: Optional list of GovSense doc IDs mentioned with @ in the chat
         checkpoint_id: Optional checkpoint ID to rewind/fork from (for edit/reload operations)
 
     Yields:
@@ -341,21 +341,21 @@ async def stream_new_chat(
             )
             mentioned_documents = list(result.scalars().all())
 
-        # Fetch mentioned SurfSense docs if any
-        mentioned_surfsense_docs: list[SurfsenseDocsDocument] = []
-        if mentioned_surfsense_doc_ids:
+        # Fetch mentioned GovSense docs if any
+        mentioned_govsense_docs: list[SurfsenseDocsDocument] = []
+        if mentioned_govsense_doc_ids:
             from sqlalchemy.orm import selectinload
 
             result = await session.execute(
                 select(SurfsenseDocsDocument)
                 .options(selectinload(SurfsenseDocsDocument.chunks))
                 .filter(
-                    SurfsenseDocsDocument.id.in_(mentioned_surfsense_doc_ids),
+                    SurfsenseDocsDocument.id.in_(mentioned_govsense_doc_ids),
                 )
             )
-            mentioned_surfsense_docs = list(result.scalars().all())
+            mentioned_govsense_docs = list(result.scalars().all())
 
-        # Format the user query with context (attachments + mentioned documents + surfsense docs)
+        # Format the user query with context (attachments + mentioned documents + govsense docs)
         final_query = user_query
         context_parts = []
 
@@ -367,9 +367,9 @@ async def stream_new_chat(
                 format_mentioned_documents_as_context(mentioned_documents)
             )
 
-        if mentioned_surfsense_docs:
+        if mentioned_govsense_docs:
             context_parts.append(
-                format_mentioned_surfsense_docs_as_context(mentioned_surfsense_docs)
+                format_mentioned_govsense_docs_as_context(mentioned_govsense_docs)
             )
 
         if context_parts:
@@ -451,13 +451,13 @@ async def stream_new_chat(
         last_active_step_id = analyze_step_id
 
         # Determine step title and action verb based on context
-        if attachments and (mentioned_documents or mentioned_surfsense_docs):
+        if attachments and (mentioned_documents or mentioned_govsense_docs):
             last_active_step_title = "Analyzing your content"
             action_verb = "Reading"
         elif attachments:
             last_active_step_title = "Reading your content"
             action_verb = "Reading"
-        elif mentioned_documents or mentioned_surfsense_docs:
+        elif mentioned_documents or mentioned_govsense_docs:
             last_active_step_title = "Analyzing referenced content"
             action_verb = "Analyzing"
         else:
@@ -497,10 +497,10 @@ async def stream_new_chat(
             else:
                 processing_parts.append(f"[{len(doc_names)} documents]")
 
-        # Add mentioned SurfSense docs inline
-        if mentioned_surfsense_docs:
+        # Add mentioned GovSense docs inline
+        if mentioned_govsense_docs:
             doc_names = []
-            for doc in mentioned_surfsense_docs:
+            for doc in mentioned_govsense_docs:
                 title = doc.title
                 if len(title) > 30:
                     title = title[:27] + "..."

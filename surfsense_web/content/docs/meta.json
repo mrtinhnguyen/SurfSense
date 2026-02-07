@@ -1,6 +1,6 @@
 {
-	"title": "Documentation",
-	"description": "SurfSense Documentation",
+	"title": "Tài liệu GovSense",
+	"description": "Tài liệu hướng dẫn sử dụng GovSense",
 	"root": true,
 	"pages": [
 		"---Guides---",

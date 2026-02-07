@@ -1,10 +1,10 @@
 {
-	"name": "surfsense_web",
+	"name": "govsense_web",
 	"version": "0.0.12",
 	"private": true,
-	"description": "SurfSense Frontend",
+	"description": "GovSense Frontend",
 	"scripts": {
-		"dev": "next dev --turbopack",
+		"dev": "next dev --webpack",
 		"dev:turbo": "next dev --turbopack",
 		"build": "next build",
 		"start": "next start",

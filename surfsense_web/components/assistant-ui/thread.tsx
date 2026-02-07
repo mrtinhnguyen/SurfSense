@@ -67,12 +67,12 @@ import { cn } from "@/lib/utils";
 
 /** Placeholder texts that cycle in new chats when input is empty */
 const CYCLING_PLACEHOLDERS = [
-	"Ask SurfSense anything or @mention docs.",
-	"Generate a podcast from marketing tips in the company handbook.",
-	"Sum up our vacation policy from Drive.",
-	"Give me a brief overview of the most urgent tickets in Jira and Linear.",
-	"Create a concise table of today's top ten emails and calendar events.",
-	"Check if this week's Slack messages reference any GitHub issues.",
+	"Hỏi GovSense bất cứ điều gì hoặc @nhắc đến tài liệu.",
+	"Tạo podcast từ các hướng dẫn trong sổ tay cơ quan.",
+	"Tổng hợp chính sách nghỉ phép từ Kho dữ liệu.",
+	"Cho tôi tổng quan về các nhiệm vụ khẩn cấp.",
+	"Tạo bảng tóm tắt các email và lịch họp quan trọng hôm nay.",
+	"Kiểm tra xem các tin nhắn có đề cập đến vấn đề nào không.",
 ];
 
 interface ThreadProps {
@@ -293,11 +293,11 @@ const Composer: FC = () => {
 	// Sync mentioned document IDs to atom for inclusion in chat request payload
 	useEffect(() => {
 		setMentionedDocumentIds({
-			surfsense_doc_ids: mentionedDocuments
-				.filter((doc) => doc.document_type === "SURFSENSE_DOCS")
+			govsense_doc_ids: mentionedDocuments
+				.filter((doc) => doc.document_type === "GOVSENSE_DOCS")
 				.map((doc) => doc.id),
 			document_ids: mentionedDocuments
-				.filter((doc) => doc.document_type !== "SURFSENSE_DOCS")
+				.filter((doc) => doc.document_type !== "GOVSENSE_DOCS")
 				.map((doc) => doc.id),
 		});
 	}, [mentionedDocuments, setMentionedDocumentIds]);
@@ -364,7 +364,7 @@ const Composer: FC = () => {
 			editorRef.current?.clear();
 			setMentionedDocuments([]);
 			setMentionedDocumentIds({
-				surfsense_doc_ids: [],
+				govsense_doc_ids: [],
 				document_ids: [],
 			});
 		}
@@ -383,11 +383,11 @@ const Composer: FC = () => {
 			setMentionedDocuments((prev) => {
 				const updated = prev.filter((doc) => !(doc.id === docId && doc.document_type === docType));
 				setMentionedDocumentIds({
-					surfsense_doc_ids: updated
-						.filter((doc) => doc.document_type === "SURFSENSE_DOCS")
+					govsense_doc_ids: updated
+						.filter((doc) => doc.document_type === "GOVSENSE_DOCS")
 						.map((doc) => doc.id),
 					document_ids: updated
-						.filter((doc) => doc.document_type !== "SURFSENSE_DOCS")
+						.filter((doc) => doc.document_type !== "GOVSENSE_DOCS")
 						.map((doc) => doc.id),
 				});
 				return updated;
@@ -415,11 +415,11 @@ const Composer: FC = () => {
 				);
 				const updated = [...prev, ...uniqueNewDocs];
 				setMentionedDocumentIds({
-					surfsense_doc_ids: updated
-						.filter((doc) => doc.document_type === "SURFSENSE_DOCS")
+					govsense_doc_ids: updated
+						.filter((doc) => doc.document_type === "GOVSENSE_DOCS")
 						.map((doc) => doc.id),
 					document_ids: updated
-						.filter((doc) => doc.document_type !== "SURFSENSE_DOCS")
+						.filter((doc) => doc.document_type !== "GOVSENSE_DOCS")
 						.map((doc) => doc.id),
 				});
 				return updated;

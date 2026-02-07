@@ -8,7 +8,6 @@ interface Integration {
 
 const INTEGRATIONS: Integration[] = [
 	// Search
-	{ name: "Tavily", icon: "https://www.tavily.com/images/logo.svg" },
 	{
 		name: "LinkUp",
 		icon: "https://framerusercontent.com/images/7zeIm6t3f1HaSltkw8upEvsD80.png?scale-down-to=512",

@@ -23,7 +23,7 @@ export const documentTypeEnum = z.enum([
 	"ELASTICSEARCH_CONNECTOR",
 	"BOOKSTACK_CONNECTOR",
 	"CIRCLEBACK",
-	"SURFSENSE_DOCS",
+	"GOVSENSE_DOCS",
 	"NOTE",
 	"COMPOSIO_GOOGLE_DRIVE_CONNECTOR",
 	"COMPOSIO_GMAIL_CONNECTOR",
@@ -66,23 +66,23 @@ export const documentWithChunks = document.extend({
 });
 
 /**
- * Surfsense documentation schemas
+ * GovSense documentation schemas
  * Follows the same pattern as document/documentWithChunks
  */
-export const surfsenseDocsChunk = z.object({
+export const govsenseDocsChunk = z.object({
 	id: z.number(),
 	content: z.string(),
 });
 
-export const surfsenseDocsDocument = z.object({
+export const govsenseDocsDocument = z.object({
 	id: z.number(),
 	title: z.string(),
 	source: z.string(),
 	content: z.string(),
 });
 
-export const surfsenseDocsDocumentWithChunks = surfsenseDocsDocument.extend({
-	chunks: z.array(surfsenseDocsChunk),
+export const govsenseDocsDocumentWithChunks = govsenseDocsDocument.extend({
+	chunks: z.array(govsenseDocsChunk),
 });
 
 /**
@@ -206,23 +206,23 @@ export const getDocumentByChunkResponse = documentWithChunks;
 /**
  * Get Surfsense docs by chunk
  */
-export const getSurfsenseDocsByChunkRequest = z.object({
+export const getGovsenseDocsByChunkRequest = z.object({
 	chunk_id: z.number(),
 });
 
-export const getSurfsenseDocsByChunkResponse = surfsenseDocsDocumentWithChunks;
+export const getGovsenseDocsByChunkResponse = govsenseDocsDocumentWithChunks;
 
 /**
- * List Surfsense docs
+ * List GovSense docs
  */
-export const getSurfsenseDocsRequest = z.object({
+export const getGovsenseDocsRequest = z.object({	
 	queryParams: paginationQueryParams.extend({
 		title: z.string().optional(),
 	}),
 });
 
-export const getSurfsenseDocsResponse = z.object({
-	items: z.array(surfsenseDocsDocument),
+export const getGovsenseDocsResponse = z.object({
+	items: z.array(govsenseDocsDocument),
 	total: z.number(),
 	page: z.number(),
 	page_size: z.number(),
@@ -271,10 +271,10 @@ export type UpdateDocumentResponse = z.infer<typeof updateDocumentResponse>;
 export type DeleteDocumentRequest = z.infer<typeof deleteDocumentRequest>;
 export type DeleteDocumentResponse = z.infer<typeof deleteDocumentResponse>;
 export type DocumentTypeEnum = z.infer<typeof documentTypeEnum>;
-export type SurfsenseDocsChunk = z.infer<typeof surfsenseDocsChunk>;
-export type SurfsenseDocsDocument = z.infer<typeof surfsenseDocsDocument>;
-export type SurfsenseDocsDocumentWithChunks = z.infer<typeof surfsenseDocsDocumentWithChunks>;
-export type GetSurfsenseDocsByChunkRequest = z.infer<typeof getSurfsenseDocsByChunkRequest>;
-export type GetSurfsenseDocsByChunkResponse = z.infer<typeof getSurfsenseDocsByChunkResponse>;
-export type GetSurfsenseDocsRequest = z.infer<typeof getSurfsenseDocsRequest>;
-export type GetSurfsenseDocsResponse = z.infer<typeof getSurfsenseDocsResponse>;
+export type GovsenseDocsChunk = z.infer<typeof govsenseDocsChunk>;
+export type GovsenseDocsDocument = z.infer<typeof govsenseDocsDocument>;
+export type GovsenseDocsDocumentWithChunks = z.infer<typeof govsenseDocsDocumentWithChunks>;
+export type GetGovsenseDocsByChunkRequest = z.infer<typeof getGovsenseDocsByChunkRequest>;
+export type GetGovsenseDocsByChunkResponse = z.infer<typeof getGovsenseDocsByChunkResponse>;
+export type GetGovsenseDocsRequest = z.infer<typeof getGovsenseDocsRequest>;
+export type GetGovsenseDocsResponse = z.infer<typeof getGovsenseDocsResponse>;

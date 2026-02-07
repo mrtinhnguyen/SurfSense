@@ -89,15 +89,15 @@ export function HeroSection() {
 					{isNotebookLMVariant ? (
 						<div className="relative mx-auto inline-block w-max filter-[drop-shadow(0px_1px_3px_rgba(27,37,80,0.14))]">
 							<div className="text-black [text-shadow:0_0_rgba(0,0,0,0.1)] dark:text-white">
-								<span className="">NotebookLM for Teams</span>
+								<span className="">GovSense - Trợ lý AI cho Cán bộ</span>
 							</div>
 						</div>
 					) : (
 						<>
-							The AI Workspace{" "}
+							Nền tảng Trợ lý AI Nội bộ{" "}
 							<div className="relative mx-auto inline-block w-max filter-[drop-shadow(0px_1px_3px_rgba(27,37,80,0.14))]">
 								<div className="text-black [text-shadow:0_0_rgba(0,0,0,0.1)] dark:text-white">
-									<span className="">Built for Teams</span>
+									<span className="">GovSense</span>
 								</div>
 							</div>
 						</>
@@ -106,8 +106,7 @@ export function HeroSection() {
 			</h2>
 			{/* // TODO:aCTUAL DESCRITION */}
 			<p className="relative z-50 mx-auto mt-4 max-w-lg px-4 text-center text-base/6 text-gray-600 dark:text-gray-200">
-				Connect any LLM to your internal knowledge sources and chat with it in real time alongside
-				your team.
+				Nền tảng trợ lý AI nội bộ cho cán bộ, giúp tra cứu – tổng hợp – phối hợp công việc nhanh, chính xác và an toàn.
 			</p>
 			<div className="mb-10 mt-8 flex w-full flex-col items-center justify-center gap-4 px-8 sm:flex-row md:mb-20">
 				<GetStartedButton />
@@ -184,7 +183,7 @@ function GetStartedButton() {
 				>
 					<GoogleLogo className="h-5 w-5" />
 				</motion.div>
-				<span className="relative">Continue with Google</span>
+				<span className="relative">Tiếp tục với Google</span>
 			</motion.button>
 		);
 	}
@@ -195,7 +194,7 @@ function GetStartedButton() {
 				href="/login"
 				className="group relative z-20 flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-black px-6 py-2.5 text-sm font-semibold text-white shadow-lg transition-shadow duration-300 hover:shadow-xl sm:w-56 dark:bg-white dark:text-black"
 			>
-				Get Started
+				Bắt đầu ngay
 			</Link>
 		</motion.div>
 	);
@@ -210,7 +209,7 @@ function ContactSalesButton() {
 				rel="noopener noreferrer"
 				className="group relative z-20 flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-white px-6 py-2.5 text-sm font-semibold text-neutral-700 shadow-lg ring-1 ring-neutral-200/50 transition-shadow duration-300 hover:shadow-xl sm:w-56 dark:bg-neutral-900 dark:text-neutral-200 dark:ring-neutral-700/50"
 			>
-				Contact Sales
+				Liên hệ tư vấn
 			</Link>
 		</motion.div>
 	);

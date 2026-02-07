@@ -42,9 +42,9 @@ import type { ConnectFormProps } from "../index";
 const elasticsearchConnectorFormSchema = z
 	.object({
 		name: z.string().min(3, {
-			message: "Connector name must be at least 3 characters.",
+			message: "Tên kết nối phải có ít nhất 3 ký tự.",
 		}),
-		endpoint_url: z.string().url({ message: "Please enter a valid Elasticsearch endpoint URL." }),
+		endpoint_url: z.string().url({ message: "Vui lòng nhập URL hợp lệ cho Elasticsearch endpoint." }),
 		auth_method: z.enum(["basic", "api_key"]),
 		username: z.string().optional(),
 		password: z.string().optional(),
@@ -65,7 +65,7 @@ const elasticsearchConnectorFormSchema = z
 			return true;
 		},
 		{
-			message: "Authentication credentials are required for the selected method.",
+			message: "Thông tin xác thực là bắt buộc cho phương thức đã chọn.",
 			path: ["auth_method"],
 		}
 	);

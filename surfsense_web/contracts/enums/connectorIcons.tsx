@@ -103,7 +103,7 @@ export const getConnectorIcon = (connectorType: EnumConnectorName | string, clas
 			return <FileText {...iconProps} />;
 		case "EXTENSION":
 			return <Webhook {...iconProps} />;
-		case "SURFSENSE_DOCS":
+		case "GOVSENSE_DOCS":
 			return <BookOpen {...iconProps} />;
 		case "DEEP":
 			return <Sparkles {...iconProps} />;

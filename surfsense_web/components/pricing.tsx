@@ -34,7 +34,7 @@ interface PricingProps {
 export function Pricing({
 	plans,
 	title = "Simple, Transparent Pricing",
-	description = "Choose the plan that works for you\nAll plans include access to our SurfSense AI workspace and community support.",
+	description = "Chọn gói phù hợp với nhu cầu của bạn\nTất cả các gói đều bao gồm quyền truy cập vào không gian làm việc GovSense và hỗ trợ cộng đồng.",
 }: PricingProps) {
 	const [isMonthly, setIsMonthly] = useState(false);
 	const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -148,7 +148,7 @@ export function Pricing({
 							<div className="absolute top-0 right-0 bg-primary py-0.5 px-2 rounded-bl-xl rounded-tr-xl flex items-center">
 								<Star className="text-primary-foreground h-4 w-4 fill-current" />
 								<span className="text-primary-foreground ml-1 font-sans font-semibold">
-									Popular
+									Khuyên dùng
 								</span>
 							</div>
 						)}

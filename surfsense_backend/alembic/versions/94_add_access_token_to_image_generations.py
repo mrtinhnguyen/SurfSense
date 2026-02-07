@@ -22,16 +22,24 @@ depends_on: str | Sequence[str] | None = None
 
 
 def upgrade() -> None:
-    # Add access_token column (nullable so existing rows are unaffected)
-    op.add_column(
-        "image_generations",
-        sa.Column("access_token", sa.String(64), nullable=True),
+    # Check if column exists
+    conn = op.get_bind()
+    result = conn.execute(
+        sa.text(
+            "SELECT EXISTS (SELECT FROM information_schema.columns WHERE table_name = 'image_generations' AND column_name = 'access_token')"
+        )
     )
-    op.create_index(
-        "ix_image_generations_access_token",
-        "image_generations",
-        ["access_token"],
-    )
+    if not result.scalar():
+        # Add access_token column (nullable so existing rows are unaffected)
+        op.add_column(
+            "image_generations",
+            sa.Column("access_token", sa.String(64), nullable=True),
+        )
+        op.create_index(
+            "ix_image_generations_access_token",
+            "image_generations",
+            ["access_token"],
+        )
 
 
 def downgrade() -> None:

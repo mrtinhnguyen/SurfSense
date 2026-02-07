@@ -7,18 +7,18 @@ description: Setting up SurfSense using Docker
 
 # Docker Installation
 
-This guide explains how to run SurfSense using Docker, with options ranging from quick single-command deployment to full production setups.
+This guide explains how to run GovSense using Docker, with options ranging from quick single-command deployment to full production setups.
 
 ## Quick Start with Docker 🐳
 
-Get SurfSense running in seconds with a single command:
+Get GovSense running in seconds with a single command:
 
 <Callout type="info">
-The all-in-one Docker image bundles PostgreSQL (with pgvector), Redis, and all SurfSense services. Perfect for quick evaluation and development.
+The all-in-one Docker image bundles PostgreSQL (with pgvector), Redis, and all GovSense services. Perfect for quick evaluation and development.
 </Callout>
 
 <Callout type="warn">
-Make sure to include the `-v surfsense-data:/data` in your Docker command. This ensures your database and files are properly persisted.
+Make sure to include the `-v govsense-data:/data` in your Docker command. This ensures your database and files are properly persisted.
 </Callout>
 
 ### One-Line Installation
@@ -27,8 +27,8 @@ Make sure to include the `-v surfsense-data:/data` in your Docker command. This 
 
 ```bash
 docker run -d -p 3000:3000 -p 8000:8000 -p 5133:5133 \
-  -v surfsense-data:/data \
-  --name surfsense \
+  -v govsense-data:/data \
+  --name govsense \
   --restart unless-stopped \
   ghcr.io/modsetter/surfsense:latest
 ```
@@ -37,8 +37,8 @@ docker run -d -p 3000:3000 -p 8000:8000 -p 5133:5133 \
 
 ```powershell
 docker run -d -p 3000:3000 -p 8000:8000 -p 5133:5133 `
-  -v surfsense-data:/data `
-  --name surfsense `
+  -v govsense-data:/data `
+  --name govsense `
   --restart unless-stopped `
   ghcr.io/modsetter/surfsense:latest
 ```
@@ -51,7 +51,7 @@ You can pass any [environment variable](/docs/manual-installation#backend-enviro
 
 ```bash
 docker run -d -p 3000:3000 -p 8000:8000 -p 5133:5133 \
-  -v surfsense-data:/data \
+  -v govsense-data:/data \
   -e EMBEDDING_MODEL=openai://text-embedding-ada-002 \
   -e OPENAI_API_KEY=your_openai_api_key \
   -e AUTH_TYPE=GOOGLE \
@@ -59,7 +59,7 @@ docker run -d -p 3000:3000 -p 8000:8000 -p 5133:5133 \
   -e GOOGLE_OAUTH_CLIENT_SECRET=your_google_client_secret \
   -e ETL_SERVICE=LLAMACLOUD \
   -e LLAMA_CLOUD_API_KEY=your_llama_cloud_key \
-  --name surfsense \
+  --name govsense \
   --restart unless-stopped \
   ghcr.io/modsetter/surfsense:latest
 ```
@@ -85,11 +85,11 @@ cat > .env << EOF
 # SECRET_KEY=your_custom_secret_key  # Auto-generated if not set
 EOF
 
-# Start SurfSense
+# Start GovSense
 docker compose up -d
 ```
 
-After starting, access SurfSense at:
+After starting, access GovSense at:
 - **Frontend**: [http://localhost:3000](http://localhost:3000)
 - **Backend API**: [http://localhost:8000](http://localhost:8000)
 - **API Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)

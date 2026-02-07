@@ -5,7 +5,7 @@ description: Connect your Notion workspaces to SurfSense
 
 # Notion OAuth Integration Setup Guide
 
-This guide walks you through setting up a Notion OAuth integration for SurfSense.
+This guide walks you through setting up a Notion OAuth integration for GovSense.
 
 ## Step 1: Access Notion Integrations
 
@@ -20,7 +20,7 @@ Fill in the integration details:
 
 | Field | Value |
 |-------|-------|
-| **Integration Name** | `SurfSense` |
+| **Integration Name** | `GovSense` |
 | **Associated workspace** | Select your workspace |
 | **Type** | `Public` |
 | **Company name** | Your company name |
@@ -68,7 +68,7 @@ Click **Save** to apply the capabilities.
 
 ## Limitations & Unsupported Content
 
-Notion's API has limitations on certain block types that cannot be retrieved. SurfSense will automatically skip these unsupported blocks and continue syncing all other content.
+Notion's API has limitations on certain block types that cannot be retrieved. GovSense will automatically skip these unsupported blocks and continue syncing all other content.
 
 ### Unsupported Block Types
 
@@ -89,13 +89,13 @@ For additional information:
 
 ---
 
-## Running SurfSense with Notion Connector
+## Running GovSense with Notion Connector
 
 Add the Notion environment variables to your Docker run command:
 
 ```bash
 docker run -d -p 3000:3000 -p 8000:8000 \
-  -v surfsense-data:/data \
+  -v govsense-data:/data \
   # Notion Connector
   -e NOTION_OAUTH_CLIENT_ID=your_notion_client_id \
   -e NOTION_OAUTH_CLIENT_SECRET=your_notion_client_secret \

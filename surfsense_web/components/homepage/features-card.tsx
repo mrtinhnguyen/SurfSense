@@ -8,11 +8,10 @@ export function FeaturesCards() {
 			<div className="@container mx-auto max-w-7xl">
 				<div className="text-center">
 					<h2 className="text-balance text-4xl font-semibold lg:text-5xl">
-						Your Team's AI-Powered Knowledge Hub
+						Hệ thống Trợ lý AI Chuyên biệt
 					</h2>
 					<p className="mt-4">
-						Powerful features designed to enhance collaboration, boost productivity, and streamline
-						your workflow.
+						Công cụ hỗ trợ đắc lực cho cán bộ, công chức trong công tác tham mưu, tổng hợp và xử lý văn bản.
 					</p>
 				</div>
 				<div className="@min-4xl:max-w-full @min-4xl:grid-cols-3 mx-auto mt-8 grid max-w-sm gap-6 *:text-center md:mt-16">
@@ -22,13 +21,12 @@ export function FeaturesCards() {
 								<Workflow className="size-6" aria-hidden />
 							</CardDecorator>
 
-							<h3 className="mt-6 font-medium">Streamlined Workflow</h3>
+							<h3 className="mt-6 font-medium">Quy trình Khép kín</h3>
 						</CardHeader>
 
 						<CardContent>
 							<p className="text-sm">
-								Centralize all your knowledge and resources in one intelligent workspace. Find what
-								you need instantly and accelerate decision-making.
+								Tự động hóa việc tổng hợp, phân tích văn bản và hồ sơ công việc. Giảm thiểu thao tác thủ công, nâng cao độ chính xác.
 							</p>
 						</CardContent>
 					</Card>
@@ -39,13 +37,12 @@ export function FeaturesCards() {
 								<Users className="size-6" aria-hidden />
 							</CardDecorator>
 
-							<h3 className="mt-6 font-medium">Seamless Collaboration</h3>
+							<h3 className="mt-6 font-medium">Phối hợp Liên thông</h3>
 						</CardHeader>
 
 						<CardContent>
 							<p className="text-sm">
-								Work together effortlessly with real-time collaboration tools that keep your entire
-								team aligned.
+								Kết nối thông suốt giữa các phòng ban, đơn vị. Chia sẻ dữ liệu an toàn và cộng tác xử lý công việc theo thời gian thực.
 							</p>
 						</CardContent>
 					</Card>
@@ -56,13 +53,12 @@ export function FeaturesCards() {
 								<Sliders className="size-6" aria-hidden />
 							</CardDecorator>
 
-							<h3 className="mt-6 font-medium">Fully Customizable</h3>
+							<h3 className="mt-6 font-medium">An toàn & Bảo mật</h3>
 						</CardHeader>
 
 						<CardContent>
 							<p className="text-sm">
-								Choose from 100+ leading LLMs, seamlessly calling any model on demand. Even run
-								on-prem local LLM inference via vLLM, Ollama, llama.cpp, LM Studio, and more.
+								Triển khai linh hoạt trên hạ tầng riêng (On-premise) hoặc đám mây riêng (Private Cloud), tuân thủ các tiêu chuẩn bảo mật nhà nước.
 							</p>
 						</CardContent>
 					</Card>

@@ -194,11 +194,11 @@ export default function MorePagesPage() {
 									<span className="h-px w-8 bg-border" />
 								</div>
 								<Link
-									href="mailto:eric@surfsense.com"
+									href="mailto:contact@govsense.vn"
 									className="flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
 								>
 									<IconMailFilled className="h-4 w-4" />
-									eric@surfsense.com
+									contact@govsense.vn
 								</Link>
 							</div>
 						</DialogContent>

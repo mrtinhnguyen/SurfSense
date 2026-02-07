@@ -96,15 +96,15 @@ export const CirclebackConfig: FC<CirclebackConfigProps> = ({ connector, onNameC
 			{/* Connector Name */}
 			<div className="rounded-xl border border-border bg-slate-400/5 dark:bg-white/5 p-3 sm:p-6 space-y-3 sm:space-y-4">
 				<div className="space-y-2">
-					<Label className="text-xs sm:text-sm">Connector Name</Label>
+					<Label className="text-xs sm:text-sm">Tên kết nối</Label>
 					<Input
 						value={name}
 						onChange={(e) => handleNameChange(e.target.value)}
-						placeholder="My Circleback Connector"
+						placeholder="Kết nối Circleback của tôi"
 						className="border-slate-400/20 focus-visible:border-slate-400/40"
 					/>
 					<p className="text-[10px] sm:text-xs text-muted-foreground">
-						A friendly name to identify this connector.
+						Tên gợi nhớ để nhận diện kết nối này.
 					</p>
 				</div>
 			</div>
@@ -114,17 +114,17 @@ export const CirclebackConfig: FC<CirclebackConfigProps> = ({ connector, onNameC
 				<div className="space-y-1 sm:space-y-2">
 					<h3 className="font-medium text-sm sm:text-base flex items-center gap-2">
 						<Webhook className="h-4 w-4" />
-						Webhook Configuration
+						Cấu hình Webhook
 					</h3>
 				</div>
 
 				{isLoading ? (
 					<p className="text-[10px] sm:text-xs text-muted-foreground">
-						Loading webhook information...
+						Đang tải thông tin webhook...
 					</p>
 				) : webhookUrl ? (
 					<div className="space-y-2">
-						<Label className="text-xs sm:text-sm">Webhook URL</Label>
+						<Label className="text-xs sm:text-sm">URL Webhook</Label>
 						<div className="flex gap-2">
 							<Input
 								value={webhookUrl}
@@ -142,34 +142,32 @@ export const CirclebackConfig: FC<CirclebackConfigProps> = ({ connector, onNameC
 								{copied ? (
 									<>
 										<Check className="h-4 w-4 mr-2" />
-										Copied!
+										Đã sao chép!
 									</>
 								) : (
 									<>
 										<Copy className="h-4 w-4 mr-2" />
-										Copy
+										Sao chép
 									</>
 								)}
 							</Button>
 						</div>
 						<p className="text-[10px] sm:text-xs text-muted-foreground">
-							Use this URL in your Circleback automation settings to send meeting data to SurfSense.
+							Sử dụng URL này trong cài đặt tự động hóa Circleback của bạn để gửi dữ liệu cuộc họp đến GovSense.
 						</p>
 					</div>
 				) : (
 					<p className="text-[10px] sm:text-xs text-muted-foreground">
-						Unable to load webhook URL. Please try refreshing the page.
+						Không thể tải URL webhook. Vui lòng thử làm mới trang.
 					</p>
 				)}
 
 				{webhookInfo && (
 					<Alert className="bg-slate-400/5 dark:bg-white/5 border-slate-400/20">
 						<Info className="h-3 w-3 sm:h-4 sm:w-4" />
-						<AlertTitle className="text-xs sm:text-sm">Configuration Instructions</AlertTitle>
+						<AlertTitle className="text-xs sm:text-sm">Hướng dẫn cấu hình</AlertTitle>
 						<AlertDescription className="text-[10px] sm:text-xs !pl-0 mt-1">
-							Configure this URL in Circleback Settings → Automations → Create automation → Send
-							webhook request. The webhook will automatically send meeting notes, transcripts, and
-							action items to this search space.
+							Cấu hình URL này trong Cài đặt Circleback → Automations → Create automation → Send webhook request. Webhook sẽ tự động gửi ghi chú cuộc họp, bản ghi và các mục hành động đến không gian tìm kiếm này.
 						</AlertDescription>
 					</Alert>
 				)}

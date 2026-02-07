@@ -4,7 +4,7 @@ import { CTAHomepage } from "@/components/homepage/cta";
 import { FeaturesBentoGrid } from "@/components/homepage/features-bento-grid";
 import { FeaturesCards } from "@/components/homepage/features-card";
 import { HeroSection } from "@/components/homepage/hero-section";
-import ExternalIntegrations from "@/components/homepage/integrations";
+// import ExternalIntegrations from "@/components/homepage/integrations";
 
 export default function HomePage() {
 	return (
@@ -12,7 +12,7 @@ export default function HomePage() {
 			<HeroSection />
 			<FeaturesCards />
 			<FeaturesBentoGrid />
-			<ExternalIntegrations />
+			{/* <ExternalIntegrations /> */}
 			<CTAHomepage />
 		</main>
 	);

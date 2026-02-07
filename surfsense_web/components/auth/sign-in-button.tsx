@@ -75,14 +75,14 @@ export const SignInButton = ({ variant = "desktop" }: SignInButtonProps) => {
 				)}
 			>
 				<GoogleLogo className="h-4 w-4" />
-				<span>Sign In</span>
+				<span>Đăng nhập</span>
 			</motion.button>
 		);
 	}
 
 	return (
 		<Link href="/login" className={getClassName()}>
-			Sign In
+			Đăng nhập
 		</Link>
 	);
 };

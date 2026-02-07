@@ -107,8 +107,8 @@ export const ObsidianConnectForm: FC<ConnectFormProps> = ({ onSubmit, isSubmitti
 				<div className="-ml-1">
 					<AlertTitle className="text-xs sm:text-sm">Self-Hosted Only</AlertTitle>
 					<AlertDescription className="text-[10px] sm:text-xs pl-0!">
-						This connector requires direct file system access and only works with self-hosted
-						SurfSense installations.
+						Kết nối này yêu cầu quyền truy cập trực tiếp vào hệ thống tệp tin và chỉ hoạt động với
+						các bản cài đặt GovSense tự lưu trữ (self-hosted).
 					</AlertDescription>
 				</div>
 			</Alert>

@@ -227,7 +227,7 @@ def upgrade() -> None:
             UPDATE search_space_roles
             SET permissions = array_cat(
                 permissions,
-                ARRAY['image_generations:create', 'image_generations:read']
+                ARRAY['image_generations:create', 'image_generations:read']::VARCHAR[]
             )
             WHERE is_system_role = true
               AND name = 'Editor'
@@ -241,7 +241,7 @@ def upgrade() -> None:
             UPDATE search_space_roles
             SET permissions = array_cat(
                 permissions,
-                ARRAY['image_generations:read']
+                ARRAY['image_generations:read']::VARCHAR[]
             )
             WHERE is_system_role = true
               AND name = 'Viewer'

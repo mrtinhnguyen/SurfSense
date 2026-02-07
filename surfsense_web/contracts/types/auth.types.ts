@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const loginRequest = z.object({
 	username: z.string(),
-	password: z.string().min(3, "Password must be at least 3 characters"),
+	password: z.string().min(3, "Mật khẩu phải có ít nhất 3 ký tự"),
 	grant_type: z.string().optional(),
 });
 

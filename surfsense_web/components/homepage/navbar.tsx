@@ -19,10 +19,10 @@ export const Navbar = () => {
 	const [isScrolled, setIsScrolled] = useState(false);
 
 	const navItems = [
-		{ name: "Pricing", link: "/pricing" },
-		{ name: "Contact\u00A0Us", link: "/contact" },
-		{ name: "Changelog", link: "/changelog" },
-		{ name: "Docs", link: "/docs" },
+		//{ name: "Bảng giá", link: "/pricing" },
+		{ name: "Liên hệ", link: "/contact" },
+		{ name: "Nhật ký", link: "/changelog" },
+		{ name: "Hướng dẫn sử dụng", link: "/docs" },
 	];
 
 	useEffect(() => {
@@ -65,7 +65,7 @@ const DesktopNav = ({ navItems, isScrolled }: any) => {
 				className="flex flex-1 flex-row items-center gap-0.5 hover:opacity-80 transition-opacity"
 			>
 				<Logo className="h-8 w-8 rounded-md" disableLink />
-				<span className="dark:text-white/90 text-gray-800 text-lg font-bold">SurfSense</span>
+				<span className="dark:text-white/90 text-gray-800 text-lg font-bold">GovSense</span>
 			</Link>
 			<div className="hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2">
 				{navItems.map((navItem: any, idx: number) => (
@@ -87,37 +87,7 @@ const DesktopNav = ({ navItems, isScrolled }: any) => {
 				))}
 			</div>
 			<div className="flex flex-1 items-center justify-end gap-2">
-				<Link
-					href="https://discord.gg/ejRNvftDp9"
-					target="_blank"
-					rel="noopener noreferrer"
-					className="hidden rounded-full p-2 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors md:flex items-center justify-center"
-				>
-					<IconBrandDiscord className="h-5 w-5 text-neutral-600 dark:text-neutral-300" />
-				</Link>
-				<Link
-					href="https://www.reddit.com/r/SurfSense/"
-					target="_blank"
-					rel="noopener noreferrer"
-					className="hidden rounded-full p-2 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors md:flex items-center justify-center"
-				>
-					<IconBrandReddit className="h-5 w-5 text-neutral-600 dark:text-neutral-300" />
-				</Link>
-				<Link
-					href="https://github.com/MODSetter/SurfSense"
-					target="_blank"
-					rel="noopener noreferrer"
-					className="hidden rounded-full px-3 py-2 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors md:flex items-center gap-1.5"
-				>
-					<IconBrandGithub className="h-5 w-5 text-neutral-600 dark:text-neutral-300" />
-					{loadingGithubStars ? (
-						<div className="w-6 h-5 dark:bg-neutral-800 animate-pulse"></div>
-					) : (
-						<span className="text-sm font-medium text-neutral-600 dark:text-neutral-300">
-							{githubStars}
-						</span>
-					)}
-				</Link>
+				{/* Social links removed for GovSense government branding */}
 				<ThemeTogglerComponent />
 				<SignInButton variant="desktop" />
 			</div>
@@ -146,10 +116,10 @@ const MobileNav = ({ navItems, isScrolled }: any) => {
 					className="flex flex-row items-center gap-2 hover:opacity-80 transition-opacity"
 				>
 					<Logo className="h-8 w-8 rounded-md" disableLink />
-					<span className="dark:text-white/90 text-gray-800 text-lg font-bold">SurfSense</span>
-				</Link>
-				<button
-					type="button"
+				<span className="dark:text-white/90 text-gray-800 text-lg font-bold">GovSense</span>
+			</Link>
+			<button
+				type="button"
 					onClick={() => setOpen(!open)}
 					className="relative z-50 flex items-center justify-center p-2 -mr-2 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors touch-manipulation"
 					aria-label={open ? "Close menu" : "Open menu"}
@@ -180,38 +150,8 @@ const MobileNav = ({ navItems, isScrolled }: any) => {
 								<motion.span className="block">{navItem.name} </motion.span>
 							</Link>
 						))}
+						{/* Social links removed for GovSense government branding */}
 						<div className="flex w-full items-center gap-2 pt-2">
-							<Link
-								href="https://discord.gg/ejRNvftDp9"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="flex items-center justify-center rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors touch-manipulation"
-							>
-								<IconBrandDiscord className="h-5 w-5 text-neutral-600 dark:text-neutral-300" />
-							</Link>
-							<Link
-								href="https://www.reddit.com/r/SurfSense/"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="flex items-center justify-center rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors touch-manipulation"
-							>
-								<IconBrandReddit className="h-5 w-5 text-neutral-600 dark:text-neutral-300" />
-							</Link>
-							<Link
-								href="https://github.com/MODSetter/SurfSense"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="flex items-center gap-1.5 rounded-lg px-3 py-2 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors touch-manipulation"
-							>
-								<IconBrandGithub className="h-5 w-5 text-neutral-600 dark:text-neutral-300" />
-								{loadingGithubStars ? (
-									<div className="w-6 h-5 dark:bg-neutral-800 animate-pulse"></div>
-								) : (
-									<span className="text-sm font-medium text-neutral-600 dark:text-neutral-300">
-										{githubStars}
-									</span>
-								)}
-							</Link>
 							<ThemeTogglerComponent />
 						</div>
 						<SignInButton variant="mobile" />

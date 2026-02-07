@@ -396,7 +396,7 @@ function PodcastStatusPoller({ podcastId, title }: { podcastId: number; title: s
 				description={
 					podcastStatus.transcript_entries
 						? `${podcastStatus.transcript_entries} dialogue entries`
-						: "SurfSense AI-generated podcast"
+						: "GovSense AI-generated podcast"
 				}
 			/>
 		);

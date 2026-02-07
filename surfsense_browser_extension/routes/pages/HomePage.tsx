@@ -245,8 +245,8 @@ const HomePage = () => {
 				await storage.set("webhistory", webhistoryObj);
 
 				toast({
-					title: "Snapshot saved",
-					description: `Captured: ${toPushInTabHistory.title}`,
+					title: "Đã lưu bản chụp",
+					description: `Đã chụp: ${toPushInTabHistory.title}`,
 				});
 			}
 		});
@@ -313,11 +313,11 @@ const HomePage = () => {
 					<div className="w-full max-w-md space-y-8">
 						<div className="flex flex-col items-center space-y-2 text-center">
 							<div className="rounded-full bg-gray-800 p-3 shadow-lg ring-2 ring-gray-700">
-								<img className="h-12 w-12" src={icon} alt="SurfSense" />
+								<img className="h-12 w-12" src={icon} alt="GovSense" />
 							</div>
-							<h1 className="mt-4 text-3xl font-semibold tracking-tight text-white">SurfSense</h1>
+							<h1 className="mt-4 text-3xl font-semibold tracking-tight text-white">GovSense</h1>
 							<div className="mt-4 rounded-lg border border-yellow-500/20 bg-yellow-500/10 p-4 text-yellow-300">
-								<p className="text-sm">Please create a Search Space to continue</p>
+								<p className="text-sm">Vui lòng tạo một Không gian tìm kiếm để tiếp tục</p>
 							</div>
 						</div>
 
@@ -328,7 +328,7 @@ const HomePage = () => {
 								className="flex items-center space-x-2 border-gray-700 bg-gray-800 text-gray-200 hover:bg-gray-700"
 							>
 								<ExitIcon className="h-4 w-4" />
-								<span>Sign Out</span>
+								<span>Đăng xuất</span>
 							</Button>
 						</div>
 					</div>
@@ -340,9 +340,9 @@ const HomePage = () => {
 					<div className="flex items-center justify-between border-b border-gray-700 pb-4">
 						<div className="flex items-center space-x-3">
 							<div className="rounded-full bg-gray-800 p-2 shadow-md ring-1 ring-gray-700">
-								<img className="h-6 w-6" src={icon} alt="SurfSense" />
+								<img className="h-6 w-6" src={icon} alt="GovSense" />
 							</div>
-							<h1 className="text-xl font-semibold text-white">SurfSense</h1>
+							<h1 className="text-xl font-semibold text-white">GovSense</h1>
 						</div>
 						<Button
 							variant="ghost"
@@ -351,7 +351,7 @@ const HomePage = () => {
 							className="rounded-full text-gray-400 hover:bg-gray-800 hover:text-white"
 						>
 							<ExitIcon className="h-4 w-4" />
-							<span className="sr-only">Log out</span>
+							<span className="sr-only">Đăng xuất</span>
 						</Button>
 					</div>
 
@@ -363,11 +363,11 @@ const HomePage = () => {
 									<span className="text-2xl font-semibold text-white">{noOfWebPages}</span>
 								</div>
 							</div>
-							<p className="mt-4 text-sm text-gray-400">Captured web pages</p>
+							<p className="mt-4 text-sm text-gray-400">Trang web đã lưu</p>
 						</div>
 
 						<div className="rounded-lg border border-gray-700 bg-gray-800/50 p-4 backdrop-blur-sm">
-							<Label className="mb-2 block text-sm font-medium text-gray-300">Search Space</Label>
+							<Label className="mb-2 block text-sm font-medium text-gray-300">Không gian tìm kiếm</Label>
 							<Popover open={open} onOpenChange={setOpen}>
 								<PopoverTrigger asChild>
 									<Button
@@ -377,18 +377,18 @@ const HomePage = () => {
 									>
 										{value
 											? searchspaces.find((space) => space.name === value)?.name
-											: "Select Search Space..."}
+											: "Chọn Không gian tìm kiếm..."}
 										<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 									</Button>
 								</PopoverTrigger>
 								<PopoverContent className="w-full border-gray-700 bg-gray-800/90 p-0 backdrop-blur-sm">
 									<Command className="bg-transparent">
 										<CommandInput
-											placeholder="Search spaces..."
+											placeholder="Tìm kiếm không gian..."
 											className="border-gray-700 bg-gray-900 text-gray-200"
 										/>
 										<CommandList>
-											<CommandEmpty>No search spaces found.</CommandEmpty>
+											<CommandEmpty>Không tìm thấy không gian nào.</CommandEmpty>
 											<CommandGroup>
 												{searchspaces.map((space) => (
 													<CommandItem
@@ -437,7 +437,7 @@ const HomePage = () => {
 								onClick={() => clearMem()}
 							>
 								<CrossCircledIcon className="h-4 w-4 transition-transform group-hover:scale-110" />
-								<span>Clear Inactive History</span>
+								<span>Xóa lịch sử không hoạt động</span>
 							</Button>
 
 							<Button
@@ -446,7 +446,7 @@ const HomePage = () => {
 								onClick={() => saveCurrSnapShot()}
 							>
 								<FileIcon className="h-4 w-4 transition-transform group-hover:scale-110" />
-								<span>Save Current Page</span>
+								<span>Lưu trang hiện tại</span>
 							</Button>
 
 							<Button
@@ -458,12 +458,12 @@ const HomePage = () => {
 								{isSaving ? (
 									<>
 										<ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-										<span>Saving to SurfSense...</span>
+										<span>Đang lưu vào GovSense...</span>
 									</>
 								) : (
 									<>
 										<UploadIcon className="h-4 w-4 transition-transform group-hover:scale-110" />
-										<span>Save to SurfSense</span>
+										<span>Lưu vào GovSense</span>
 									</>
 								)}
 							</Button>

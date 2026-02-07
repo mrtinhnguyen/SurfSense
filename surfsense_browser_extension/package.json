@@ -59,8 +59,8 @@
 		"host_permissions": [
 			"<all_urls>"
 		],
-		"name": "SurfSense",
-		"description": "Extension to collect Browsing History for SurfSense.",
+		"name": "GovSense",
+		"description": "Extension to collect Browsing History for GovSense.",
 		"version": "0.0.3"
 	},
 	"permissions": [

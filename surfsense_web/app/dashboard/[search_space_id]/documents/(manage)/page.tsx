@@ -107,19 +107,19 @@ export default function DocumentsTable() {
 		enabled: !!searchSpaceId && !!debouncedSearch.trim(),
 	});
 
-	// Determine if we should show SurfSense docs (when no type filter or SURFSENSE_DOCS is selected)
-	const showSurfsenseDocs =
-		activeTypes.length === 0 || activeTypes.includes("SURFSENSE_DOCS" as DocumentTypeEnum);
+	// Determine if we should show GovSense docs (when no type filter or GOVSENSE_DOCS is selected)
+	const showGovsenseDocs =
+		activeTypes.length === 0 || activeTypes.includes("GOVSENSE_DOCS" as DocumentTypeEnum);
 
-	// Use query for fetching SurfSense docs
+	// Use query for fetching GovSense docs
 	const {
-		data: surfsenseDocsResponse,
-		isLoading: isSurfsenseDocsLoading,
-		refetch: refetchSurfsenseDocs,
+		data: govsenseDocsResponse,
+		isLoading: isGovsenseDocsLoading,
+		refetch: refetchGovsenseDocs,
 	} = useQuery({
-		queryKey: ["surfsense-docs", debouncedSearch, pageIndex, pageSize],
+		queryKey: ["govsense-docs", debouncedSearch, pageIndex, pageSize],
 		queryFn: () =>
-			documentsApiService.getSurfsenseDocs({
+			documentsApiService.getGovsenseDocs({
 				queryParams: {
 					page: pageIndex,
 					page_size: pageSize,
@@ -127,31 +127,31 @@ export default function DocumentsTable() {
 				},
 			}),
 		staleTime: 3 * 60 * 1000, // 3 minutes
-		enabled: showSurfsenseDocs,
+		enabled: showGovsenseDocs,
 	});
 
-	// Transform SurfSense docs to match the Document type
-	const surfsenseDocsAsDocuments: Document[] = useMemo(() => {
-		if (!surfsenseDocsResponse?.items) return [];
-		return surfsenseDocsResponse.items.map((doc) => ({
+	// Transform GovSense docs to match the Document type
+	const govsenseDocsAsDocuments: Document[] = useMemo(() => {
+		if (!govsenseDocsResponse?.items) return [];
+		return govsenseDocsResponse.items.map((doc) => ({
 			id: doc.id,
 			title: doc.title,
-			document_type: "SURFSENSE_DOCS",
+			document_type: "GOVSENSE_DOCS",
 			document_metadata: { source: doc.source },
 			content: doc.content,
 			created_at: new Date().toISOString(),
 			search_space_id: -1, // Special value for global docs
 		}));
-	}, [surfsenseDocsResponse]);
+	}, [govsenseDocsResponse]);
 
-	// Merge type counts with SURFSENSE_DOCS count
+	// Merge type counts with GOVSENSE_DOCS count
 	const typeCounts = useMemo(() => {
 		const counts = { ...(rawTypeCounts || {}) };
-		if (surfsenseDocsResponse?.total) {
-			counts.SURFSENSE_DOCS = surfsenseDocsResponse.total;
+		if (govsenseDocsResponse?.total) {
+			counts.GOVSENSE_DOCS = govsenseDocsResponse.total;
 		}
 		return counts;
-	}, [rawTypeCounts, surfsenseDocsResponse?.total]);
+	}, [rawTypeCounts, govsenseDocsResponse?.total]);
 
 	// Extract documents and total based on search state
 	const documents = debouncedSearch.trim()

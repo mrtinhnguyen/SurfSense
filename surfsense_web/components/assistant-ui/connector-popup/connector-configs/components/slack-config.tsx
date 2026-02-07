@@ -65,9 +65,9 @@ export const SlackConfig: FC<SlackConfigProps> = ({ connector }) => {
 		const diffSecs = Math.floor(diffMs / 1000);
 		const diffMins = Math.floor(diffSecs / 60);
 
-		if (diffSecs < 60) return "just now";
-		if (diffMins === 1) return "1 minute ago";
-		if (diffMins < 60) return `${diffMins} minutes ago`;
+		if (diffSecs < 60) return "vừa xong";
+		if (diffMins === 1) return "1 phút trước";
+		if (diffMins < 60) return `${diffMins} phút trước`;
 		return lastFetched.toLocaleTimeString();
 	};
 
@@ -79,12 +79,10 @@ export const SlackConfig: FC<SlackConfigProps> = ({ connector }) => {
 					<Info className="size-4" />
 				</div>
 				<div className="text-xs sm:text-sm">
-					<p className="font-medium text-xs sm:text-sm">Add Bot to Channels</p>
+					<p className="font-medium text-xs sm:text-sm">Thêm Bot vào Kênh</p>
 					<p className="text-muted-foreground mt-1 text-[10px] sm:text-sm">
-						Before indexing, add the SurfSense bot to each channel you want to index. The bot can
-						only access messages from channels it's been added to. Type{" "}
-						<code className="bg-muted px-1 py-0.5 rounded text-[9px]">/invite @SurfSense</code> in
-						any channel to add it.
+						Trước khi lập chỉ mục, hãy thêm bot GovSense vào từng kênh bạn muốn lập chỉ mục. Bot chỉ có thể truy cập tin nhắn từ các kênh mà nó đã được thêm vào. Nhập{" "}
+						<code className="bg-muted px-1 py-0.5 rounded text-[9px]">/invite @GovSense</code> trong bất kỳ kênh nào để thêm bot.
 					</p>
 				</div>
 			</div>
@@ -93,7 +91,7 @@ export const SlackConfig: FC<SlackConfigProps> = ({ connector }) => {
 			<div className="space-y-3">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-3">
-						<h3 className="text-sm font-semibold">Channel Access</h3>
+						<h3 className="text-sm font-semibold">Truy cập kênh</h3>
 					</div>
 					<div className="flex items-center gap-2">
 						{lastFetched && (
@@ -107,7 +105,7 @@ export const SlackConfig: FC<SlackConfigProps> = ({ connector }) => {
 							className="h-7 px-2.5 text-[11px] bg-slate-400/10 dark:bg-white/10 hover:bg-slate-400/20 dark:hover:bg-white/20 border-slate-400/20 dark:border-white/20"
 						>
 							<RefreshCw className={cn("mr-1.5 size-3", isLoading && "animate-spin")} />
-							Refresh
+							Làm mới
 						</Button>
 					</div>
 				</div>
@@ -121,11 +119,11 @@ export const SlackConfig: FC<SlackConfigProps> = ({ connector }) => {
 				{isLoading && channels.length === 0 ? (
 					<div className="flex items-center justify-center py-8">
 						<Spinner size="sm" />
-						<span className="ml-2 text-sm text-muted-foreground">Loading channels</span>
+						<span className="ml-2 text-sm text-muted-foreground">Đang tải danh sách kênh</span>
 					</div>
 				) : channels.length === 0 && !error ? (
 					<div className="text-center py-8 text-sm text-muted-foreground">
-						No channels found. Make sure the bot has been added to your Slack workspace.
+						Không tìm thấy kênh nào. Hãy chắc chắn rằng bot đã được thêm vào không gian làm việc Slack của bạn.
 					</div>
 				) : (
 					<div className="rounded-xl bg-slate-400/5 dark:bg-white/5 overflow-hidden">
@@ -134,9 +132,9 @@ export const SlackConfig: FC<SlackConfigProps> = ({ connector }) => {
 							<div className={cn("p-3", channelsWithoutBot.length > 0 && "border-b border-border")}>
 								<div className="flex items-center gap-2 mb-2">
 									<CheckCircle2 className="size-3.5 text-emerald-500" />
-									<span className="text-[11px] font-medium">Ready to index</span>
+									<span className="text-[11px] font-medium">Sẵn sàng lập chỉ mục</span>
 									<span className="text-[10px] text-muted-foreground">
-										{channelsWithBot.length} {channelsWithBot.length === 1 ? "channel" : "channels"}
+										{channelsWithBot.length} kênh
 									</span>
 								</div>
 								<div className="flex flex-wrap gap-1.5">
@@ -152,10 +150,10 @@ export const SlackConfig: FC<SlackConfigProps> = ({ connector }) => {
 							<div className="p-3">
 								<div className="flex items-center gap-2 mb-2">
 									<AlertCircle className="size-3.5 text-amber-500" />
-									<span className="text-[11px] font-medium">Add bot to index</span>
+									<span className="text-[11px] font-medium">Thêm bot để lập chỉ mục</span>
 									<span className="text-[10px] text-muted-foreground">
 										{channelsWithoutBot.length}{" "}
-										{channelsWithoutBot.length === 1 ? "channel" : "channels"}
+										kênh
 									</span>
 								</div>
 								<div className="flex flex-wrap gap-1.5">

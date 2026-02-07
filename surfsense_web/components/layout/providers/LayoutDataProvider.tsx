@@ -2,7 +2,7 @@
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
-import { AlertTriangle, Inbox, LogOut, PencilIcon, SquareLibrary, Trash2 } from "lucide-react";
+import { AlertTriangle, Bot, Inbox, LogOut, PencilIcon, SquareLibrary, Trash2 } from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
@@ -283,20 +283,26 @@ export function LayoutDataProvider({
 	const navItems: NavItem[] = useMemo(
 		() => [
 			{
-				title: "Inbox",
+				title: tSidebar("inbox"),
 				url: "#inbox", // Special URL to indicate this is handled differently
 				icon: Inbox,
 				isActive: isInboxSidebarOpen,
 				badge: totalUnreadCount > 0 ? formatInboxCount(totalUnreadCount) : undefined,
 			},
 			{
-				title: "Documents",
+				title: tSidebar("knowledge_base"),
 				url: `/dashboard/${searchSpaceId}/documents`,
 				icon: SquareLibrary,
 				isActive: pathname?.includes("/documents"),
 			},
+			{
+				title: tSidebar("agents"),
+				url: `/dashboard/${searchSpaceId}/agents`,
+				icon: Bot,
+				isActive: pathname?.includes("/agents"),
+			},
 		],
-		[searchSpaceId, pathname, isInboxSidebarOpen, totalUnreadCount]
+		[searchSpaceId, pathname, isInboxSidebarOpen, totalUnreadCount, tSidebar]
 	);
 
 	// Handlers

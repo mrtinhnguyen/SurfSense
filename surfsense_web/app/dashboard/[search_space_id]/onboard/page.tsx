@@ -91,8 +91,8 @@ export default function OnboardPage() {
 						},
 					});
 
-					toast.success("AI configured automatically!", {
-						description: `Using ${firstGlobalConfig.name}. You can customize this later in Settings.`,
+					toast.success("Đã cấu hình AI tự động!", {
+						description: `Đang sử dụng ${firstGlobalConfig.name}. Bạn có thể tùy chỉnh sau trong Thiết lập hệ thống.`,
 					});
 
 					// Redirect to new-chat
@@ -165,12 +165,12 @@ export default function OnboardPage() {
 					</div>
 					<div className="space-y-2">
 						<h2 className="text-2xl font-bold tracking-tight">
-							{isAutoConfiguring ? "Setting up your AI..." : "Loading..."}
+							{isAutoConfiguring ? "Đang thiết lập AI..." : "Đang tải..."}
 						</h2>
 						<p className="text-muted-foreground">
 							{isAutoConfiguring
-								? "Auto-configuring with available settings"
-								: "Please wait while we check your configuration"}
+								? "Tự động cấu hình với các thiết lập có sẵn"
+								: "Vui lòng đợi trong giây lát"}
 						</p>
 					</div>
 					<div className="flex justify-center gap-1">
@@ -215,9 +215,9 @@ export default function OnboardPage() {
 						</motion.div>
 
 						<div className="space-y-2">
-							<h1 className="text-3xl font-bold tracking-tight">Configure Your AI</h1>
+							<h1 className="text-3xl font-bold tracking-tight">Cấu hình Trợ lý AI</h1>
 							<p className="text-muted-foreground text-lg">
-								Add your LLM provider to get started with SurfSense
+								Thiết lập nhà cung cấp AI để bắt đầu sử dụng GovSense
 							</p>
 						</div>
 					</div>
@@ -230,7 +230,7 @@ export default function OnboardPage() {
 					>
 						<Card className="border-2 border-muted shadow-xl overflow-hidden">
 							<CardHeader className="pb-4">
-								<CardTitle className="text-xl">LLM Configuration</CardTitle>
+								<CardTitle className="text-xl">Cấu hình AI</CardTitle>
 							</CardHeader>
 							<CardContent>
 								<LLMConfigForm
@@ -239,7 +239,7 @@ export default function OnboardPage() {
 									isSubmitting={isSubmitting}
 									mode="create"
 									showAdvanced={true}
-									submitLabel="Start Using SurfSense"
+									submitLabel="Bắt đầu sử dụng GovSense"
 									initialData={{
 										citations_enabled: true,
 										use_default_system_instructions: true,
@@ -256,13 +256,13 @@ export default function OnboardPage() {
 						transition={{ delay: 0.5 }}
 						className="text-center text-sm text-muted-foreground"
 					>
-						You can add more configurations and customize settings anytime in{" "}
+						Bạn có thể thêm cấu hình khác và tùy chỉnh sau trong{" "}
 						<button
 							type="button"
 							onClick={() => router.push(`/dashboard/${searchSpaceId}/settings`)}
 							className="text-violet-500 hover:underline"
 						>
-							Settings
+							Thiết lập hệ thống
 						</button>
 					</motion.p>
 				</motion.div>

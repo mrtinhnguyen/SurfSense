@@ -191,7 +191,7 @@ export const IndexingConfigurationView: FC<IndexingConfigurationViewProps> = ({
 								<div className="text-xs sm:text-sm">
 									<p className="font-medium text-xs sm:text-sm">Indexing runs in the background</p>
 									<p className="text-muted-foreground mt-1 text-[10px] sm:text-sm">
-										You can continue using SurfSense while we sync your data. Check inbox for
+										You can continue using GovSense while we sync your data. Check inbox for
 										updates.
 									</p>
 								</div>

@@ -9,7 +9,7 @@ import {
 	type GetDocumentRequest,
 	type GetDocumentsRequest,
 	type GetDocumentTypeCountsRequest,
-	type GetSurfsenseDocsRequest,
+	type GetGovsenseDocsRequest,
 	getDocumentByChunkRequest,
 	getDocumentByChunkResponse,
 	getDocumentRequest,
@@ -18,9 +18,9 @@ import {
 	getDocumentsResponse,
 	getDocumentTypeCountsRequest,
 	getDocumentTypeCountsResponse,
-	getSurfsenseDocsByChunkResponse,
-	getSurfsenseDocsRequest,
-	getSurfsenseDocsResponse,
+	getGovsenseDocsByChunkResponse,
+	getGovsenseDocsRequest,
+	getGovsenseDocsResponse,
 	type SearchDocumentsRequest,
 	type SearchDocumentTitlesRequest,
 	searchDocumentsRequest,
@@ -249,23 +249,23 @@ class DocumentsApiService {
 	};
 
 	/**
-	 * Get Surfsense documentation by chunk ID
+	 * Get GovSense documentation by chunk ID
 	 * Used for resolving [citation:doc-XXX] citations
 	 */
-	getSurfsenseDocByChunk = async (chunkId: number) => {
+	getGovsenseDocByChunk = async (chunkId: number) => {
 		return baseApiService.get(
-			`/api/v1/surfsense-docs/by-chunk/${chunkId}`,
-			getSurfsenseDocsByChunkResponse
+			`/api/v1/govsense-docs/by-chunk/${chunkId}`,
+			getGovsenseDocsByChunkResponse
 		);
 	};
 
 	/**
-	 * List all Surfsense documentation documents
+	 * List all GovSense documentation documents
 	 * @param request - The request with query params
 	 * @param signal - Optional AbortSignal for request cancellation
 	 */
-	getSurfsenseDocs = async (request: GetSurfsenseDocsRequest, signal?: AbortSignal) => {
-		const parsedRequest = getSurfsenseDocsRequest.safeParse(request);
+	getGovsenseDocs = async (request: GetGovsenseDocsRequest, signal?: AbortSignal) => {
+		const parsedRequest = getGovsenseDocsRequest.safeParse(request);
 
 		if (!parsedRequest.success) {
 			console.error("Invalid request:", parsedRequest.error);
@@ -285,9 +285,9 @@ class DocumentsApiService {
 			? new URLSearchParams(transformedQueryParams).toString()
 			: "";
 
-		const url = `/api/v1/surfsense-docs?${queryParams}`;
+		const url = `/api/v1/govsense-docs?${queryParams}`;
 
-		return baseApiService.get(url, getSurfsenseDocsResponse, { signal });
+		return baseApiService.get(url, getGovsenseDocsResponse, { signal });
 	};
 
 	/**

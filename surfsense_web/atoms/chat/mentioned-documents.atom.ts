@@ -8,10 +8,10 @@ import type { Document, SurfsenseDocsDocument } from "@/contracts/types/document
  * This is used to pass document context to the backend when sending a message.
  */
 export const mentionedDocumentIdsAtom = atom<{
-	surfsense_doc_ids: number[];
+	govsense_doc_ids: number[];
 	document_ids: number[];
 }>({
-	surfsense_doc_ids: [],
+	govsense_doc_ids: [],
 	document_ids: [],
 });
 

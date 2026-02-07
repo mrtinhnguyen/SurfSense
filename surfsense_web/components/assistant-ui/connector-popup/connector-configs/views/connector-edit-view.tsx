@@ -146,7 +146,7 @@ export const ConnectorEditView: FC<ConnectorEditViewProps> = ({
 					className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground hover:text-foreground mb-6 w-fit"
 				>
 					<ArrowLeft className="size-4" />
-					Back to connectors
+					Quay lại danh sách kết nối
 				</button>
 
 				{/* Connector header */}
@@ -160,7 +160,7 @@ export const ConnectorEditView: FC<ConnectorEditViewProps> = ({
 								{getConnectorDisplayName(connector.name)}
 							</h2>
 							<p className="text-xs sm:text-base text-muted-foreground mt-1">
-								Manage your connector settings and sync configuration
+								Quản lý cài đặt kết nối và cấu hình đồng bộ
 							</p>
 						</div>
 					</div>
@@ -178,12 +178,12 @@ export const ConnectorEditView: FC<ConnectorEditViewProps> = ({
 								{isQuickIndexing || isIndexing ? (
 									<>
 										<RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-										Syncing
+										Đang đồng bộ
 									</>
 								) : (
 									<>
 										<RefreshCw className="mr-2 h-4 w-4" />
-										Quick Index
+										Đồng bộ nhanh
 									</>
 								)}
 							</Button>
@@ -258,7 +258,7 @@ export const ConnectorEditView: FC<ConnectorEditViewProps> = ({
 											disabled={isDisabled}
 											disabledMessage={
 												isDisabled
-													? "Select at least one folder or file above to enable periodic sync"
+													? "Chọn ít nhất một thư mục hoặc tệp ở trên để bật đồng bộ định kỳ"
 													: undefined
 											}
 										/>
@@ -275,11 +275,10 @@ export const ConnectorEditView: FC<ConnectorEditViewProps> = ({
 								</div>
 								<div className="text-xs sm:text-sm">
 									<p className="font-medium text-xs sm:text-sm">
-										Re-indexing runs in the background
+										Quá trình lập chỉ mục lại chạy ngầm
 									</p>
 									<p className="text-muted-foreground mt-1 text-[10px] sm:text-sm">
-										You can continue using SurfSense while we sync your data. Check inbox for
-										updates.
+										Bạn có thể tiếp tục sử dụng GovSense trong khi chúng tôi đồng bộ dữ liệu. Kiểm tra hộp thư để cập nhật thông tin.
 									</p>
 								</div>
 							</div>
@@ -301,7 +300,7 @@ export const ConnectorEditView: FC<ConnectorEditViewProps> = ({
 				{showDisconnectConfirm ? (
 					<div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1 sm:flex-initial">
 						<span className="text-xs sm:text-sm text-muted-foreground sm:whitespace-nowrap">
-							Are you sure?
+							Bạn có chắc chắn không?
 						</span>
 						<div className="flex items-center gap-2 sm:gap-3">
 							<Button
@@ -314,10 +313,10 @@ export const ConnectorEditView: FC<ConnectorEditViewProps> = ({
 								{isDisconnecting ? (
 									<>
 										<Spinner size="sm" className="mr-2" />
-										Disconnecting
+										Đang ngắt kết nối
 									</>
 								) : (
-									"Confirm Disconnect"
+									"Xác nhận ngắt kết nối"
 								)}
 							</Button>
 							<Button
@@ -327,7 +326,7 @@ export const ConnectorEditView: FC<ConnectorEditViewProps> = ({
 								disabled={isDisconnecting}
 								className="text-xs sm:text-sm flex-1 sm:flex-initial h-10 sm:h-auto py-2 sm:py-2"
 							>
-								Cancel
+								Hủy
 							</Button>
 						</div>
 					</div>
@@ -339,7 +338,7 @@ export const ConnectorEditView: FC<ConnectorEditViewProps> = ({
 						className="text-xs sm:text-sm flex-1 sm:flex-initial h-12 sm:h-auto py-3 sm:py-2"
 					>
 						<Trash2 className="mr-2 h-4 w-4" />
-						Disconnect
+						Ngắt kết nối
 					</Button>
 				)}
 				<Button
@@ -350,10 +349,10 @@ export const ConnectorEditView: FC<ConnectorEditViewProps> = ({
 					{isSaving ? (
 						<>
 							<Spinner size="sm" className="mr-2" />
-							Saving
+							Đang lưu
 						</>
 					) : (
-						"Save Changes"
+						"Lưu thay đổi"
 					)}
 				</Button>
 			</div>
