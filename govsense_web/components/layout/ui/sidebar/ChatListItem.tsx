@@ -68,7 +68,7 @@ export function ChatListItem({
 							}}
 						>
 							<PencilIcon className="mr-2 h-4 w-4" />
-							<span>{t("rename") || "Rename"}</span>
+							<span>{t("rename")}</span>
 						</DropdownMenuItem>
 					)}
 					{onArchive && (
@@ -81,12 +81,12 @@ export function ChatListItem({
 							{archived ? (
 									<>
 										<RotateCcwIcon className="mr-2 h-4 w-4" />
-										<span>{t("unarchive") || "Restore"}</span>
+										<span>{t("unarchive")}</span>
 									</>
 								) : (
 									<>
 										<ArchiveIcon className="mr-2 h-4 w-4" />
-										<span>{t("archive") || "Archive"}</span>
+										<span>{t("archive")}</span>
 									</>
 								)}
 							</DropdownMenuItem>

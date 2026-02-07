@@ -149,9 +149,9 @@ export default function ExternalIntegrations() {
 	return (
 		<section className="py-12 relative min-h-screen w-full overflow-visible">
 			<div className="relative flex flex-col items-center text-center z-10">
-				<h1 className="my-6 text-4xl font-bold lg:text-7xl">Integrations</h1>
+				<h1 className="my-6 text-4xl font-bold lg:text-7xl">Tích hợp</h1>
 				<p className="mb-12 max-w-2xl text-gray-600 dark:text-gray-400 lg:text-xl">
-					Integrate with your team's most important tools
+					Kết nối liền mạch với các công cụ làm việc hàng đầu
 				</p>
 
 				<div

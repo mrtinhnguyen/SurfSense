@@ -3,7 +3,12 @@ from pathlib import Path
 
 import soundfile as sf
 import torch
-from kokoro import KPipeline
+
+try:
+    from kokoro import KPipeline
+except ImportError:
+    KPipeline = None
+    print("Warning: 'kokoro' package not found. TTS features will be disabled.")
 
 
 class KokoroTTSService:
@@ -31,11 +36,15 @@ class KokoroTTSService:
 
     def _initialize_pipeline(self):
         """Initialize the Kokoro pipeline."""
+        if KPipeline is None:
+            print("Kokoro pipeline not initialized because 'kokoro' package is missing.")
+            return
+
         try:
             self.pipeline = KPipeline(lang_code=self.lang_code)
         except Exception as e:
             print(f"Error initializing Kokoro pipeline: {e}")
-            raise
+            # raise # Don't raise here to allow app startup without TTS
 
     async def generate_speech(
         self,
@@ -57,6 +66,8 @@ class KokoroTTSService:
             Path to the generated audio file
         """
         if not self.pipeline:
+            if KPipeline is None:
+                raise RuntimeError("Kokoro TTS is disabled because 'kokoro' package is missing.")
             raise RuntimeError("Kokoro pipeline not initialized")
 
         try:

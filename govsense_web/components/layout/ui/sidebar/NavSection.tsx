@@ -18,9 +18,9 @@ export function NavSection({ items, onItemClick, isCollapsed = false }: NavSecti
 
 				// Add data-joyride for onboarding tour
 				const joyrideAttr =
-					item.title === "Documents" || item.title.toLowerCase().includes("documents")
+					item.id === "documents"
 						? { "data-joyride": "documents-sidebar" }
-						: item.title === "Inbox" || item.title.toLowerCase().includes("inbox")
+						: item.id === "inbox"
 							? { "data-joyride": "inbox-sidebar" }
 							: {};
 

@@ -46,7 +46,7 @@ function LoginContent() {
 		// Show logout confirmation
 		if (logout === "true") {
 			toast.success(tCommon("success"), {
-				description: "You have been securely logged out",
+				description: t("logout_success_message"),
 				duration: 3000,
 			});
 		}
@@ -78,7 +78,7 @@ function LoginContent() {
 			// Add retry action if the error is retryable
 			if (shouldRetry(error)) {
 				toastOptions.action = {
-					label: "Retry",
+					label: tCommon("retry"),
 					onClick: () => window.location.reload(),
 				};
 			}
@@ -88,7 +88,7 @@ function LoginContent() {
 
 		// Show general messages
 		if (message && !error && !registered && !logout) {
-			toast.info("Notice", {
+			toast.info(tCommon("notice"), {
 				description: decodeURIComponent(message),
 				duration: 4000,
 			});

@@ -67,7 +67,10 @@ export default function RootLayout({
 	// Locale state is managed by LocaleContext and persisted in localStorage
 	return (
 		<html lang="vi" suppressHydrationWarning>
-			<body className={cn(roboto.className, "bg-white dark:bg-black antialiased h-full w-full ")}>
+			<body
+				className={cn(roboto.className, "bg-white dark:bg-black antialiased h-full w-full ")}
+				suppressHydrationWarning
+			>
 				<PostHogProvider>
 					<LocaleProvider>
 						<I18nProvider>

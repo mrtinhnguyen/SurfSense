@@ -88,10 +88,10 @@ export default function RegisterPage() {
 				switch (err.status) {
 					case 403: {
 						const friendlyMessage =
-							"Registrations are currently closed. If you need access, contact your administrator.";
+							"Đăng ký hiện đang đóng. Nếu bạn cần quyền truy cập, vui lòng liên hệ với quản trị viên.";
 						trackRegistrationFailure("Registration disabled");
-						setError({ title: "Registration is disabled", message: friendlyMessage });
-						toast.error("Registration is disabled", {
+						setError({ title: "Đăng ký bị vô hiệu hóa", message: friendlyMessage });
+						toast.error("Đăng ký bị vô hiệu hóa", {
 							description: friendlyMessage,
 							duration: 6000,
 						});

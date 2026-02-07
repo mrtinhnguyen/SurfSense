@@ -4,8 +4,9 @@ import type React from "react";
 import { createContext, useContext, useEffect, useState } from "react";
 import enMessages from "../messages/en.json";
 import zhMessages from "../messages/zh.json";
+import viMessages from "../messages/vi.json";
 
-type Locale = "en" | "zh";
+type Locale = "en" | "zh" | "vi";
 
 interface LocaleContextType {
 	locale: Locale;
@@ -18,21 +19,22 @@ const LocaleContext = createContext<LocaleContextType | undefined>(undefined);
 const LOCALE_STORAGE_KEY = "govsense-locale";
 
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
-	// Always start with 'en' to avoid hydration mismatch
+	// Always start with 'vi' to avoid hydration mismatch
 	// Then sync with localStorage after mount
-	const [locale, setLocaleState] = useState<Locale>("en");
+	const [locale, setLocaleState] = useState<Locale>("vi");
 	const [mounted, setMounted] = useState(false);
 
 	// Get messages based on current locale
-	const messages = locale === "zh" ? zhMessages : enMessages;
+	const messages =
+		locale === "zh" ? zhMessages : locale === "vi" ? viMessages : enMessages;
 
 	// Load locale from localStorage after component mounts (client-side only)
 	useEffect(() => {
 		setMounted(true);
 		if (typeof window !== "undefined") {
-			const stored = localStorage.getItem(LOCALE_STORAGE_KEY);
-			if (stored === "zh") {
-				setLocaleState("zh");
+			const stored = localStorage.getItem(LOCALE_STORAGE_KEY) as Locale;
+			if (stored === "zh" || stored === "vi") {
+				setLocaleState(stored);
 			}
 		}
 	}, []);

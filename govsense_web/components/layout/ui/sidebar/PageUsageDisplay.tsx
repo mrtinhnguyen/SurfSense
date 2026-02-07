@@ -3,6 +3,7 @@
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Progress } from "@/components/ui/progress";
 
 interface PageUsageDisplayProps {
@@ -11,6 +12,7 @@ interface PageUsageDisplayProps {
 }
 
 export function PageUsageDisplay({ pagesUsed, pagesLimit }: PageUsageDisplayProps) {
+	const t = useTranslations("sidebar");
 	const params = useParams();
 	const searchSpaceId = params.search_space_id;
 	const usagePercentage = (pagesUsed / pagesLimit) * 100;
@@ -20,7 +22,7 @@ export function PageUsageDisplay({ pagesUsed, pagesLimit }: PageUsageDisplayProp
 			<div className="space-y-2">
 				<div className="flex justify-between items-center text-xs">
 					<span className="text-muted-foreground">
-						{pagesUsed.toLocaleString()} / {pagesLimit.toLocaleString()} pages
+						{t("pages_used", { used: pagesUsed.toLocaleString(), limit: pagesLimit.toLocaleString() })}
 					</span>
 					<span className="font-medium">{usagePercentage.toFixed(0)}%</span>
 				</div>
@@ -30,7 +32,7 @@ export function PageUsageDisplay({ pagesUsed, pagesLimit }: PageUsageDisplayProp
 					className="flex items-center gap-1.5 text-[10px] text-muted-foreground hover:text-primary transition-colors"
 				>
 					<Plus className="h-3 w-3 shrink-0" />
-					<span>Get More Pages</span>
+					<span>{t("get_more_pages")}</span>
 				</Link>
 			</div>
 		</div>

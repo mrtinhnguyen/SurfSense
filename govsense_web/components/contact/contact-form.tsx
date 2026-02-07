@@ -17,13 +17,13 @@ export function ContactFormGridWithDetails() {
 					</FeatureIconContainer>
 				</div>
 				<h2 className="mt-9 bg-gradient-to-b from-neutral-800 to-neutral-900 bg-clip-text text-center text-xl font-bold text-transparent md:text-3xl lg:text-5xl dark:from-neutral-200 dark:to-neutral-300">
-					Contact
+					Liên hệ
 				</h2>
 				<p className="mt-8 max-w-lg text-center text-base text-neutral-600 dark:text-neutral-400">
-					We'd love to hear from you!
+					Chúng tôi rất muốn nghe ý kiến từ bạn!
 				</p>
 				<p className="mt-4 max-w-lg text-center text-base text-neutral-600 dark:text-neutral-400">
-					Schedule a meeting with our Head of Product, Eric Lammertsma, or send us an email.
+					Đặt lịch họp với Trưởng phòng Sản phẩm, Eric Lammertsma, hoặc gửi email cho chúng tôi.
 				</p>
 
 				<div className="mt-10 flex flex-col items-center gap-6">
@@ -34,12 +34,12 @@ export function ContactFormGridWithDetails() {
 						className="flex items-center gap-3 rounded-xl bg-gradient-to-b from-blue-500 to-blue-600 px-6 py-3 text-base font-medium text-white shadow-lg transition duration-200 hover:from-blue-600 hover:to-blue-700"
 					>
 						<IconCalendar className="h-5 w-5" />
-						Schedule a Meeting
+						Đặt lịch họp
 					</Link>
 
 					<div className="flex items-center gap-2 text-neutral-500 dark:text-neutral-400">
 						<span className="h-px w-8 bg-neutral-300 dark:bg-neutral-600" />
-						<span className="text-sm">or</span>
+						<span className="text-sm">hoặc</span>
 						<span className="h-px w-8 bg-neutral-300 dark:bg-neutral-600" />
 					</div>
 
@@ -59,7 +59,7 @@ export function ContactFormGridWithDetails() {
 						src="/contact/world.svg"
 						width={500}
 						height={500}
-						alt="world map"
+						alt="bản đồ thế giới"
 						className="[transform:rotateX(45deg)_translateZ(0px)] dark:invert dark:filter"
 					/>
 				</div>
@@ -79,7 +79,7 @@ const Pin = ({ className }: { className?: string }) => {
 		>
 			<div className="h-full w-full">
 				<div className="absolute inset-x-0 top-0 z-20 mx-auto inline-block w-fit rounded-lg bg-neutral-200 px-2 py-1 text-xs font-normal text-neutral-700 dark:bg-neutral-800 dark:text-white">
-					We are here
+					Chúng tôi ở đây
 					<span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-blue-400/0 via-blue-400/90 to-blue-400/0 transition-opacity duration-500"></span>
 				</div>
 

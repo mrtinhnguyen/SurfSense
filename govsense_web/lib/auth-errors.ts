@@ -98,14 +98,14 @@ const AUTH_ERROR_MESSAGES: AuthErrorMapping = {
 		description: "Please check your internet connection and try again",
 	},
 	TIMEOUT: {
-		title: "Request timeout",
-		description: "The login request took too long. Please try again",
+		title: "Hết thời gian yêu cầu",
+		description: "Máy chủ mất quá nhiều thời gian để phản hồi",
 	},
 
 	// Generic fallbacks
 	UNKNOWN_ERROR: {
-		title: "Login failed",
-		description: "An unexpected error occurred. Please try again",
+		title: "Lỗi không xác định",
+		description: "Đã xảy ra lỗi không mong muốn. Vui lòng thử lại",
 	},
 };
 

@@ -37,7 +37,7 @@ export default async function ChangelogPage() {
 					<div className="p-6 flex items-center justify-between">
 						<div>
 							<h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">
-								Changelog
+								Nhật ký thay đổi
 							</h1>
 							<p className="text-muted-foreground mt-2">
 								Cập nhật các tính năng và cải tiến mới nhất của GovSense.

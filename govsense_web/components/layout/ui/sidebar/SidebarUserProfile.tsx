@@ -24,6 +24,7 @@ import type { User } from "../../types/layout.types";
 const LANGUAGES = [
 	{ code: "en" as const, name: "English", flag: "🇺🇸" },
 	{ code: "zh" as const, name: "简体中文", flag: "🇨🇳" },
+	{ code: "vi" as const, name: "Tiếng Việt", flag: "🇻🇳" },
 ];
 
 // Supported themes configuration

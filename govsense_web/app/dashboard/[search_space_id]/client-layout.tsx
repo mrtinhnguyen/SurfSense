@@ -105,8 +105,8 @@ export function DashboardClientLayout({
 
 						await refetchPreferences();
 
-						toast.success("AI configured automatically!", {
-							description: `Using ${firstGlobalConfig.name}. Customize in Settings.`,
+						toast.success(t("ai_configured_auto"), {
+							description: t("using_llm_model", { modelName: firstGlobalConfig.name }),
 						});
 
 						setHasCheckedOnboarding(true);

@@ -157,7 +157,7 @@ export function AllSharedChatsSidebar({
 			setDeletingThreadId(threadId);
 			try {
 				await deleteThread(threadId);
-				toast.success(t("chat_deleted") || "Chat deleted successfully");
+				toast.success(t("chat_deleted"));
 				queryClient.invalidateQueries({ queryKey: ["all-threads", searchSpaceId] });
 				queryClient.invalidateQueries({ queryKey: ["search-threads", searchSpaceId] });
 				queryClient.invalidateQueries({ queryKey: ["threads", searchSpaceId] });
@@ -170,7 +170,7 @@ export function AllSharedChatsSidebar({
 				}
 			} catch (error) {
 				console.error("Error deleting thread:", error);
-				toast.error(t("error_deleting_chat") || "Failed to delete chat");
+				toast.error(t("error_deleting_chat"));
 			} finally {
 				setDeletingThreadId(null);
 			}
@@ -279,7 +279,7 @@ export function AllSharedChatsSidebar({
 									>
 										<span className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-muted transition-colors">
 											<MessageCircleMore className="h-4 w-4" />
-											<span>Active</span>
+											<span>{t("active")}</span>
 											<span className="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-primary/20 text-muted-foreground text-xs font-medium">
 												{activeCount}
 											</span>
@@ -291,7 +291,7 @@ export function AllSharedChatsSidebar({
 									>
 										<span className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-muted transition-colors">
 											<ArchiveIcon className="h-4 w-4" />
-											<span>Archived</span>
+											<span>{t("archived")}</span>
 											<span className="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-primary/20 text-muted-foreground text-xs font-medium">
 												{archivedCount}
 											</span>
@@ -308,7 +308,7 @@ export function AllSharedChatsSidebar({
 								</div>
 							) : error ? (
 								<div className="text-center py-8 text-sm text-destructive">
-									{t("error_loading_chats") || "Error loading chats"}
+									{t("error_loading_chats")}
 								</div>
 							) : threads.length > 0 ? (
 								<div className="space-y-1">
@@ -338,12 +338,12 @@ export function AllSharedChatsSidebar({
 															className="flex items-center gap-2 flex-1 min-w-0 text-left overflow-hidden"
 														>
 															<MessageCircleMore className="h-4 w-4 shrink-0 text-muted-foreground" />
-															<span className="truncate">{thread.title || "New Chat"}</span>
+															<span className="truncate">{thread.title || t("new_chat")}</span>
 														</button>
 													</TooltipTrigger>
 													<TooltipContent side="bottom" align="start">
 														<p>
-															{t("updated") || "Updated"}:{" "}
+															{t("updated")}:{" "}
 															{format(new Date(thread.updatedAt), "MMM d, yyyy 'at' h:mm a")}
 														</p>
 													</TooltipContent>
@@ -369,7 +369,7 @@ export function AllSharedChatsSidebar({
 															) : (
 																<MoreHorizontal className="h-3.5 w-3.5 text-muted-foreground" />
 															)}
-															<span className="sr-only">{t("more_options") || "More options"}</span>
+															<span className="sr-only">{t("more_options")}</span>
 														</Button>
 													</DropdownMenuTrigger>
 													<DropdownMenuContent align="end" className="w-40 z-80">
@@ -380,12 +380,12 @@ export function AllSharedChatsSidebar({
 															{thread.archived ? (
 																<>
 																	<RotateCcwIcon className="mr-2 h-4 w-4" />
-																	<span>{t("unarchive") || "Restore"}</span>
+																	<span>{t("unarchive")}</span>
 																</>
 															) : (
 																<>
 																	<ArchiveIcon className="mr-2 h-4 w-4" />
-																	<span>{t("archive") || "Archive"}</span>
+																	<span>{t("archive")}</span>
 																</>
 															)}
 														</DropdownMenuItem>
@@ -395,7 +395,7 @@ export function AllSharedChatsSidebar({
 															className="text-destructive focus:text-destructive"
 														>
 															<Trash2 className="mr-2 h-4 w-4" />
-															<span>{t("delete") || "Delete"}</span>
+															<span>{t("delete")}</span>
 														</DropdownMenuItem>
 													</DropdownMenuContent>
 												</DropdownMenu>
@@ -407,10 +407,10 @@ export function AllSharedChatsSidebar({
 								<div className="text-center py-8">
 									<Search className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
 									<p className="text-sm text-muted-foreground">
-										{t("no_chats_found") || "No chats found"}
+										{t("no_chats_found")}
 									</p>
 									<p className="text-xs text-muted-foreground/70 mt-1">
-										{t("try_different_search") || "Try a different search term"}
+										{t("try_different_search")}
 									</p>
 								</div>
 							) : (
@@ -418,12 +418,12 @@ export function AllSharedChatsSidebar({
 									<Users className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
 									<p className="text-sm text-muted-foreground">
 										{showArchived
-											? t("no_archived_chats") || "No archived chats"
-											: t("no_shared_chats") || "No shared chats"}
+											? t("no_archived_chats")
+											: t("no_shared_chats")}
 									</p>
 									{!showArchived && (
 										<p className="text-xs text-muted-foreground/70 mt-1">
-											Share a chat to collaborate with your team
+											{t("share_chat_hint")}
 										</p>
 									)}
 								</div>

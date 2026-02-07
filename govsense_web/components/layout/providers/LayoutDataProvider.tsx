@@ -283,6 +283,7 @@ export function LayoutDataProvider({
 	const navItems: NavItem[] = useMemo(
 		() => [
 			{
+				id: "inbox",
 				title: tSidebar("inbox"),
 				url: "#inbox", // Special URL to indicate this is handled differently
 				icon: Inbox,
@@ -290,12 +291,14 @@ export function LayoutDataProvider({
 				badge: totalUnreadCount > 0 ? formatInboxCount(totalUnreadCount) : undefined,
 			},
 			{
+				id: "documents",
 				title: tSidebar("knowledge_base"),
 				url: `/dashboard/${searchSpaceId}/documents`,
 				icon: SquareLibrary,
 				isActive: pathname?.includes("/documents"),
 			},
 			{
+				id: "agents",
 				title: tSidebar("agents"),
 				url: `/dashboard/${searchSpaceId}/agents`,
 				icon: Bot,

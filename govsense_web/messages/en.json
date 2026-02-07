@@ -78,7 +78,8 @@
 		"passwords_no_match_desc": "The passwords you entered do not match",
 		"creating_account": "Creating your account",
 		"creating_account_btn": "Creating account",
-		"redirecting_login": "Redirecting to login page"
+		"redirecting_login": "Redirecting to login page",
+		"logout_success_message": "You have been securely logged out"
 	},
 	"searchSpace": {
 		"create_title": "Create Search Space",
@@ -179,7 +180,9 @@
 		"leaving": "Leaving...",
 		"no_spaces_found": "No search spaces found",
 		"create_first_space": "Create your first search space to get started",
-		"created": "Created"
+		"created": "Created",
+		"ai_configured_auto": "AI configured automatically!",
+		"using_llm_model": "Using {modelName}. Customize in Settings."
 	},
 	"navigation": {
 		"home": "Home",

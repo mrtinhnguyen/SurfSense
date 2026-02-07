@@ -200,7 +200,7 @@ export function Sidebar({
 										</Button>
 									</TooltipTrigger>
 									<TooltipContent side="top">
-										{t("view_all_private_chats") || "View all private chats"}
+										{t("view_all_private_chats")}
 									</TooltipContent>
 								</Tooltip>
 							) : undefined

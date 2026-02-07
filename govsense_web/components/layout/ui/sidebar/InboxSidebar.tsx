@@ -178,6 +178,7 @@ export function InboxSidebar({
 	onDockedChange,
 }: InboxSidebarProps) {
 	const t = useTranslations("sidebar");
+	const tCommon = useTranslations("common");
 	const router = useRouter();
 	const isMobile = !useMediaQuery("(min-width: 640px)");
 
@@ -514,13 +515,13 @@ export function InboxSidebar({
 	const getEmptyStateMessage = () => {
 		if (activeTab === "comments") {
 			return {
-				title: t("no_comments") || "No comments",
-				hint: t("no_comments_hint") || "You'll see mentions and replies here",
+				title: t("no_comments"),
+				hint: t("no_comments_hint"),
 			};
 		}
 		return {
-			title: t("no_status_updates") || "No status updates",
-			hint: t("no_status_updates_hint") || "Document and connector updates will appear here",
+			title: t("no_status_updates"),
+			hint: t("no_status_updates_hint"),
 		};
 	};
 
@@ -576,7 +577,7 @@ export function InboxSidebar({
 											{/* Filter section */}
 											<div className="space-y-2">
 												<p className="text-xs text-muted-foreground/80 font-medium px-1">
-													{t("filter") || "Filter"}
+													{t("filter")}
 												</p>
 												<div className="space-y-1">
 													<button
@@ -594,7 +595,7 @@ export function InboxSidebar({
 													>
 														<span className="flex items-center gap-2">
 															<Inbox className="h-4 w-4" />
-															<span>{t("all") || "All"}</span>
+															<span>{tCommon("all")}</span>
 														</span>
 														{activeFilter === "all" && <Check className="h-4 w-4" />}
 													</button>
@@ -613,7 +614,7 @@ export function InboxSidebar({
 													>
 														<span className="flex items-center gap-2">
 															<BellDot className="h-4 w-4" />
-															<span>{t("unread") || "Unread"}</span>
+															<span>{t("unread")}</span>
 														</span>
 														{activeFilter === "unread" && <Check className="h-4 w-4" />}
 													</button>
@@ -623,7 +624,7 @@ export function InboxSidebar({
 											{activeTab === "status" && uniqueConnectorTypes.length > 0 && (
 												<div className="space-y-2">
 													<p className="text-xs text-muted-foreground/80 font-medium px-1">
-														{t("connectors") || "Connectors"}
+														{t("connectors")}
 													</p>
 													<div className="space-y-1">
 														<button
@@ -641,7 +642,7 @@ export function InboxSidebar({
 														>
 															<span className="flex items-center gap-2">
 																<LayoutGrid className="h-4 w-4" />
-																<span>{t("all_connectors") || "All connectors"}</span>
+																<span>{tCommon("all")}</span>
 															</span>
 															{selectedConnector === null && <Check className="h-4 w-4" />}
 														</button>
@@ -698,7 +699,7 @@ export function InboxSidebar({
 									className={cn("z-80", activeTab === "status" ? "w-52" : "w-44")}
 								>
 									<DropdownMenuLabel className="text-xs text-muted-foreground/80 font-normal">
-										{t("filter") || "Filter"}
+										{t("filter")}
 									</DropdownMenuLabel>
 									<DropdownMenuItem
 										onClick={() => setActiveFilter("all")}
@@ -706,7 +707,7 @@ export function InboxSidebar({
 									>
 										<span className="flex items-center gap-2">
 											<Inbox className="h-4 w-4" />
-											<span>{t("all") || "All"}</span>
+											<span>{tCommon("all")}</span>
 										</span>
 										{activeFilter === "all" && <Check className="h-4 w-4" />}
 									</DropdownMenuItem>
@@ -716,14 +717,14 @@ export function InboxSidebar({
 									>
 										<span className="flex items-center gap-2">
 											<BellDot className="h-4 w-4" />
-											<span>{t("unread") || "Unread"}</span>
+											<span>{t("unread")}</span>
 										</span>
 										{activeFilter === "unread" && <Check className="h-4 w-4" />}
 									</DropdownMenuItem>
 									{activeTab === "status" && uniqueConnectorTypes.length > 0 && (
 										<>
 											<DropdownMenuLabel className="text-xs text-muted-foreground/80 font-normal mt-2">
-												{t("connectors") || "Connectors"}
+												{t("connectors")}
 											</DropdownMenuLabel>
 											<DropdownMenuItem
 												onClick={() => setSelectedConnector(null)}
@@ -731,7 +732,7 @@ export function InboxSidebar({
 											>
 												<span className="flex items-center gap-2">
 													<LayoutGrid className="h-4 w-4" />
-													<span>{t("all_connectors") || "All connectors"}</span>
+													<span>{tCommon("all")}</span>
 												</span>
 												{selectedConnector === null && <Check className="h-4 w-4" />}
 											</DropdownMenuItem>

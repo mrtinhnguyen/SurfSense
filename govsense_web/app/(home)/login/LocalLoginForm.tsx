@@ -60,7 +60,7 @@ export function LocalLoginForm() {
 
 			// Success toast
 			toast.success(t("login_success"), {
-				description: "Redirecting to dashboard",
+				description: t("redirecting_dashboard"),
 				duration: 2000,
 			});
 

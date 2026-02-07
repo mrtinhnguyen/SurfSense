@@ -1,6 +1,7 @@
 "use client";
 
 import { Menu, Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import type { ChatItem, NavItem, PageUsage, SearchSpace, User } from "../../types/layout.types";
