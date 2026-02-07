@@ -38,8 +38,8 @@ LICENSE
 **/eggs/
 **/.eggs/
 # Python venv lib folders (but not frontend lib folders)
-surfsense_backend/lib/
-surfsense_backend/lib64/
+govsense_backend/lib/
+govsense_backend/lib64/
 **/parts/
 **/sdist/
 **/var/
@@ -83,15 +83,15 @@ surfsense_backend/lib64/
 **/.temp/
 
 # Build artifacts from backend
-surfsense_backend/podcasts/
-surfsense_backend/temp_audio/
-surfsense_backend/*.bak
-surfsense_backend/*.dat
-surfsense_backend/*.dir
+govsense_backend/podcasts/
+govsense_backend/temp_audio/
+govsense_backend/*.bak
+govsense_backend/*.dat
+govsense_backend/*.dir
 
 # GitHub
 .github/
 
 # Browser extension (not needed for main deployment)
-surfsense_browser_extension/
+govsense_browser_extension/
 

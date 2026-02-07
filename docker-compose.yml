@@ -12,7 +12,7 @@ services:
     environment:
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-      - POSTGRES_DB=${POSTGRES_DB:-surfsense}
+      - POSTGRES_DB=${POSTGRES_DB:-govsense}
       - ELECTRIC_DB_USER=${ELECTRIC_DB_USER:-electric}
       - ELECTRIC_DB_PASSWORD=${ELECTRIC_DB_PASSWORD:-electric_password}
     command: postgres -c config_file=/etc/postgresql/postgresql.conf
@@ -22,8 +22,8 @@ services:
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     environment:
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-admin@surfsense.com}
-      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-surfsense}
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-admin@govsense.com}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-govsense}
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     depends_on:
@@ -38,23 +38,23 @@ services:
     command: redis-server --appendonly yes
 
   backend:
-    build: ./surfsense_backend
-    # image: ghcr.io/modsetter/surfsense_backend:latest
+    build: ./govsense_backend
+    # image: ghcr.io/modsetter/govsense_backend:latest
     ports:
       - "${BACKEND_PORT:-8000}:8000"
     volumes:
-      - ./surfsense_backend/app:/app/app
+      - ./govsense_backend/app:/app/app
       - shared_temp:/tmp
       # Uncomment and edit the line below to enable Obsidian vault indexing
       # - /path/to/your/obsidian/vault:/obsidian-vault:ro
     env_file:
-      - ./surfsense_backend/.env
+      - ./govsense_backend/.env
     environment:
-      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-surfsense}
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-govsense}
       - CELERY_BROKER_URL=redis://redis:${REDIS_PORT:-6379}/0
       - CELERY_RESULT_BACKEND=redis://redis:${REDIS_PORT:-6379}/0
       # Queue name isolation - prevents task collision if Redis is shared with other apps
-      - CELERY_TASK_DEFAULT_QUEUE=surfsense
+      - CELERY_TASK_DEFAULT_QUEUE=govsense
       - PYTHONPATH=/app
       - UVICORN_LOOP=asyncio
       - UNSTRUCTURED_HAS_PATCHED_LOOP=1
@@ -69,16 +69,16 @@ services:
 
   # Run these services separately in production
   # celery_worker:
-  #   build: ./surfsense_backend
-  #   # image: ghcr.io/modsetter/surfsense_backend:latest
+  #   build: ./govsense_backend
+  #   # image: ghcr.io/modsetter/govsense_backend:latest
   #   command: celery -A app.celery_app worker --loglevel=info --concurrency=1 --pool=solo
   #   volumes:
-  #     - ./surfsense_backend:/app
+  #     - ./govsense_backend:/app
   #     - shared_temp:/tmp
   #   env_file:
-  #     - ./surfsense_backend/.env
+  #     - ./govsense_backend/.env
   #   environment:
-  #     - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-surfsense}
+  #     - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-govsense}
   #     - CELERY_BROKER_URL=redis://redis:${REDIS_PORT:-6379}/0
   #     - CELERY_RESULT_BACKEND=redis://redis:${REDIS_PORT:-6379}/0
   #     - PYTHONPATH=/app
@@ -88,16 +88,16 @@ services:
   #     - backend
 
   # celery_beat:
-  #   build: ./surfsense_backend
-  #   # image: ghcr.io/modsetter/surfsense_backend:latest
+  #   build: ./govsense_backend
+  #   # image: ghcr.io/modsetter/govsense_backend:latest
   #   command: celery -A app.celery_app beat --loglevel=info
   #   volumes:
-  #     - ./surfsense_backend:/app
+  #     - ./govsense_backend:/app
   #     - shared_temp:/tmp
   #   env_file:
-  #     - ./surfsense_backend/.env
+  #     - ./govsense_backend/.env
   #   environment:
-  #     - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-surfsense}
+  #     - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-govsense}
   #     - CELERY_BROKER_URL=redis://redis:${REDIS_PORT:-6379}/0
   #     - CELERY_RESULT_BACKEND=redis://redis:${REDIS_PORT:-6379}/0
   #     - PYTHONPATH=/app
@@ -107,13 +107,13 @@ services:
   #     - celery_worker
 
   # flower:
-  #   build: ./surfsense_backend
-  #   # image: ghcr.io/modsetter/surfsense_backend:latest
+  #   build: ./govsense_backend
+  #   # image: ghcr.io/modsetter/govsense_backend:latest
   #   command: celery -A app.celery_app flower --port=5555
   #   ports:
   #     - "${FLOWER_PORT:-5555}:5555"
   #   env_file:
-  #     - ./surfsense_backend/.env
+  #     - ./govsense_backend/.env
   #   environment:
   #     - CELERY_BROKER_URL=redis://redis:${REDIS_PORT:-6379}/0
   #     - CELERY_RESULT_BACKEND=redis://redis:${REDIS_PORT:-6379}/0
@@ -127,7 +127,7 @@ services:
     ports:
       - "${ELECTRIC_PORT:-5133}:3000"
     environment:
-      - DATABASE_URL=${ELECTRIC_DATABASE_URL:-postgresql://${ELECTRIC_DB_USER:-electric}:${ELECTRIC_DB_PASSWORD:-electric_password}@${POSTGRES_HOST:-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-surfsense}?sslmode=disable}
+      - DATABASE_URL=${ELECTRIC_DATABASE_URL:-postgresql://${ELECTRIC_DB_USER:-electric}:${ELECTRIC_DB_PASSWORD:-electric_password}@${POSTGRES_HOST:-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-govsense}?sslmode=disable}
       - ELECTRIC_INSECURE=true
       - ELECTRIC_WRITE_TO_PG_MODE=direct
     restart: unless-stopped
@@ -141,8 +141,8 @@ services:
 
   frontend:
     build:
-      context: ./surfsense_web
-      # image: ghcr.io/modsetter/surfsense_ui:latest
+      context: ./govsense_web
+      # image: ghcr.io/modsetter/govsense_ui:latest
       args:
         NEXT_PUBLIC_FASTAPI_BACKEND_URL: ${NEXT_PUBLIC_FASTAPI_BACKEND_URL:-http://localhost:8000}
         NEXT_PUBLIC_FASTAPI_BACKEND_AUTH_TYPE: ${NEXT_PUBLIC_FASTAPI_BACKEND_AUTH_TYPE:-LOCAL}
@@ -150,7 +150,7 @@ services:
     ports:
       - "${FRONTEND_PORT:-3000}:3000"
     env_file:
-      - ./surfsense_web/.env
+      - ./govsense_web/.env
     environment:
       - NEXT_PUBLIC_ELECTRIC_URL=${NEXT_PUBLIC_ELECTRIC_URL:-http://localhost:5133}
       - NEXT_PUBLIC_ELECTRIC_AUTH_MODE=insecure

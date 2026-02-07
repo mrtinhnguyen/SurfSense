@@ -13,7 +13,7 @@ interface InlineCitationProps {
 /**
  * Inline citation component for the new chat.
  * Renders a clickable numbered badge that opens the SourceDetailPanel with document chunk details.
- * Supports both regular knowledge base chunks and Surfsense documentation chunks.
+ * Supports both regular knowledge base chunks and GovSense documentation chunks.
  */
 export const InlineCitation: FC<InlineCitationProps> = ({
 	chunkId,

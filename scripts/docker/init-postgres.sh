@@ -1,13 +1,13 @@
 #!/bin/bash
-# PostgreSQL initialization script for SurfSense
+# PostgreSQL initialization script for GovSense
 # This script is called during container startup if the database needs initialization
 
 set -e
 
 PGDATA=${PGDATA:-/data/postgres}
-POSTGRES_USER=${POSTGRES_USER:-surfsense}
-POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-surfsense}
-POSTGRES_DB=${POSTGRES_DB:-surfsense}
+POSTGRES_USER=${POSTGRES_USER:-govsense}
+POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-govsense}
+POSTGRES_DB=${POSTGRES_DB:-govsense}
 
 # Electric SQL user credentials (configurable)
 ELECTRIC_DB_USER=${ELECTRIC_DB_USER:-electric}

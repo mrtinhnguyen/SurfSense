@@ -204,7 +204,7 @@ export const getDocumentByChunkRequest = z.object({
 export const getDocumentByChunkResponse = documentWithChunks;
 
 /**
- * Get Surfsense docs by chunk
+ * Get GovSense docs by chunk
  */
 export const getGovsenseDocsByChunkRequest = z.object({
 	chunk_id: z.number(),

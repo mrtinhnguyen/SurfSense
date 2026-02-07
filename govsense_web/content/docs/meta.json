@@ -1,0 +1,14 @@
+{
+	"title": "Tài liệu GovSense",
+	"description": "Tài liệu hướng dẫn sử dụng GovSense",
+	"root": true,
+	"pages": [
+		"---Guides---",
+		"index",
+		"installation",
+		"docker-installation",
+		"manual-installation",
+		"connectors",
+		"how-to"
+	]
+}

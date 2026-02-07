@@ -4,19 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-SurfSense is an AI research assistant (OSS alternative to NotebookLM/Perplexity/Glean) that connects LLMs to internal knowledge sources with real-time team collaboration. This is a fork/rebrand as **GovSense** — a Vietnamese government internal AI assistant. Brand constants live in `surfsense_web/lib/brand.ts`.
+GovSense is an AI research assistant (OSS alternative to NotebookLM/Perplexity/Glean) that connects LLMs to internal knowledge sources with real-time team collaboration. This is a fork/rebrand as **GovSense** — a Vietnamese government internal AI assistant. Brand constants live in `surfsense_web/lib/brand.ts`.
 
 ## Monorepo Structure
 
 | Directory | Stack | Package Manager |
 |-----------|-------|-----------------|
-| `surfsense_backend/` | Python 3.12+, FastAPI, SQLAlchemy (async), Celery, LangGraph | `uv` |
+| `govsense_backend/` | Python 3.12+, FastAPI, SQLAlchemy (async), Celery, LangGraph | `uv` |
 | `surfsense_web/` | Next.js 16, React 19, TypeScript, Drizzle ORM, Electric SQL | `pnpm` |
 | `surfsense_browser_extension/` | Plasmo (Manifest v3), React 18 | `pnpm` |
 
 ## Common Commands
 
-### Backend (`surfsense_backend/`)
+### Backend (`govsense_backend/`)
 ```bash
 uv pip install --system -e .          # Install dependencies
 python main.py --reload               # Dev server (port 8000)

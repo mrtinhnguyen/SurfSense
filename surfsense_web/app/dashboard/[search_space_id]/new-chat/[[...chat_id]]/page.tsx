@@ -249,7 +249,7 @@ export default function NewChatPage() {
 		setCurrentThread(null);
 		setMessageThinkingSteps(new Map());
 		setMentionedDocumentIds({
-			surfsense_doc_ids: [],
+			govsense_doc_ids: [],
 			document_ids: [],
 		});
 		setMentionedDocuments([]);
@@ -344,9 +344,9 @@ export default function NewChatPage() {
 		});
 
 		queryClient.prefetchQuery({
-			queryKey: ["surfsense-docs-mention", "", false],
+			queryKey: ["govsense-docs-mention", "", false],
 			queryFn: () =>
-				documentsApiService.getSurfsenseDocs({
+				documentsApiService.getGovSenseDocs({
 					queryParams: { page: 0, page_size: 20 },
 				}),
 			staleTime: 3 * 60 * 1000,
@@ -494,7 +494,7 @@ export default function NewChatPage() {
 			trackChatMessageSent(searchSpaceId, currentThreadId, {
 				hasAttachments: messageAttachments.length > 0,
 				hasMentionedDocuments:
-					mentionedDocumentIds.surfsense_doc_ids.length > 0 ||
+					mentionedDocumentIds.govsense_doc_ids.length > 0 ||
 					mentionedDocumentIds.document_ids.length > 0,
 				messageLength: userQuery.length,
 			});
@@ -693,12 +693,12 @@ export default function NewChatPage() {
 
 				// Get mentioned document IDs for context (separate fields for backend)
 				const hasDocumentIds = mentionedDocumentIds.document_ids.length > 0;
-				const hasSurfsenseDocIds = mentionedDocumentIds.surfsense_doc_ids.length > 0;
+				const hasGovSenseDocIds = mentionedDocumentIds.govsense_doc_ids.length > 0;
 
 				// Clear mentioned documents after capturing them
-				if (hasDocumentIds || hasSurfsenseDocIds) {
+				if (hasDocumentIds || hasGovSenseDocIds) {
 					setMentionedDocumentIds({
-						surfsense_doc_ids: [],
+						govsense_doc_ids: [],
 						document_ids: [],
 					});
 					setMentionedDocuments([]);
@@ -717,8 +717,8 @@ export default function NewChatPage() {
 						messages: messageHistory,
 						attachments: attachments.length > 0 ? attachments : undefined,
 						mentioned_document_ids: hasDocumentIds ? mentionedDocumentIds.document_ids : undefined,
-						mentioned_surfsense_doc_ids: hasSurfsenseDocIds
-							? mentionedDocumentIds.surfsense_doc_ids
+						mentioned_govsense_doc_ids: hasGovSenseDocIds
+							? mentionedDocumentIds.govsense_doc_ids
 							: undefined,
 					}),
 					signal: controller.signal,

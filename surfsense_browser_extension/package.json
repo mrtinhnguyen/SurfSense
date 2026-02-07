@@ -1,8 +1,8 @@
 {
-	"name": "surfsense_browser_extension",
-	"displayName": "Surfsense Browser Extension",
+	"name": "govsense_browser_extension",
+	"displayName": "GovSense Browser Extension",
 	"version": "0.0.12",
-	"description": "Extension to collect Browsing History for SurfSense.",
+	"description": "Extension to collect Browsing History for GovSense.",
 	"author": "https://github.com/MODSetter",
 	"engines": {
 		"node": ">=18.0.0 <23.0.0",
