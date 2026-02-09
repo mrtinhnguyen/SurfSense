@@ -47,6 +47,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { IMAGE_GEN_MODELS, IMAGE_GEN_PROVIDERS } from "@/contracts/enums/image-gen-providers";
 import type {
 	GlobalImageGenConfig,
+	ImageGenProvider,
 	ImageGenerationConfig,
 } from "@/contracts/types/new-llm-config.types";
 import { cn } from "@/lib/utils";
@@ -128,10 +129,10 @@ export function ImageConfigSidebar({
 	}, [formData.provider]);
 
 	const getTitle = () => {
-		if (mode === "create") return "Add Image Model";
-		if (isAutoMode) return "Auto Mode (Load Balanced)";
-		if (isGlobal) return "View Global Image Model";
-		return "Edit Image Model";
+		if (mode === "create") return "Thêm mô hình xử lý hình ảnh";
+		if (isAutoMode) return "Chế độ Auto Auto Mode (Load Balanced)";
+		if (isGlobal) return "Xem mô hình xử lý hình ảnh hệ thống";
+		return "Chỉnh sửa mô hình xử lý hình ảnh";
 	};
 
 	const handleSubmit = useCallback(async () => {
@@ -140,7 +141,7 @@ export function ImageConfigSidebar({
 			if (mode === "create") {
 				const result = await createConfig({
 					name: formData.name,
-					provider: formData.provider,
+					provider: formData.provider as ImageGenProvider,
 					model_name: formData.model_name,
 					api_key: formData.api_key,
 					api_base: formData.api_base || undefined,
@@ -163,7 +164,7 @@ export function ImageConfigSidebar({
 					data: {
 						name: formData.name,
 						description: formData.description || undefined,
-						provider: formData.provider,
+						provider: formData.provider as ImageGenProvider,
 						model_name: formData.model_name,
 						api_key: formData.api_key,
 						api_base: formData.api_base || undefined,
@@ -263,12 +264,12 @@ export function ImageConfigSidebar({
 												className="gap-1 text-xs bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300"
 											>
 												<Zap className="size-3" />
-												Recommended
+												Khuyến nghị
 											</Badge>
 										) : isGlobal ? (
 											<Badge variant="secondary" className="gap-1 text-xs">
 												<Globe className="size-3" />
-												Global
+												System Model
 											</Badge>
 										) : null}
 										{config && !isAutoMode && (
@@ -284,7 +285,7 @@ export function ImageConfigSidebar({
 								className="h-8 w-8 rounded-full"
 							>
 								<X className="h-4 w-4" />
-								<span className="sr-only">Close</span>
+								<span className="sr-only">Đóng</span>
 							</Button>
 						</div>
 
@@ -297,19 +298,19 @@ export function ImageConfigSidebar({
 										<Alert className="mb-6 border-violet-500/30 bg-violet-500/5">
 											<Shuffle className="size-4 text-violet-500" />
 											<AlertDescription className="text-sm text-violet-700 dark:text-violet-400">
-												Auto mode distributes image generation requests across all configured providers for optimal performance and rate limit protection.
+												Chế độ Auto phân phối các yêu cầu tạo hình ảnh qua tất cả các nhà cung cấp đã cấu hình để đảm bảo hiệu suất tối ưu và bảo vệ giới hạn tỷ lệ.
 											</AlertDescription>
 										</Alert>
 										<div className="flex gap-3 pt-4 border-t border-border/50">
 											<Button variant="outline" className="flex-1" onClick={() => onOpenChange(false)}>
-												Close
+												Đóng
 											</Button>
 											<Button
 												className="flex-1 gap-2 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700"
 												onClick={handleUseGlobalConfig}
 												disabled={isSubmitting}
 											>
-												{isSubmitting ? "Loading..." : "Use Auto Mode"}
+												{isSubmitting ? "Loading..." : "Sử dụng chế độ Auto"}
 											</Button>
 										</div>
 									</>
@@ -321,18 +322,18 @@ export function ImageConfigSidebar({
 										<Alert className="mb-6 border-amber-500/30 bg-amber-500/5">
 											<AlertCircle className="size-4 text-amber-500" />
 											<AlertDescription className="text-sm text-amber-700 dark:text-amber-400">
-												Global configurations are read-only. To customize, create a new model.
+												Cấu hình toàn cục chỉ đọc. Để tùy chỉnh, hãy tạo một mô hình mới.
 											</AlertDescription>
 										</Alert>
 										<div className="space-y-4">
 											<div className="grid gap-4 sm:grid-cols-2">
 												<div className="space-y-1.5">
-													<div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Name</div>
+													<div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Tên</div>
 													<p className="text-sm font-medium">{config.name}</p>
 												</div>
 												{config.description && (
 													<div className="space-y-1.5">
-														<div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Description</div>
+														<div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Mô tả</div>
 														<p className="text-sm text-muted-foreground">{config.description}</p>
 													</div>
 												)}
@@ -340,7 +341,7 @@ export function ImageConfigSidebar({
 											<Separator />
 											<div className="grid gap-4 sm:grid-cols-2">
 												<div className="space-y-1.5">
-													<div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Provider</div>
+													<div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Nhà cung cấp</div>
 													<p className="text-sm font-medium">{config.provider}</p>
 												</div>
 												<div className="space-y-1.5">
@@ -351,10 +352,10 @@ export function ImageConfigSidebar({
 										</div>
 										<div className="flex gap-3 pt-6 border-t border-border/50 mt-6">
 											<Button variant="outline" className="flex-1" onClick={() => onOpenChange(false)}>
-												Close
+												Đóng
 											</Button>
 											<Button className="flex-1 gap-2" onClick={handleUseGlobalConfig} disabled={isSubmitting}>
-												{isSubmitting ? "Loading..." : "Use This Model"}
+												{isSubmitting ? "Đang tải..." : "Sử dụng mô hình này"}
 											</Button>
 										</div>
 									</>
@@ -365,7 +366,7 @@ export function ImageConfigSidebar({
 									<div className="space-y-4">
 										{/* Name */}
 										<div className="space-y-2">
-											<Label className="text-sm font-medium">Name *</Label>
+											<Label className="text-sm font-medium">Tên *</Label>
 											<Input
 												placeholder="e.g., My DALL-E 3"
 												value={formData.name}
@@ -375,7 +376,7 @@ export function ImageConfigSidebar({
 
 										{/* Description */}
 										<div className="space-y-2">
-											<Label className="text-sm font-medium">Description</Label>
+											<Label className="text-sm font-medium">Mô tả</Label>
 											<Input
 												placeholder="Optional description"
 												value={formData.description}
@@ -387,13 +388,13 @@ export function ImageConfigSidebar({
 
 										{/* Provider */}
 										<div className="space-y-2">
-											<Label className="text-sm font-medium">Provider *</Label>
+											<Label className="text-sm font-medium">Nhà cung cấp *</Label>
 											<Select
 												value={formData.provider}
 												onValueChange={(val) => setFormData((p) => ({ ...p, provider: val, model_name: "" }))}
 											>
 												<SelectTrigger>
-													<SelectValue placeholder="Select a provider" />
+													<SelectValue placeholder="Chọn một nhà cung cấp" />
 												</SelectTrigger>
 												<SelectContent>
 													{IMAGE_GEN_PROVIDERS.map((p) => (
@@ -410,25 +411,25 @@ export function ImageConfigSidebar({
 
 										{/* Model Name */}
 										<div className="space-y-2">
-											<Label className="text-sm font-medium">Model Name *</Label>
+											<Label className="text-sm font-medium">Tên Model *</Label>
 											{suggestedModels.length > 0 ? (
 												<Popover open={modelComboboxOpen} onOpenChange={setModelComboboxOpen}>
 													<PopoverTrigger asChild>
 														<Button variant="outline" role="combobox" className="w-full justify-between font-normal">
-															{formData.model_name || "Select or type a model..."}
+															{formData.model_name || "Chọn hoặc nhập một model..."}
 															<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 														</Button>
 													</PopoverTrigger>
 													<PopoverContent className="w-full p-0" align="start">
 														<Command>
 															<CommandInput
-																placeholder="Search or type model..."
+																placeholder="Tìm kiếm hoặc nhập tên model..."
 																value={formData.model_name}
 																onValueChange={(val) => setFormData((p) => ({ ...p, model_name: val }))}
 															/>
 															<CommandList>
 																<CommandEmpty>
-																	<span className="text-xs text-muted-foreground">Type a custom model name</span>
+																	<span className="text-xs text-muted-foreground">Nhập tên model tùy chỉnh</span>
 																</CommandEmpty>
 																<CommandGroup>
 																	{suggestedModels.map((m) => (

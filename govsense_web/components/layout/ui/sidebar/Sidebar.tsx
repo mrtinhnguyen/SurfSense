@@ -147,7 +147,7 @@ export function Sidebar({
 										</Button>
 									</TooltipTrigger>
 									<TooltipContent side="top">
-										{t("view_all_shared_chats") || "View all shared chats"}
+										{t("view_all_shared_chats") || "Xem tất cả các cuộc trò chuyện chia sẻ"}
 									</TooltipContent>
 								</Tooltip>
 							) : undefined

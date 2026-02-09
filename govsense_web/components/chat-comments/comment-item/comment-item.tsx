@@ -2,6 +2,7 @@
 
 import { useAtomValue, useSetAtom } from "jotai";
 import { MessageSquare } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { clearTargetCommentIdAtom, targetCommentIdAtom } from "@/atoms/chat/current-thread.atom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -23,7 +24,11 @@ function getInitials(name: string | null, email: string): string {
 	return email[0].toUpperCase();
 }
 
-function formatTimestamp(dateString: string): string {
+function formatTimestamp(
+	dateString: string,
+	locale: string,
+	t: ReturnType<typeof useTranslations<"comments">>
+): string {
 	const date = new Date(dateString);
 	const now = new Date();
 	const diffMs = now.getTime() - date.getTime();
@@ -31,41 +36,41 @@ function formatTimestamp(dateString: string): string {
 	const diffHours = Math.floor(diffMs / 3600000);
 	const diffDays = Math.floor(diffMs / 86400000);
 
-	const timeStr = date.toLocaleTimeString("en-US", {
+	const timeStr = date.toLocaleTimeString(locale, {
 		hour: "numeric",
 		minute: "2-digit",
 		hour12: true,
 	});
 
 	if (diffMins < 1) {
-		return "Just now";
+		return t("time_just_now");
 	}
 
 	if (diffMins < 60) {
-		return `${diffMins}m ago`;
+		return t("time_minutes_ago", { minutes: diffMins });
 	}
 
 	if (diffHours < 24 && date.getDate() === now.getDate()) {
-		return `Today at ${timeStr}`;
+		return t("time_today_at", { time: timeStr });
 	}
 
 	const yesterday = new Date(now);
 	yesterday.setDate(yesterday.getDate() - 1);
 	if (date.getDate() === yesterday.getDate() && diffDays < 2) {
-		return `Yesterday at ${timeStr}`;
+		return t("time_yesterday_at", { time: timeStr });
 	}
 
 	if (diffDays < 7) {
-		const dayName = date.toLocaleDateString("en-US", { weekday: "long" });
-		return `${dayName} at ${timeStr}`;
+		const dayName = date.toLocaleDateString(locale, { weekday: "long" });
+		return t("time_weekday_at", { day: dayName, time: timeStr });
 	}
 
 	return (
-		date.toLocaleDateString("en-US", {
+		date.toLocaleDateString(locale, {
 			month: "short",
 			day: "numeric",
 			year: date.getFullYear() !== now.getFullYear() ? "numeric" : undefined,
-		}) + ` at ${timeStr}`
+		}) + ` ${timeStr}`
 	);
 }
 
@@ -115,6 +120,8 @@ export function CommentItem({
 	members = [],
 	membersLoading = false,
 }: CommentItemProps) {
+	const t = useTranslations("comments");
+	const locale = useLocale();
 	const commentRef = useRef<HTMLDivElement>(null);
 	const [isHighlighted, setIsHighlighted] = useState(false);
 
@@ -176,10 +183,10 @@ export function CommentItem({
 				<div className="flex items-center gap-2">
 					<span className="truncate text-sm font-medium">{displayName}</span>
 					<span className="shrink-0 text-xs text-muted-foreground">
-						{formatTimestamp(comment.createdAt)}
+						{formatTimestamp(comment.createdAt, locale, t)}
 					</span>
 					{comment.isEdited && (
-						<span className="shrink-0 text-xs text-muted-foreground">(edited)</span>
+						<span className="shrink-0 text-xs text-muted-foreground">{t("edited")}</span>
 					)}
 					{!isEditing && (
 						<div className="ml-auto">
@@ -198,8 +205,8 @@ export function CommentItem({
 						<CommentComposer
 							members={members}
 							membersLoading={membersLoading}
-							placeholder="Edit your comment..."
-							submitLabel="Save"
+							placeholder={t("edit_placeholder")}
+							submitLabel={t("save_button")}
 							isSubmitting={isSubmitting}
 							onSubmit={handleEditSubmit}
 							onCancel={onEditCancel}
@@ -221,7 +228,7 @@ export function CommentItem({
 						onClick={() => onReply(comment.id)}
 					>
 						<MessageSquare className="mr-1 size-3" />
-						Reply
+						{t("reply_button")}
 					</Button>
 				)}
 			</div>

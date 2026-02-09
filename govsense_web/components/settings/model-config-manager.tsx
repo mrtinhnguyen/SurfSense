@@ -165,7 +165,7 @@ export function ModelConfigManager({ searchSpaceId }: ModelConfigManagerProps) {
 						className="flex items-center gap-2 text-xs md:text-sm h-8 md:h-9"
 					>
 						<RefreshCw className={cn("h-3 w-3 md:h-4 md:w-4", isLoading && "animate-spin")} />
-						Refresh
+						Làm mới
 					</Button>
 				</div>
 			</div>
@@ -196,10 +196,10 @@ export function ModelConfigManager({ searchSpaceId }: ModelConfigManagerProps) {
 					<Alert className="border-blue-500/30 bg-blue-500/5 py-3 md:py-4">
 						<Sparkles className="h-3 w-3 md:h-4 md:w-4 text-blue-600 dark:text-blue-400 shrink-0" />
 						<AlertDescription className="text-blue-800 dark:text-blue-200 text-xs md:text-sm">
-							<span className="font-medium">{globalConfigs.length} global configuration(s)</span>{" "}
-							available from your administrator. These are pre-configured and ready to use.{" "}
+							<span className="font-medium">{globalConfigs.length} cấu hình toàn cục </span>{" "}
+							do quản trị viên cung cấp. Các cấu hình này đã được thiết lập sẵn và sẵn sàng sử dụng.{" "}
 							<span className="text-blue-600 dark:text-blue-300">
-								Global configs: {globalConfigs.map((g) => g.name).join(", ")}
+								 Cấu hình toàn cục: {globalConfigs.map((g) => g.name).join(", ")}
 							</span>
 						</AlertDescription>
 					</Alert>
@@ -213,7 +213,7 @@ export function ModelConfigManager({ searchSpaceId }: ModelConfigManagerProps) {
 						<div className="flex flex-col items-center gap-2 md:gap-3">
 							<Spinner size="md" className="md:h-8 md:w-8 text-muted-foreground" />
 							<span className="text-xs md:text-sm text-muted-foreground">
-								Loading configurations...
+								Đang tải cấu hình...
 							</span>
 						</div>
 					</CardContent>
@@ -224,13 +224,13 @@ export function ModelConfigManager({ searchSpaceId }: ModelConfigManagerProps) {
 			{!isLoading && (
 				<div className="space-y-4 md:space-y-6">
 					<div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-						<h3 className="text-lg md:text-xl font-semibold tracking-tight">Your Configurations</h3>
+						<h3 className="text-lg md:text-xl font-semibold tracking-tight">Cấu hình của bạn</h3>
 						<Button
 							onClick={openNewDialog}
 							className="flex items-center gap-2 text-xs md:text-sm h-8 md:h-9"
 						>
 							<Plus className="h-3 w-3 md:h-4 md:w-4" />
-							Add Configuration
+							Thêm Cấu hình
 						</Button>
 					</div>
 
@@ -242,9 +242,9 @@ export function ModelConfigManager({ searchSpaceId }: ModelConfigManagerProps) {
 										<Wand2 className="h-8 w-8 md:h-12 md:w-12 text-violet-600 dark:text-violet-400" />
 									</div>
 									<div className="space-y-2 mb-4 md:mb-6">
-										<h3 className="text-lg md:text-xl font-semibold">No Configurations Yet</h3>
+										<h3 className="text-lg md:text-xl font-semibold">Chưa có Cấu hình nào</h3>
 										<p className="text-xs md:text-sm text-muted-foreground max-w-sm">
-											Create your first AI configuration to customize how your agent responds
+											Tạo cấu hình AI đầu tiên để tùy chỉnh cách tác nhân của bạn phản hồi
 										</p>
 									</div>
 									<Button
@@ -253,7 +253,7 @@ export function ModelConfigManager({ searchSpaceId }: ModelConfigManagerProps) {
 										className="gap-2 text-xs md:text-sm h-9 md:h-10"
 									>
 										<Plus className="h-3 w-3 md:h-4 md:w-4" />
-										Create First Configuration
+										Tạo Cấu hình Đầu Tiên
 									</Button>
 								</CardContent>
 							</Card>
@@ -416,12 +416,12 @@ export function ModelConfigManager({ searchSpaceId }: ModelConfigManagerProps) {
 							) : (
 								<Plus className="w-5 h-5 text-violet-600" />
 							)}
-							{editingConfig ? "Edit Configuration" : "Create New Configuration"}
+							{editingConfig ? "Sửa Cấu hình" : "Tạo Cấu hình Mới"}
 						</DialogTitle>
 						<DialogDescription>
 							{editingConfig
-								? "Update your AI model and prompt configuration"
-								: "Set up a new AI model with custom prompts and citation settings"}
+								? "Cập nhật mô hình AI và cấu hình lời nhắc của bạn"
+								: "Thiết lập mô hình AI mới với lời nhắc và cài đặt trích dẫn tùy chỉnh"}
 						</DialogDescription>
 					</DialogHeader>
 
@@ -467,12 +467,11 @@ export function ModelConfigManager({ searchSpaceId }: ModelConfigManagerProps) {
 					<AlertDialogHeader>
 						<AlertDialogTitle className="flex items-center gap-2">
 							<Trash2 className="h-5 w-5 text-destructive" />
-							Delete Configuration
+							Xóa Cấu hình
 						</AlertDialogTitle>
 						<AlertDialogDescription>
-							Are you sure you want to delete{" "}
-							<span className="font-semibold text-foreground">{configToDelete?.name}</span>? This
-							action cannot be undone.
+							Bạn có chắc chắn muốn xóa cấu hình{" "}
+							<span className="font-semibold text-foreground">{configToDelete?.name}</span>? Hành động này không thể hoàn tác.
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
@@ -485,12 +484,12 @@ export function ModelConfigManager({ searchSpaceId }: ModelConfigManagerProps) {
 							{isDeleting ? (
 								<>
 									<Spinner size="sm" className="mr-2" />
-									Deleting
+									Đang xóa...
 								</>
 							) : (
 								<>
 									<Trash2 className="mr-2 h-4 w-4" />
-									Delete
+									Xóa
 								</>
 							)}
 						</AlertDialogAction>

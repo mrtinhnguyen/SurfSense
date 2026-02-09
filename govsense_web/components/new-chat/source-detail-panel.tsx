@@ -15,13 +15,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Spinner } from "@/components/ui/spinner";
 import type {
 	GetDocumentByChunkResponse,
-	GetSurfsenseDocsByChunkResponse,
+	GetGovsenseDocsByChunkResponse,
 } from "@/contracts/types/document.types";
 import { documentsApiService } from "@/lib/apis/documents-api.service";
 import { cacheKeys } from "@/lib/query-client/cache-keys";
 import { cn } from "@/lib/utils";
 
-type DocumentData = GetDocumentByChunkResponse | GetSurfsenseDocsByChunkResponse;
+type DocumentData = GetDocumentByChunkResponse | GetGovsenseDocsByChunkResponse;
 
 interface SourceDetailPanelProps {
 	open: boolean;
@@ -84,12 +84,12 @@ const ChunkCard = forwardRef<HTMLDivElement, ChunkCardProps>(
 						>
 							{index + 1}
 						</div>
-						<span className="text-sm text-muted-foreground">of {totalChunks} chunks</span>
+						<span className="text-sm text-muted-foreground">trong tổng số {totalChunks} đoạn</span>
 					</div>
 					{isCited && (
 						<Badge variant="default" className="gap-1.5 px-3 py-1">
 							<Sparkles className="h-3 w-3" />
-							Cited Source
+							Nguồn trích dẫn
 						</Badge>
 					)}
 				</div>
@@ -138,7 +138,7 @@ export function SourceDetailPanel({
 			: cacheKeys.documents.byChunk(chunkId.toString()),
 		queryFn: async () => {
 			if (isDocsChunk) {
-				return documentsApiService.getSurfsenseDocByChunk(chunkId);
+				return documentsApiService.getGovsenseDocByChunk(chunkId);
 			}
 			return documentsApiService.getDocumentByChunk({ chunk_id: chunkId });
 		},
@@ -330,7 +330,7 @@ export function SourceDetailPanel({
 						>
 							<div className="min-w-0 flex-1">
 								<h2 className="text-xl font-semibold truncate">
-									{documentData?.title || title || "Source Document"}
+									{documentData?.title || title || "Nguồn tài liệu"}
 								</h2>
 								<p className="text-sm text-muted-foreground mt-0.5">
 									{documentData && "document_type" in documentData
@@ -353,7 +353,7 @@ export function SourceDetailPanel({
 										className="hidden sm:flex gap-2 rounded-xl"
 									>
 										<ExternalLink className="h-4 w-4" />
-										Open Source
+										Xem gốc
 									</Button>
 								)}
 								<Button
@@ -363,7 +363,7 @@ export function SourceDetailPanel({
 									className="h-8 w-8 rounded-full"
 								>
 									<X className="h-4 w-4" />
-									<span className="sr-only">Close</span>
+									<span className="sr-only">Đóng</span>
 								</Button>
 							</div>
 						</motion.div>
@@ -397,15 +397,15 @@ export function SourceDetailPanel({
 									</div>
 									<div>
 										<p className="font-semibold text-destructive text-lg">
-											Failed to load document
+											Không thể tải tài liệu
 										</p>
 										<p className="text-sm text-muted-foreground mt-2 max-w-md">
 											{documentByChunkFetchingError.message ||
-												"An unexpected error occurred. Please try again."}
+												"Đã xảy ra lỗi không mong muốn. Vui lòng thử lại."}
 										</p>
 									</div>
 									<Button variant="outline" onClick={() => onOpenChange(false)} className="mt-2">
-										Close Panel
+										Đóng bảng
 									</Button>
 								</motion.div>
 							</div>
@@ -423,7 +423,7 @@ export function SourceDetailPanel({
 											className="w-full mb-6 sm:hidden rounded-xl"
 										>
 											<ExternalLink className="mr-2 h-4 w-4" />
-											Open in Browser
+											Mở trong trình duyệt
 										</Button>
 									)}
 									<motion.div
@@ -433,13 +433,13 @@ export function SourceDetailPanel({
 									>
 										<h3 className="text-base font-semibold mb-4 flex items-center gap-2">
 											<BookOpen className="h-4 w-4" />
-											Source Information
+											Thông tin nguồn
 										</h3>
 										<div className="text-sm text-muted-foreground mb-3 font-medium">
-											{title || "Untitled"}
+											{title || "Không tiêu đề"}
 										</div>
 										<div className="text-sm text-foreground leading-relaxed">
-											{description || "No content available"}
+											{description || "Không có nội dung mô tả sẵn có cho nguồn này."}
 										</div>
 									</motion.div>
 								</div>
@@ -478,7 +478,7 @@ export function SourceDetailPanel({
 																		? "bg-muted text-foreground"
 																		: "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground"
 															)}
-															title={isCited ? `Chunk ${idx + 1} (Cited)` : `Chunk ${idx + 1}`}
+															title={isCited ? `Đoạn ${idx + 1} (Trích dẫn)` : `Đoạn ${idx + 1}`}
 														>
 															{idx + 1}
 															{isCited && (
@@ -509,7 +509,7 @@ export function SourceDetailPanel({
 												>
 													<h3 className="text-sm font-semibold mb-4 text-muted-foreground uppercase tracking-wider flex items-center gap-2">
 														<FileText className="h-4 w-4" />
-														Document Information
+														Thông tin tài liệu
 													</h3>
 													<dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
 														{Object.entries(documentData.document_metadata).map(([key, value]) => (
@@ -535,7 +535,7 @@ export function SourceDetailPanel({
 													<CollapsibleTrigger className="w-full flex items-center justify-between p-5 rounded-2xl bg-linear-to-r from-muted/50 to-muted/30 border hover:from-muted/70 hover:to-muted/50 transition-all duration-200">
 														<span className="font-semibold flex items-center gap-2">
 															<BookOpen className="h-4 w-4" />
-															Document Summary
+															Tóm tắt tài liệu
 														</span>
 														<motion.div
 															animate={{ rotate: summaryOpen ? 180 : 0 }}
@@ -561,7 +561,7 @@ export function SourceDetailPanel({
 										<div className="flex items-center justify-between pt-4">
 											<h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
 												<Hash className="h-4 w-4" />
-												Content Chunks
+												Đoạn nội dung
 											</h3>
 											{citedChunkIndex !== -1 && (
 												<Button
@@ -571,7 +571,7 @@ export function SourceDetailPanel({
 													className="gap-2 text-primary hover:text-primary"
 												>
 													<Sparkles className="h-3.5 w-3.5" />
-													Jump to cited
+													Chuyển đến đoạn trích dẫn
 												</Button>
 											)}
 										</div>

@@ -311,7 +311,7 @@ export function GoogleDriveFolderTree({
 
 						{children.length === 0 && (
 							<div className="text-[10px] sm:text-xs text-muted-foreground py-1 sm:py-2 pl-1 sm:pl-2">
-								Empty folder
+								Thư mục trống
 							</div>
 						)}
 					</div>
@@ -354,7 +354,7 @@ export function GoogleDriveFolderTree({
 
 					{!isLoadingRoot && rootItems.length === 0 && (
 						<div className="text-center text-xs sm:text-sm text-muted-foreground py-4 sm:py-8">
-							No files or folders found in your Google Drive
+							Không tìm thấy tệp hoặc thư mục nào trong Google Drive của bạn
 						</div>
 					)}
 				</div>

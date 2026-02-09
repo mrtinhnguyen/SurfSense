@@ -74,7 +74,7 @@ function ImageCancelledState({ src }: { src: string }) {
 		<div className="my-4 rounded-xl border border-muted p-4 text-muted-foreground max-w-md">
 			<p className="flex items-center gap-2">
 				<ImageIcon className="size-4" />
-				<span className="line-through truncate">Image: {src}</span>
+				<span className="line-through truncate">Hình ảnh: {src}</span>
 			</p>
 		</div>
 	);
@@ -106,13 +106,13 @@ function ParsedImage({ result }: { result: unknown }) {
 export const DisplayImageToolUI = makeAssistantToolUI<DisplayImageArgs, DisplayImageResult>({
 	toolName: "display_image",
 	render: function DisplayImageUI({ args, result, status }) {
-		const src = args.src || "Unknown";
+		const src = args.src || "Không xác định";
 
 		// Loading state - tool is still running
 		if (status.type === "running" || status.type === "requires-action") {
 			return (
 				<div className="my-4">
-					<ImageLoading title={`Loading image...`} />
+					<ImageLoading title={`Đang tải hình ảnh...`} />
 				</div>
 			);
 		}
@@ -136,7 +136,7 @@ export const DisplayImageToolUI = makeAssistantToolUI<DisplayImageArgs, DisplayI
 		if (!result) {
 			return (
 				<div className="my-4">
-					<ImageLoading title="Preparing image..." />
+					<ImageLoading title="Đang chuẩn bị hình ảnh..." />
 				</div>
 			);
 		}

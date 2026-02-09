@@ -532,7 +532,7 @@ export const InlineMentionEditor = forwardRef<InlineMentionEditorRef, InlineMent
 					)}
 					style={{ wordBreak: "break-word" }}
 					data-placeholder={placeholder}
-					aria-label="Message input with inline mentions"
+					aria-label="Ô nhập tin nhắn có nhắc tên trực tiếp"
 					role="textbox"
 					aria-multiline="true"
 				/>

@@ -38,19 +38,19 @@ import { cn } from "@/lib/utils";
 const ROLE_DESCRIPTIONS = {
 	agent: {
 		icon: Bot,
-		title: "Agent LLM",
-		description: "Primary LLM for chat interactions and agent operations",
+		title: "LLM Tác nhân",
+		description: "LLM chính cho tương tác trò chuyện và các tác vụ của tác nhân",
 		color: "bg-blue-100 text-blue-800 border-blue-200",
-		examples: "Chat responses, agent tasks, real-time interactions",
-		characteristics: ["Fast responses", "Conversational", "Agent operations"],
+		examples: "Phản hồi trò chuyện, tác vụ tác nhân, tương tác thời gian thực",
+		characteristics: ["Phản hồi nhanh", "Hội thoại", "Vận hành tác nhân"],
 	},
 	document_summary: {
 		icon: FileText,
-		title: "Document Summary LLM",
-		description: "Handles document summarization",
+		title: "LLM Tóm tắt Tài liệu",
+		description: "Xử lý việc tóm tắt tài liệu",
 		color: "bg-purple-100 text-purple-800 border-purple-200",
-		examples: "Document analysis, podcasts, research synthesis",
-		characteristics: ["Large context window", "Deep reasoning", "Summarization"],
+		examples: "Phân tích tài liệu, podcast, tổng hợp nghiên cứu",
+		characteristics: ["Ngữ cảnh lớn", "Suy luận chuyên sâu", "Tóm tắt"],
 	},
 };
 
@@ -191,8 +191,8 @@ export function LLMRoleManager({ searchSpaceId }: LLMRoleManagerProps) {
 						<RefreshCw
 							className={`h-3 w-3 md:h-4 md:w-4 ${configsLoading ? "animate-spin" : ""}`}
 						/>
-						<span className="hidden sm:inline">Refresh Configs</span>
-						<span className="sm:hidden">Configs</span>
+						<span className="hidden sm:inline">Làm mới Cấu hình</span>
+						<span className="sm:hidden">Cấu hình</span>
 					</Button>
 				</div>
 			</div>
@@ -202,9 +202,9 @@ export function LLMRoleManager({ searchSpaceId }: LLMRoleManagerProps) {
 				<Alert variant="destructive" className="py-3 md:py-4">
 					<AlertCircle className="h-3 w-3 md:h-4 md:w-4 shrink-0" />
 					<AlertDescription className="text-xs md:text-sm">
-						{(configsError?.message ?? "Failed to load LLM configurations") ||
-							(preferencesError?.message ?? "Failed to load preferences") ||
-							(globalConfigsError?.message ?? "Failed to load global configurations")}
+						{(configsError?.message ?? "Lỗi khi tải cấu hình LLM") ||
+							(preferencesError?.message ?? "Lỗi khi tải tùy chọn") ||
+							(globalConfigsError?.message ?? "Lỗi khi tải cấu hình toàn cục")}
 					</AlertDescription>
 				</Alert>
 			)}
@@ -217,10 +217,10 @@ export function LLMRoleManager({ searchSpaceId }: LLMRoleManagerProps) {
 							<Spinner size="sm" className="md:h-5 md:w-5" />
 							<span className="text-xs md:text-sm">
 								{configsLoading && preferencesLoading
-									? "Loading configurations and preferences..."
+									? "Đang tải cấu hình và tùy chọn..."
 									: configsLoading
-										? "Loading configurations..."
-										: "Loading preferences..."}
+										? "Đang tải cấu hình..."
+										: "Đang tải tùy chọn..."}
 							</span>
 						</div>
 					</CardContent>
@@ -234,23 +234,21 @@ export function LLMRoleManager({ searchSpaceId }: LLMRoleManagerProps) {
 						<Alert variant="destructive" className="py-3 md:py-4">
 							<AlertCircle className="h-3 w-3 md:h-4 md:w-4 shrink-0" />
 							<AlertDescription className="text-xs md:text-sm">
-								No LLM configurations found. Please add at least one LLM provider in the Agent
-								Configs tab before assigning roles.
+								Chưa tìm thấy cấu hình LLM nào. Vui lòng thêm ít nhất một nhà cung cấp LLM trong tab Cấu hình Tác nhân trước khi phân công vai trò.
 							</AlertDescription>
 						</Alert>
 					) : !isAssignmentComplete ? (
 						<Alert className="py-3 md:py-4">
 							<AlertCircle className="h-3 w-3 md:h-4 md:w-4 shrink-0" />
 							<AlertDescription className="text-xs md:text-sm">
-								Complete all role assignments to enable full functionality. Each role serves
-								different purposes in your workflow.
+								Vui lòng hoàn tất việc gán tất cả các vai trò để kích hoạt đầy đủ chức năng. Mỗi vai trò phục vụ những mục đích khác nhau trong quy trình làm việc của bạn.
 							</AlertDescription>
 						</Alert>
 					) : (
 						<Alert className="py-3 md:py-4">
 							<CheckCircle className="h-3 w-3 md:h-4 md:w-4 shrink-0" />
 							<AlertDescription className="text-xs md:text-sm">
-								All roles are assigned and ready to use! Your LLM configuration is complete.
+								Tất cả các vai trò đều đã được gán và sẵn sàng sử dụng! Cấu hình LLM của bạn đã hoàn tất.
 							</AlertDescription>
 						</Alert>
 					)}
@@ -296,25 +294,25 @@ export function LLMRoleManager({ searchSpaceId }: LLMRoleManagerProps) {
 											<CardContent className="space-y-3 md:space-y-4 px-3 md:px-6 pb-3 md:pb-6">
 											<div className="space-y-1.5 md:space-y-2">
 												<Label className="text-xs md:text-sm font-medium">
-													Assign LLM Configuration:
+													Gán Cấu hình LLM cho Vai trò này:
 												</Label>
 												<Select
 													value={currentAssignment?.toString() || "unassigned"}
 													onValueChange={(value) => handleRoleAssignment(`${key}_llm_id`, value)}
 												>
 													<SelectTrigger className="h-9 md:h-10 text-xs md:text-sm">
-														<SelectValue placeholder="Select an LLM configuration" />
+														<SelectValue placeholder="Chọn một cấu hình LLM" />
 													</SelectTrigger>
 													<SelectContent>
 														<SelectItem value="unassigned">
-															<span className="text-muted-foreground">Unassigned</span>
+															<span className="text-muted-foreground">Chưa gán</span>
 														</SelectItem>
 
 														{/* Global Configurations */}
 														{globalConfigs.length > 0 && (
 																	<>
 																		<div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
-																			Global Configurations
+																			Cấu hình toàn cục
 																		</div>
 																		{globalConfigs.map((config) => {
 																			const isAutoMode =
@@ -346,11 +344,11 @@ export function LLMRoleManager({ searchSpaceId }: LLMRoleManagerProps) {
 																								variant="secondary"
 																								className="text-xs bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300"
 																							>
-																								Recommended
+																								Đề xuất
 																							</Badge>
 																						) : (
 																							<Badge variant="secondary" className="text-xs">
-																								🌐 Global
+																								🌐 Toàn cục
 																							</Badge>
 																						)}
 																					</div>
@@ -364,7 +362,7 @@ export function LLMRoleManager({ searchSpaceId }: LLMRoleManagerProps) {
 														{newLLMConfigs.length > 0 && (
 															<>
 																<div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
-																	Your Configurations
+																	Cấu hình của bạn
 																</div>
 																{newLLMConfigs
 																	.filter(
@@ -404,7 +402,7 @@ export function LLMRoleManager({ searchSpaceId }: LLMRoleManagerProps) {
 															) : (
 																<Bot className="w-3 h-3 md:w-4 md:h-4 shrink-0" />
 															)}
-															<span className="font-medium">Assigned:</span>
+															<span className="font-medium">Đã gán:</span>
 															{"is_auto_mode" in assignedConfig && assignedConfig.is_auto_mode ? (
 																<Badge
 																	variant="secondary"
@@ -423,20 +421,20 @@ export function LLMRoleManager({ searchSpaceId }: LLMRoleManagerProps) {
 																	variant="outline"
 																	className="text-[9px] md:text-xs bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300 border-violet-200 dark:border-violet-700"
 																>
-																	Recommended
+																	Đề xuất
 																</Badge>
 															) : (
 																"is_global" in assignedConfig &&
 																assignedConfig.is_global && (
 																	<Badge variant="outline" className="text-[9px] md:text-xs">
-																		🌐 Global
+																		🌐 Toàn cục
 																	</Badge>
 																)
 															)}
 														</div>
 														{"is_auto_mode" in assignedConfig && assignedConfig.is_auto_mode ? (
 															<div className="text-[10px] md:text-xs text-violet-600 dark:text-violet-400 mt-0.5 md:mt-1">
-																Automatically load balances across all available LLM providers
+																Tự động phân bổ tải trên các nhà cung cấp LLM hiện có.
 															</div>
 														) : (
 															<>

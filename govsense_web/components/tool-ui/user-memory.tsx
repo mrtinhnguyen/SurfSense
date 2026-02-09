@@ -100,7 +100,7 @@ export const SaveMemoryToolUI = makeAssistantToolUI<SaveMemoryArgs, SaveMemoryRe
 						<Loader2Icon className="size-4 animate-spin text-primary" />
 					</div>
 					<div className="flex-1">
-						<span className="text-sm text-muted-foreground">Saving to memory...</span>
+						<span className="text-sm text-muted-foreground">Đang lưu vào bộ nhớ...</span>
 					</div>
 				</div>
 			);
@@ -114,7 +114,7 @@ export const SaveMemoryToolUI = makeAssistantToolUI<SaveMemoryArgs, SaveMemoryRe
 						<XIcon className="size-4 text-destructive" />
 					</div>
 					<div className="flex-1">
-						<span className="text-sm text-destructive">Failed to save memory</span>
+						<span className="text-sm text-destructive">Lỗi khi lưu bộ nhớ</span>
 						{result?.error && <p className="mt-1 text-xs text-destructive/70">{result.error}</p>}
 					</div>
 				</div>
@@ -131,7 +131,7 @@ export const SaveMemoryToolUI = makeAssistantToolUI<SaveMemoryArgs, SaveMemoryRe
 					<div className="flex-1 min-w-0">
 						<div className="flex items-center gap-2">
 							<CheckIcon className="size-3 text-green-500 shrink-0" />
-							<span className="text-sm font-medium text-foreground">Memory saved</span>
+							<span className="text-sm font-medium text-foreground">Bộ nhớ đã được lưu</span>
 							<CategoryBadge category={category} />
 						</div>
 						<p className="mt-1 truncate text-sm text-muted-foreground">{content}</p>
@@ -149,7 +149,7 @@ export const SaveMemoryToolUI = makeAssistantToolUI<SaveMemoryArgs, SaveMemoryRe
 					</div>
 					<div className="flex-1 min-w-0">
 						<div className="flex items-center gap-2">
-							<span className="text-sm text-muted-foreground">Saving memory</span>
+							<span className="text-sm text-muted-foreground">Đang lưu bộ nhớ</span>
 							<CategoryBadge category={category} />
 						</div>
 						<p className="mt-1 truncate text-sm text-muted-foreground">{content}</p>
@@ -186,7 +186,7 @@ export const RecallMemoryToolUI = makeAssistantToolUI<RecallMemoryArgs, RecallMe
 					</div>
 					<div className="flex-1">
 						<span className="text-sm text-muted-foreground">
-							{query ? `Searching memories for "${query}"...` : "Recalling memories..."}
+							{query ? `Đang tìm kiếm bộ nhớ cho "${query}"...` : "Đang nhớ lại bộ nhớ..."}
 						</span>
 					</div>
 				</div>
@@ -219,7 +219,7 @@ export const RecallMemoryToolUI = makeAssistantToolUI<RecallMemoryArgs, RecallMe
 						<div className="flex size-8 items-center justify-center rounded-full bg-muted">
 							<SearchIcon className="size-4 text-muted-foreground" />
 						</div>
-						<span className="text-sm text-muted-foreground">No memories found</span>
+						<span className="text-sm text-muted-foreground">Không tìm thấy bộ nhớ nào</span>
 					</div>
 				);
 			}
@@ -229,7 +229,7 @@ export const RecallMemoryToolUI = makeAssistantToolUI<RecallMemoryArgs, RecallMe
 					<div className="flex items-center gap-2 mb-2">
 						<BrainIcon className="size-4 text-primary" />
 						<span className="text-sm font-medium text-foreground">
-							Recalled {count} {count === 1 ? "memory" : "memories"}
+							Đã truy xuất {count} {count === 1 ? "mục ghi nhớ" : "mục ghi nhớ"}
 						</span>
 					</div>
 					<div className="space-y-2">
@@ -243,7 +243,7 @@ export const RecallMemoryToolUI = makeAssistantToolUI<RecallMemoryArgs, RecallMe
 							</div>
 						))}
 						{memories.length > 5 && (
-							<p className="text-xs text-muted-foreground">...and {memories.length - 5} more</p>
+							<p className="text-xs text-muted-foreground">...và {memories.length - 5} mục khác</p>
 						)}
 					</div>
 				</div>
@@ -257,7 +257,7 @@ export const RecallMemoryToolUI = makeAssistantToolUI<RecallMemoryArgs, RecallMe
 					<div className="flex size-8 items-center justify-center rounded-full bg-muted">
 						<SearchIcon className="size-4 text-muted-foreground" />
 					</div>
-					<span className="text-sm text-muted-foreground">Searching memories for "{query}"</span>
+					<span className="text-sm text-muted-foreground">Đang tìm kiếm bộ nhớ cho "{query}"</span>
 				</div>
 			);
 		}

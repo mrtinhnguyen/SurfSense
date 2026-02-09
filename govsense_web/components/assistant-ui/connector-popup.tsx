@@ -188,7 +188,7 @@ export const ConnectorIndicator: FC = () => {
 		<Dialog open={isOpen} onOpenChange={handleOpenChange}>
 			<TooltipIconButton
 				data-joyride="connector-icon"
-				tooltip={hasConnectors ? `Manage ${activeConnectorsCount} connectors` : "Connect your data"}
+				tooltip={hasConnectors ? `Manage ${activeConnectorsCount} connectors` : "Kết nối dữ liệu của bạn"}
 				side="bottom"
 				className={cn(
 					"size-[34px] rounded-full p-1 flex items-center justify-center transition-colors relative",
@@ -197,7 +197,7 @@ export const ConnectorIndicator: FC = () => {
 					"border-0 ring-0 focus:ring-0 shadow-none focus:shadow-none"
 				)}
 				aria-label={
-					hasConnectors ? `View ${activeConnectorsCount} connectors` : "Add your first connector"
+					hasConnectors ? `Xem ${activeConnectorsCount} kết nối` : "Thêm kết nối đầu tiên"
 				}
 				onClick={() => handleOpenChange(true)}
 			>
@@ -216,7 +216,7 @@ export const ConnectorIndicator: FC = () => {
 			</TooltipIconButton>
 
 			<DialogContent className="max-w-3xl w-[95vw] sm:w-full h-[75vh] sm:h-[85vh] flex flex-col p-0 gap-0 overflow-hidden border border-border bg-muted text-foreground focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 [&>button]:right-4 sm:[&>button]:right-12 [&>button]:top-6 sm:[&>button]:top-10 [&>button]:opacity-80 hover:[&>button]:opacity-100 [&>button_svg]:size-5">
-				<DialogTitle className="sr-only">Manage Connectors</DialogTitle>
+				<DialogTitle className="sr-only">Quản lý Kết nối</DialogTitle>
 				{/* YouTube Crawler View - shown when adding YouTube videos */}
 				{isYouTubeView && searchSpaceId ? (
 					<YouTubeCrawlerView searchSpaceId={searchSpaceId} onBack={handleBackFromYouTube} />
@@ -229,7 +229,7 @@ export const ConnectorIndicator: FC = () => {
 						onBack={handleBackFromMCPList}
 						onManage={handleStartEdit}
 						onAddAccount={handleAddNewMCPFromList}
-						addButtonText="Add New MCP Server"
+						addButtonText="Thêm MCP Server mới"
 					/>
 				) : viewingAccountsType ? (
 					<ConnectorAccountsListView
@@ -364,13 +364,13 @@ export const ConnectorIndicator: FC = () => {
 											<AlertDescription className="mt-2">
 												<p className="mb-3">
 													{isAutoMode && !hasGlobalConfigs
-														? "Auto mode is selected but no global LLM configurations are available. Please configure a custom LLM in Settings to process and summarize documents from your connected sources."
-														: "You need to configure a Document Summary LLM before adding connectors. This LLM is used to process and summarize documents from your connected sources."}
+														? "Chế độ tự động đang được chọn nhưng chưa có cấu hình LLM toàn cục nào khả dụng. Vui lòng cấu hình một LLM tùy chỉnh trong phần Cài đặt để xử lý và tóm tắt tài liệu từ các nguồn đã kết nối."
+														: "Bạn cần cấu hình mô hình AI dùng để tóm tắt tài liệu trước khi thêm các bộ kết nối. Mô hình này dùng để xử lý và tổng hợp tài liệu từ các nguồn đã kết nối. Vui lòng cập nhật cấu hình trong phần Cài đặt."}
 												</p>
 												<Button asChild size="sm" variant="outline">
 													<Link href={`/dashboard/${searchSpaceId}/settings`}>
 														<Settings className="mr-2 h-4 w-4" />
-														Go to Settings
+														Đi đến Cài đặt
 													</Link>
 												</Button>
 											</AlertDescription>

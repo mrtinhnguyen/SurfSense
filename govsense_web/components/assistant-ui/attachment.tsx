@@ -215,7 +215,7 @@ const AttachmentUI: FC = () => {
 				{isProcessing ? (
 					<span className="flex items-center gap-1.5">
 						<Spinner size="xs" />
-						Processing...
+						Đang thực hiện...
 					</span>
 				) : (
 					<AttachmentPrimitive.Name />
@@ -229,7 +229,7 @@ const AttachmentRemove: FC = () => {
 	return (
 		<AttachmentPrimitive.Remove asChild>
 			<TooltipIconButton
-				tooltip="Remove file"
+				tooltip="Xóa file đính kèm"
 				className="aui-attachment-tile-remove absolute top-1.5 right-1.5 size-3.5 rounded-full bg-white text-muted-foreground opacity-100 shadow-sm hover:bg-white! [&_svg]:text-black hover:[&_svg]:text-destructive"
 				side="top"
 			>
@@ -341,12 +341,12 @@ export const ComposerAddAttachment: FC = () => {
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<TooltipIconButton
-						tooltip="Upload"
+						tooltip="Tải lên"
 						side="bottom"
 						variant="ghost"
 						size="icon"
 						className="aui-composer-add-attachment size-[34px] rounded-full p-1 font-semibold text-xs hover:bg-muted-foreground/15 dark:border-muted-foreground/15 dark:hover:bg-muted-foreground/30"
-						aria-label="Upload"
+						aria-label="Tải lên"
 					>
 						<PlusIcon className="aui-attachment-add-icon size-5 stroke-[1.5px]" />
 					</TooltipIconButton>
@@ -354,11 +354,11 @@ export const ComposerAddAttachment: FC = () => {
 				<DropdownMenuContent align="start" className="w-48 bg-background border-border">
 					<DropdownMenuItem onSelect={handleChatAttachment} className="cursor-pointer">
 						<Paperclip className="size-4" />
-						<span>Add attachment</span>
+						<span>Thêm file đính kèm</span>
 					</DropdownMenuItem>
 					<DropdownMenuItem onClick={handleFileUpload} className="cursor-pointer">
 						<Upload className="size-4" />
-						<span>Upload Documents</span>
+						<span>Tải lên tài liệu</span>
 					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>

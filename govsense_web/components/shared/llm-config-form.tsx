@@ -66,9 +66,9 @@ const formSchema = z.object({
 	api_key: z.string().min(1, "API key is required"),
 	api_base: z.string().max(500).optional().nullable(),
 	litellm_params: z.record(z.string(), z.any()).optional().nullable(),
-	system_instructions: z.string().optional().default(""),
-	use_default_system_instructions: z.boolean().default(true),
-	citations_enabled: z.boolean().default(true),
+	system_instructions: z.string(),
+	use_default_system_instructions: z.boolean(),
+	citations_enabled: z.boolean(),
 	search_space_id: z.number(),
 });
 
@@ -162,7 +162,7 @@ export function LLMConfigForm({
 				<div className="space-y-4">
 					<div className="flex items-center gap-2 text-xs sm:text-sm font-medium text-muted-foreground">
 						<Bot className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-						Model Configuration
+						Cấu hình Model
 					</div>
 
 					{/* Name & Description */}
@@ -174,7 +174,7 @@ export function LLMConfigForm({
 								<FormItem>
 									<FormLabel className="flex items-center gap-2 text-xs sm:text-sm">
 										<Sparkles className="h-3.5 w-3.5 text-violet-500" />
-										Configuration Name
+										Tên cấu hình LLM
 									</FormLabel>
 									<FormControl>
 										<Input
@@ -194,9 +194,9 @@ export function LLMConfigForm({
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className="text-muted-foreground text-xs sm:text-sm">
-										Description
+										Mô tả
 										<Badge variant="outline" className="ml-2 text-[10px]">
-											Optional
+											Tùy chọn
 										</Badge>
 									</FormLabel>
 									<FormControl>
@@ -218,7 +218,7 @@ export function LLMConfigForm({
 								<Select value={field.value} onValueChange={handleProviderChange}>
 									<FormControl>
 										<SelectTrigger className="transition-all focus:ring-violet-500/50">
-											<SelectValue placeholder="Select a provider" />
+											<SelectValue placeholder="Chọn một nhà cung cấp" />
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent className="max-h-[300px]">
@@ -252,7 +252,7 @@ export function LLMConfigForm({
 									name="custom_provider"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel className="text-xs sm:text-sm">Custom Provider Name</FormLabel>
+											<FormLabel className="text-xs sm:text-sm">Tên nhà cung cấp tùy chỉnh</FormLabel>
 											<FormControl>
 												<Input
 													placeholder="my-custom-provider"
@@ -274,7 +274,7 @@ export function LLMConfigForm({
 						name="model_name"
 						render={({ field }) => (
 							<FormItem className="flex flex-col">
-								<FormLabel className="text-xs sm:text-sm">Model Name</FormLabel>
+								<FormLabel className="text-xs sm:text-sm">Tên Model</FormLabel>
 								<Popover open={modelComboboxOpen} onOpenChange={setModelComboboxOpen}>
 									<PopoverTrigger asChild>
 										<FormControl>
@@ -287,7 +287,7 @@ export function LLMConfigForm({
 													!field.value && "text-muted-foreground"
 												)}
 											>
-												{field.value || "Select or type model name"}
+												{field.value || "Chọn hoặc nhập tên model..."}
 												<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 											</Button>
 										</FormControl>
@@ -295,18 +295,18 @@ export function LLMConfigForm({
 									<PopoverContent className="w-full p-0" align="start">
 										<Command shouldFilter={false}>
 											<CommandInput
-												placeholder={selectedProvider?.example || "Type model name..."}
+												placeholder={selectedProvider?.example || "Nhập tên model..."}
 												value={field.value}
 												onValueChange={field.onChange}
 											/>
 											<CommandList>
 												<CommandEmpty>
 													<div className="py-3 text-center text-sm text-muted-foreground">
-														{field.value ? `Using: "${field.value}"` : "Type your model name"}
+														{field.value ? `Đang sử dụng: "${field.value}"` : "Nhập tên model của bạn"}
 													</div>
 												</CommandEmpty>
 												{availableModels.length > 0 && (
-													<CommandGroup heading="Suggested Models">
+													<CommandGroup heading="Model được gợi ý">
 														{availableModels
 															.filter(
 																(model) =>
@@ -348,7 +348,7 @@ export function LLMConfigForm({
 								</Popover>
 								{selectedProvider?.example && (
 									<FormDescription className="text-[10px] sm:text-xs">
-										Example: {selectedProvider.example}
+										Ví dụ: {selectedProvider.example}
 									</FormDescription>
 								)}
 								<FormMessage />
@@ -370,13 +370,13 @@ export function LLMConfigForm({
 									<FormControl>
 										<Input
 											type="password"
-											placeholder={watchProvider === "OLLAMA" ? "Any value" : "sk-..."}
+											placeholder={watchProvider === "OLLAMA" ? "Bất kỳ giá trị nào" : "sk-..."}
 											{...field}
 										/>
 									</FormControl>
 									{watchProvider === "OLLAMA" && (
 										<FormDescription className="text-[10px] sm:text-xs">
-											Ollama doesn't require auth — enter any value
+											Ollama không yêu cầu xác thực — nhập bất kỳ giá trị nào
 										</FormDescription>
 									)}
 									<FormMessage />
@@ -399,7 +399,7 @@ export function LLMConfigForm({
 									</FormLabel>
 									<FormControl>
 										<Input
-											placeholder={selectedProvider?.apiBase || "https://api.example.com/v1"}
+											placeholder={selectedProvider?.apiBase || "https://api.openai.com/v1"}
 											{...field}
 											value={field.value ?? ""}
 										/>
@@ -454,7 +454,7 @@ export function LLMConfigForm({
 								>
 									<div className="flex items-center gap-2">
 										<Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-										Advanced Parameters
+										Tham số nâng cao
 									</div>
 									<ChevronDown
 										className={cn(
@@ -495,7 +495,7 @@ export function LLMConfigForm({
 						>
 							<div className="flex items-center gap-2">
 								<MessageSquareQuote className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-								System Instructions
+								Hướng dẫn hệ thống
 							</div>
 							<ChevronDown
 								className={cn(
@@ -513,7 +513,7 @@ export function LLMConfigForm({
 							render={({ field }) => (
 								<FormItem>
 									<div className="flex items-center justify-between">
-										<FormLabel className="text-xs sm:text-sm">Instructions for the AI</FormLabel>
+										<FormLabel className="text-xs sm:text-sm">Hướng dẫn cho AI</FormLabel>
 										{defaultInstructions && (
 											<Button
 												type="button"
@@ -524,20 +524,20 @@ export function LLMConfigForm({
 												}
 												className="h-7 text-[10px] sm:text-xs text-muted-foreground hover:text-foreground"
 											>
-												Reset to Default
+												Reset về mặc định
 											</Button>
 										)}
 									</div>
 									<FormControl>
 										<Textarea
-											placeholder="Enter system instructions for the AI..."
+											placeholder="Nhập hướng dẫn cho AI của bạn..."
 											rows={6}
 											className="font-mono text-[11px] sm:text-xs resize-none"
 											{...field}
 										/>
 									</FormControl>
 									<FormDescription className="text-[10px] sm:text-xs">
-										Use {"{resolved_today}"} to include today's date dynamically
+										Dùng {"{resolved_today}"} để chèn ngày hôm nay một cách động
 									</FormDescription>
 									<FormMessage />
 								</FormItem>
@@ -552,10 +552,11 @@ export function LLMConfigForm({
 								<FormItem className="flex items-center justify-between rounded-lg border p-3 bg-muted/30">
 									<div className="space-y-0.5">
 										<FormLabel className="text-xs sm:text-sm font-medium">
-											Enable Citations
+											Cho phép trích dẫn tài liệu nguồn trong câu trả lời
 										</FormLabel>
 										<FormDescription className="text-[10px] sm:text-xs">
-											Include [citation:id] references to source documents
+											Chèn tham chiếu [citation:id] đến tài liệu nguồn được sử dụng trong câu trả lời
+											của AI.
 										</FormDescription>
 									</div>
 									<FormControl>
@@ -582,7 +583,7 @@ export function LLMConfigForm({
 							disabled={isSubmitting}
 							className="text-xs sm:text-sm h-9 sm:h-10"
 						>
-							Cancel
+							Hủy bỏ
 						</Button>
 					)}
 					<Button
@@ -593,12 +594,12 @@ export function LLMConfigForm({
 						{isSubmitting ? (
 							<>
 								<Spinner size="sm" />
-								{mode === "edit" ? "Updating..." : "Creating"}
+								{mode === "edit" ? "Đang cập nhật..." : "Đang tạo..."}
 							</>
 						) : (
 							<>
 								{!compact && <Rocket className="h-3.5 w-3.5 sm:h-4 sm:w-4" />}
-								{submitLabel ?? (mode === "edit" ? "Update Configuration" : "Create Configuration")}
+								{submitLabel ?? (mode === "edit" ? "Cập nhật cấu hình" : "Tạo cấu hình mới")}
 							</>
 						)}
 					</Button>

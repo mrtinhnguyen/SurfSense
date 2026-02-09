@@ -250,7 +250,7 @@ export function ComposioDriveFolderTree({
 								e.stopPropagation();
 								toggleFolder(item);
 							}}
-							aria-label={isExpanded ? `Collapse ${item.name}` : `Expand ${item.name}`}
+							aria-label={isExpanded ? `Thu gọn ${item.name}` : `Mở rộng ${item.name}`}
 						>
 							{isLoading ? (
 								<Spinner size="xs" className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
@@ -311,7 +311,7 @@ export function ComposioDriveFolderTree({
 
 						{children.length === 0 && (
 							<div className="text-[10px] sm:text-xs text-muted-foreground py-1 sm:py-2 pl-1 sm:pl-2">
-								Empty folder
+								Thư mục trống
 							</div>
 						)}
 					</div>

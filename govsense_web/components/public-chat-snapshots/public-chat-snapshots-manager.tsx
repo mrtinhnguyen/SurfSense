@@ -46,7 +46,7 @@ export function PublicChatSnapshotsManager({
 	const handleCopy = useCallback((snapshot: PublicChatSnapshotDetail) => {
 		const publicUrl = `${window.location.origin}/public/${snapshot.share_token}`;
 		navigator.clipboard.writeText(publicUrl);
-		toast.success("Link copied to clipboard");
+		toast.success("Đã sao chép liên kết vào clipboard");
 	}, []);
 
 	const handleDelete = useCallback(
@@ -59,6 +59,7 @@ export function PublicChatSnapshotsManager({
 				});
 			} catch (error) {
 				console.error("Failed to delete snapshot:", error);
+				toast.error("Lỗi khi xóa liên kết công khai");
 			} finally {
 				setDeletingId(undefined);
 			}
@@ -89,7 +90,7 @@ export function PublicChatSnapshotsManager({
 			<Alert variant="destructive">
 				<AlertCircle className="h-4 w-4" />
 				<AlertDescription>
-					Failed to load public chat links. Please try again later.
+					Lỗi khi tải liên kết trò chuyện công khai. Vui lòng thử lại sau.
 				</AlertDescription>
 			</Alert>
 		);
@@ -101,7 +102,7 @@ export function PublicChatSnapshotsManager({
 			<Alert variant="destructive">
 				<Info className="h-4 w-4" />
 				<AlertDescription>
-					You don't have permission to view public chat links in this search space.
+					Bạn không có quyền xem liên kết trò chuyện công khai trong không gian tìm kiếm này.
 				</AlertDescription>
 			</Alert>
 		);
@@ -114,8 +115,7 @@ export function PublicChatSnapshotsManager({
 			<Alert className="py-3 md:py-4">
 				<Globe className="h-3 w-3 md:h-4 md:w-4 shrink-0" />
 				<AlertDescription className="text-xs md:text-sm">
-					Public chat links allow anyone with the URL to view a snapshot of a chat. These links do
-					not update when the original chat changes.
+					Liên kết trò chuyện công khai cho phép bất kỳ ai có URL xem một bản chụp của cuộc trò chuyện. Các liên kết này sẽ không tự động cập nhật khi cuộc trò chuyện gốc thay đổi.
 				</AlertDescription>
 			</Alert>
 
@@ -123,10 +123,10 @@ export function PublicChatSnapshotsManager({
 				<CardHeader className="px-3 md:px-6 pt-3 md:pt-6 pb-2 md:pb-3">
 					<CardTitle className="text-base md:text-lg flex items-center gap-2">
 						<Globe className="h-4 w-4 md:h-5 md:w-5" />
-						Public Chat Links
+						Liên kết trò chuyện công khai
 					</CardTitle>
 					<CardDescription className="text-xs md:text-sm">
-						Manage public links to chats in this search space.
+						Quản lý các liên kết công khai cho các cuộc trò chuyện trong không gian tìm kiếm này.
 					</CardDescription>
 				</CardHeader>
 				<CardContent className="px-3 md:px-6 pb-3 md:pb-6">

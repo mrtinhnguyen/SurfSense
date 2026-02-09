@@ -439,7 +439,7 @@ export const DocumentMentionPicker = forwardRef<
 						{govsenseDocsList.length > 0 && (
 							<>
 								<div className="px-3 py-2 text-xs font-bold text-muted-foreground/55">
-									Tài liệu GovSense
+									Tài liệu hệ thống
 								</div>
 								{govsenseDocsList.map((doc) => {
 									const docKey = `${doc.document_type}:${doc.id}`;

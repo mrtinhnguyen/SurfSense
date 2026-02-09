@@ -129,13 +129,13 @@ export function ThreadList({ searchSpaceId, currentThreadId, className }: Thread
 		<div className={cn("flex h-full flex-col", className)}>
 			{/* Header with New Chat button */}
 			<div className="flex items-center justify-between border-b p-3">
-				<h2 className="font-semibold text-sm">Conversations</h2>
+				<h2 className="font-semibold text-sm">Cuộc trò chuyện</h2>
 				<Button
 					variant="ghost"
 					size="icon"
 					className="size-8"
 					onClick={handleNewThread}
-					title="New Chat"
+					title="Trò chuyện mới"
 				>
 					<PlusIcon className="size-4" />
 				</Button>
@@ -153,7 +153,7 @@ export function ThreadList({ searchSpaceId, currentThreadId, className }: Thread
 							: "text-muted-foreground hover:text-foreground"
 					)}
 				>
-					Active ({state.threads.length})
+					Đang hoạt động ({state.threads.length})
 				</button>
 				<button
 					type="button"
@@ -165,7 +165,7 @@ export function ThreadList({ searchSpaceId, currentThreadId, className }: Thread
 							: "text-muted-foreground hover:text-foreground"
 					)}
 				>
-					Archived ({state.archivedThreads.length})
+					Đã lưu trữ ({state.archivedThreads.length})
 				</button>
 			</div>
 
@@ -175,12 +175,12 @@ export function ThreadList({ searchSpaceId, currentThreadId, className }: Thread
 					<div className="flex flex-col items-center justify-center p-6 text-center">
 						<MessageSquareIcon className="mb-2 size-8 text-muted-foreground/50" />
 						<p className="text-muted-foreground text-sm">
-							{showArchived ? "No archived conversations" : "No conversations yet"}
+							{showArchived ? "Không có cuộc trò chuyện đã lưu trữ" : "Chưa có cuộc trò chuyện nào"}
 						</p>
 						{!showArchived && (
 							<Button variant="outline" size="sm" className="mt-3" onClick={handleNewThread}>
 								<PlusIcon className="mr-1 size-3" />
-								Start a conversation
+								Bắt đầu cuộc trò chuyện mới
 							</Button>
 						)}
 					</div>
@@ -239,7 +239,7 @@ function ThreadListItemComponent({
 		>
 			<MessageSquareIcon className="size-4 shrink-0 text-muted-foreground" />
 			<div className="flex-1 min-w-0">
-				<p className="truncate text-sm font-medium">{thread.title || "New Chat"}</p>
+				<p className="truncate text-sm font-medium">{thread.title || "Trò chuyện mới"}</p>
 				<p className="truncate text-xs text-muted-foreground">
 					{formatRelativeTime(new Date(thread.updatedAt))}
 				</p>
@@ -259,18 +259,18 @@ function ThreadListItemComponent({
 					{isArchived ? (
 						<DropdownMenuItem onClick={onUnarchive}>
 							<RotateCcwIcon className="mr-2 size-4" />
-							Unarchive
+							Khôi phục lại
 						</DropdownMenuItem>
 					) : (
 						<DropdownMenuItem onClick={onArchive}>
 							<ArchiveIcon className="mr-2 size-4" />
-							Archive
+							Lưu trữ
 						</DropdownMenuItem>
 					)}
 					<DropdownMenuSeparator />
 					<DropdownMenuItem onClick={onDelete} className="text-destructive focus:text-destructive">
 						<TrashIcon className="mr-2 size-4" />
-						Delete
+						Xóa
 					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>

@@ -44,7 +44,7 @@ export const ChatSessionStatus: FC<ChatSessionStatusProps> = ({
 			)}
 		>
 			<Spinner size="xs" />
-			<span>Currently responding to {displayName}</span>
+			<span>Hiện đang phản hồi cho {displayName}</span>
 		</div>
 	);
 };

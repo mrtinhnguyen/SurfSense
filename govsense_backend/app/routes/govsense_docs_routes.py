@@ -84,18 +84,26 @@ async def get_govsense_doc(
 async def list_govsense_docs(
     page: int = Query(0, ge=0),
     page_size: int = Query(20, ge=1, le=100),
+    title: str | None = Query(None),
     session: AsyncSession = Depends(get_session),
 ):
     """List GovSense documentation pages."""
     try:
+        # ---- normalize title (CỰC KỲ QUAN TRỌNG) ----
+        if title in ("", "undefined", "null"):
+            title = None
         offset = page * page_size
-
-        # Get total count
-        count_query = select(func.count()).select_from(GovSenseDocsDocument)
-        total = (await session.execute(count_query)).scalar() or 0
 
         # Get page items
         query = select(GovSenseDocsDocument)
+        count_query = select(func.count(GovSenseDocsDocument.id))
+        if title:
+            condition = GovSenseDocsDocument.title.ilike(f"%{title}%")
+            query = query.where(condition)
+            count_query = count_query.where(condition)
+            
+        total = (await session.execute(count_query)).scalar() or 0
+
         result = await session.execute(
             query.order_by(GovSenseDocsDocument.title).offset(offset).limit(page_size)
         )

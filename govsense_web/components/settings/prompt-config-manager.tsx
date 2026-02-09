@@ -69,15 +69,15 @@ export function PromptConfigManager({ searchSpaceId }: PromptConfigManagerProps)
 
 			if (!response.ok) {
 				const errorData = await response.json().catch(() => ({}));
-				throw new Error(errorData.detail || "Failed to save system instructions");
+				throw new Error(errorData.detail || "Lỗi khi lưu hướng dẫn hệ thống");
 			}
 
-			toast.success("System instructions saved successfully");
+			toast.success("Hướng dẫn hệ thống đã được lưu thành công");
 			setHasChanges(false);
 			await fetchSearchSpace();
 		} catch (error: any) {
 			console.error("Error saving system instructions:", error);
-			toast.error(error.message || "Failed to save system instructions");
+			toast.error(error.message || "Lỗi khi lưu hướng dẫn hệ thống");
 		} finally {
 			setSaving(false);
 		}
@@ -116,27 +116,24 @@ export function PromptConfigManager({ searchSpaceId }: PromptConfigManagerProps)
 			>
 				<AlertTriangle className="h-3 w-3 md:h-4 md:w-4 text-amber-600 dark:text-amber-500 shrink-0" />
 				<AlertDescription className="text-amber-800 dark:text-amber-300 text-xs md:text-sm">
-					<span className="font-semibold">Work in Progress:</span> This functionality is currently
-					under development and not yet connected to the backend. Your instructions will be saved
-					but won't affect AI behavior until the feature is fully implemented.
+					  <span className="font-semibold">Đang phát triển:</span> Chức năng này hiện đang trong quá trình xây dựng và chưa được kết nối với hệ thống backend. Các hướng dẫn của bạn sẽ được lưu lại nhưng chưa ảnh hưởng đến hành vi của AI cho đến khi tính năng được hoàn thiện đầy đủ.
 				</AlertDescription>
 			</Alert>
 
 			<Alert className="py-3 md:py-4">
 				<Info className="h-3 w-3 md:h-4 md:w-4 shrink-0" />
 				<AlertDescription className="text-xs md:text-sm">
-					System instructions apply to all AI interactions in this search space. They guide how the
-					AI responds, its tone, focus areas, and behavior patterns.
+					Hướng dẫn hệ thống áp dụng cho tất cả các tương tác AI trong không gian tìm kiếm này. Chúng định hướng cách
+					AI phản hồi, giọng điệu, các lĩnh vực tập trung và mẫu hành vi.
 				</AlertDescription>
 			</Alert>
 
 			{/* System Instructions Card */}
 			<Card>
 				<CardHeader className="px-3 md:px-6 pt-3 md:pt-6 pb-2 md:pb-3">
-					<CardTitle className="text-base md:text-lg">Custom System Instructions</CardTitle>
+					<CardTitle className="text-base md:text-lg">Tùy chỉnh hướng dẫn hệ thống</CardTitle>
 					<CardDescription className="text-xs md:text-sm">
-						Provide specific guidelines for how you want the AI to respond. These instructions will
-						be applied to all answers in this search space.
+						Thiết lập hướng dẫn phản hồi cho AI. Các hướng dẫn sẽ áp dụng cho toàn bộ kết quả trong không gian tìm kiếm này.
 					</CardDescription>
 				</CardHeader>
 				<CardContent className="space-y-3 md:space-y-4 px-3 md:px-6 pb-3 md:pb-6">
@@ -145,7 +142,7 @@ export function PromptConfigManager({ searchSpaceId }: PromptConfigManagerProps)
 							htmlFor="custom-instructions-settings"
 							className="text-sm md:text-base font-medium"
 						>
-							Your Instructions
+							Hướng dẫn của bạn
 						</Label>
 						<Textarea
 							id="custom-instructions-settings"
@@ -157,7 +154,7 @@ export function PromptConfigManager({ searchSpaceId }: PromptConfigManagerProps)
 						/>
 						<div className="flex items-center justify-between">
 							<p className="text-[10px] md:text-xs text-muted-foreground">
-								{customInstructions.length} characters
+								{customInstructions.length} ký tự
 							</p>
 							{customInstructions.length > 0 && (
 								<Button
@@ -166,7 +163,7 @@ export function PromptConfigManager({ searchSpaceId }: PromptConfigManagerProps)
 									onClick={() => setCustomInstructions("")}
 									className="h-auto py-0.5 md:py-1 px-1.5 md:px-2 text-[10px] md:text-xs"
 								>
-									Clear
+									Xóa
 								</Button>
 							)}
 						</div>
@@ -176,7 +173,7 @@ export function PromptConfigManager({ searchSpaceId }: PromptConfigManagerProps)
 						<Alert className="py-2 md:py-3">
 							<Info className="h-3 w-3 md:h-4 md:w-4 shrink-0" />
 							<AlertDescription className="text-xs md:text-sm">
-								No system instructions are currently set. The AI will use default behavior.
+								Chưa có hướng dẫn hệ thống nào được thiết lập. AI sẽ sử dụng hành vi mặc định.
 							</AlertDescription>
 						</Alert>
 					)}
@@ -192,7 +189,7 @@ export function PromptConfigManager({ searchSpaceId }: PromptConfigManagerProps)
 					className="flex items-center gap-2 text-xs md:text-sm h-9 md:h-10"
 				>
 					<RotateCcw className="h-3.5 w-3.5 md:h-4 md:w-4" />
-					Reset Changes
+					Hủy thay đổi
 				</Button>
 				<Button
 					onClick={handleSave}
@@ -200,7 +197,7 @@ export function PromptConfigManager({ searchSpaceId }: PromptConfigManagerProps)
 					className="flex items-center gap-2 text-xs md:text-sm h-9 md:h-10"
 				>
 					<Save className="h-3.5 w-3.5 md:h-4 md:w-4" />
-					{saving ? "Saving" : "Save Instructions"}
+					{saving ? "Đang lưu..." : "Lưu hướng dẫn"}
 				</Button>
 			</div>
 
@@ -211,7 +208,7 @@ export function PromptConfigManager({ searchSpaceId }: PromptConfigManagerProps)
 				>
 					<Info className="h-3 w-3 md:h-4 md:w-4 text-blue-600 dark:text-blue-500 shrink-0" />
 					<AlertDescription className="text-blue-800 dark:text-blue-300 text-xs md:text-sm">
-						You have unsaved changes. Click "Save Instructions" to apply them.
+						Bạn có thay đổi chưa được lưu. Nhấn "Lưu hướng dẫn" để áp dụng các thay đổi.
 					</AlertDescription>
 				</Alert>
 			)}

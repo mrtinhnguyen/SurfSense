@@ -106,7 +106,7 @@ export function HeroSection() {
 			</h2>
 			{/* // TODO:aCTUAL DESCRITION */}
 			<p className="relative z-50 mx-auto mt-4 max-w-lg px-4 text-center text-base/6 text-gray-600 dark:text-gray-200">
-				Nền tảng trợ lý AI nội bộ cho cán bộ, giúp tra cứu – tổng hợp – phối hợp công việc nhanh, chính xác và an toàn.
+				Nền tảng trợ lý AI nội bộ Sở Dân tộc và Tôn giáo Hà Nội dành cho cán bộ, giúp tra cứu – tổng hợp – phối hợp công việc nhanh, chính xác và an toàn.
 			</p>
 			<div className="mb-10 mt-8 flex w-full flex-col items-center justify-center gap-4 px-8 sm:flex-row md:mb-20">
 				<GetStartedButton />

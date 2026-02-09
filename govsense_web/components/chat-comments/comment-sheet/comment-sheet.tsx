@@ -1,6 +1,7 @@
 "use client";
 
 import { MessageSquare } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
 	Drawer,
 	DrawerContent,
@@ -20,6 +21,7 @@ export function CommentSheet({
 	commentCount = 0,
 	side = "bottom",
 }: CommentSheetProps) {
+	const t = useTranslations("comments");
 	const isBottomSheet = side === "bottom";
 
 	// Use Drawer for mobile (bottom), Sheet for medium screens (right)
@@ -31,7 +33,7 @@ export function CommentSheet({
 					<DrawerHeader className="px-4 pb-3 pt-2">
 						<DrawerTitle className="flex items-center gap-2 text-base font-semibold">
 							<MessageSquare className="size-5" />
-							Comments
+							{t("title")}
 							{commentCount > 0 && (
 								<span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
 									{commentCount}
@@ -57,7 +59,7 @@ export function CommentSheet({
 				<SheetHeader className="flex-shrink-0 px-4 py-4">
 					<SheetTitle className="flex items-center gap-2 text-base font-semibold">
 						<MessageSquare className="size-5" />
-						Comments
+						{t("title")}
 						{commentCount > 0 && (
 							<span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
 								{commentCount}

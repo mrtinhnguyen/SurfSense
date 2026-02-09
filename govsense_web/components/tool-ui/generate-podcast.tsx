@@ -113,7 +113,7 @@ function PodcastGeneratingState({ title }: { title: string }) {
 					<div className="mt-1.5 sm:mt-2 flex items-center gap-1.5 sm:gap-2 text-muted-foreground">
 						<Spinner size="sm" className="size-3 sm:size-4" />
 						<span className="text-xs sm:text-sm">
-							Generating podcast. This may take a few minutes.
+							Đang tạo podcast. Quá trình này có thể mất vài phút.
 						</span>
 					</div>
 					<div className="mt-2 sm:mt-3">
@@ -141,7 +141,7 @@ function PodcastErrorState({ title, error }: { title: string; error: string }) {
 					<h3 className="font-semibold text-foreground text-sm sm:text-base leading-tight">
 						{title}
 					</h3>
-					<p className="mt-1 text-destructive text-xs sm:text-sm">Failed to generate podcast</p>
+					<p className="mt-1 text-destructive text-xs sm:text-sm">Lỗi khi tạo podcast</p>
 					<p className="mt-1.5 sm:mt-2 text-muted-foreground text-xs sm:text-sm">{error}</p>
 				</div>
 			</div>
@@ -165,7 +165,7 @@ function AudioLoadingState({ title }: { title: string }) {
 					</h3>
 					<div className="mt-1.5 sm:mt-2 flex items-center gap-1.5 sm:gap-2 text-muted-foreground">
 						<Spinner size="sm" className="size-3 sm:size-4" />
-						<span className="text-xs sm:text-sm">Loading audio...</span>
+						<span className="text-xs sm:text-sm">Đang tải audio...</span>
 					</div>
 				</div>
 			</div>
@@ -303,12 +303,12 @@ function PodcastPlayer({
 			{transcript && transcript.length > 0 && (
 				<details className="mt-2 sm:mt-3 rounded-lg border bg-muted/30 p-2.5 sm:p-3">
 					<summary className="cursor-pointer font-medium text-muted-foreground text-xs sm:text-sm hover:text-foreground">
-						View transcript ({transcript.length} entries)
+						Xem bản ghi âm ({transcript.length} mục)
 					</summary>
 					<div className="mt-2 sm:mt-3 space-y-2 sm:space-y-3 max-h-64 sm:max-h-96 overflow-y-auto">
 						{transcript.map((entry, idx) => (
 							<div key={`${idx}-${entry.speaker_id}`} className="text-xs sm:text-sm">
-								<span className="font-medium text-primary">Speaker {entry.speaker_id + 1}:</span>{" "}
+								<span className="font-medium text-primary">Người nói {entry.speaker_id + 1}:</span>{" "}
 								<span className="text-muted-foreground">{entry.dialog}</span>
 							</div>
 						))}
@@ -395,8 +395,8 @@ function PodcastStatusPoller({ podcastId, title }: { podcastId: number; title: s
 				title={podcastStatus.title || title}
 				description={
 					podcastStatus.transcript_entries
-						? `${podcastStatus.transcript_entries} dialogue entries`
-						: "GovSense AI-generated podcast"
+						? `${podcastStatus.transcript_entries} mục hội thoại`
+						: "Podcast do GovSense AI tạo ra"
 				}
 			/>
 		);
@@ -434,7 +434,7 @@ export const GeneratePodcastToolUI = makeAssistantToolUI<
 					<div className="my-4 rounded-xl border border-muted p-3 sm:p-4 text-muted-foreground">
 						<p className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
 							<MicIcon className="size-3.5 sm:size-4" />
-							<span className="line-through">Podcast generation cancelled</span>
+							<span className="line-through">Đã hủy tạo Podcast</span>
 						</p>
 					</div>
 				);
@@ -471,10 +471,10 @@ export const GeneratePodcastToolUI = makeAssistantToolUI<
 						</div>
 						<div className="min-w-0">
 							<p className="text-amber-600 dark:text-amber-400 text-xs sm:text-sm font-medium">
-								Podcast already in progress
+								Podcast đã đang được tạo
 							</p>
 							<p className="text-muted-foreground text-[10px] sm:text-xs mt-0.5">
-								Please wait for the current podcast to complete.
+								Vui lòng đợi podcast hiện tại hoàn thành.
 							</p>
 						</div>
 					</div>
@@ -513,10 +513,10 @@ export const GeneratePodcastToolUI = makeAssistantToolUI<
 						</div>
 						<div>
 							<p className="text-muted-foreground text-sm">
-								This podcast was generated with an older version and cannot be displayed.
+								Podcast này được tạo với phiên bản cũ và không thể hiển thị.
 							</p>
 							<p className="text-muted-foreground text-xs mt-0.5">
-								Please generate a new podcast to listen.
+								Vui lòng tạo podcast mới để nghe.
 							</p>
 						</div>
 					</div>
@@ -525,6 +525,6 @@ export const GeneratePodcastToolUI = makeAssistantToolUI<
 		}
 
 		// Fallback - missing required data
-		return <PodcastErrorState title={title} error="Missing podcast ID" />;
+		return <PodcastErrorState title={title} error="Thiếu ID podcast" />;
 	},
 });

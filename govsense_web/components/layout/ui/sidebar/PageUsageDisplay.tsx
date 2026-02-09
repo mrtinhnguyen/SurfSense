@@ -15,7 +15,7 @@ export function PageUsageDisplay({ pagesUsed, pagesLimit }: PageUsageDisplayProp
 	const t = useTranslations("sidebar");
 	const params = useParams();
 	const searchSpaceId = params.search_space_id;
-	const usagePercentage = (pagesUsed / pagesLimit) * 100;
+	const usagePercentage = (pagesUsed / pagesLimit) * 200;
 
 	return (
 		<div className="px-3 py-3 border-t">

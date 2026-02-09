@@ -44,9 +44,9 @@ const ICON_SIZE_CLASS = "size-4" as const;
 
 /** Status text mapping */
 const STATUS_TEXT_MAP: Record<string, string> = {
-	[THINKING_STATUS.SEARCHING]: "Searching knowledge base...",
-	[THINKING_STATUS.SYNTHESIZING]: "Synthesizing response...",
-	[THINKING_STATUS.THINKING]: "Thinking...",
+	[THINKING_STATUS.SEARCHING]: "Đang tìm kiếm trong cơ sở dữ liệu...",
+	[THINKING_STATUS.SYNTHESIZING]: "Đang tổng hợp phản hồi...",
+	[THINKING_STATUS.THINKING]: "Đang suy nghĩ...",
 } as const;
 
 // ============================================================================
@@ -99,7 +99,7 @@ type DeepAgentThinkingResult = z.infer<typeof DeepAgentThinkingResultSchema>;
 /** Default fallback step when parsing fails */
 const DEFAULT_FALLBACK_STEP: ThinkingStep = {
 	id: "unknown",
-	title: "Processing...",
+	title: "Đang xử lý...",
 	items: [],
 	status: STEP_STATUS.PENDING,
 } as const;

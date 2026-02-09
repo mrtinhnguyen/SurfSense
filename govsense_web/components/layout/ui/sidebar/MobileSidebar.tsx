@@ -125,7 +125,7 @@ export function MobileSidebar({
 							className="h-10 w-10 shrink-0 rounded-lg border-2 border-dashed border-muted-foreground/30 hover:border-muted-foreground/50"
 						>
 							<Plus className="h-5 w-5 text-muted-foreground" />
-							<span className="sr-only">Add search space</span>
+							<span className="sr-only">Thêm không gian tìm kiếm</span>
 						</Button>
 					</div>
 				</div>

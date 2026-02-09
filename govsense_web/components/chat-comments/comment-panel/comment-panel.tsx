@@ -1,6 +1,7 @@
 "use client";
 
 import { useAtom } from "jotai";
+import { useTranslations } from "next-intl";
 import { currentUserAtom } from "@/atoms/user/user-query.atoms";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
@@ -33,6 +34,7 @@ export function CommentPanel({
 	maxHeight,
 	variant = "desktop",
 }: CommentPanelProps) {
+	const t = useTranslations("comments");
 	const [{ data: currentUser }] = useAtom(currentUserAtom);
 
 	const handleCommentSubmit = (content: string) => {
@@ -51,7 +53,7 @@ export function CommentPanel({
 			>
 				<div className="flex items-center gap-2 text-sm text-muted-foreground">
 					<div className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-					Loading comments...
+					{t("loading")}
 				</div>
 			</div>
 		);
@@ -110,8 +112,8 @@ export function CommentPanel({
 				<CommentComposer
 					members={members}
 					membersLoading={membersLoading}
-					placeholder="Comment or @mention"
-					submitLabel="Comment"
+					placeholder={t("placeholder")}
+					submitLabel={t("comment_button")}
 					isSubmitting={isSubmitting}
 					onSubmit={handleCommentSubmit}
 					autoFocus={!hasThreads}

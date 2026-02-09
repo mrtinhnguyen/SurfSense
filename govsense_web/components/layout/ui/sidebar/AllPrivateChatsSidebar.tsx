@@ -423,7 +423,7 @@ export function AllPrivateChatsSidebar({
 									</p>
 									{!showArchived && (
 										<p className="text-xs text-muted-foreground/70 mt-1">
-											{t("start_new_chat_hint") || "Start a new chat from the chat page"}
+											{t("start_new_chat_hint") || "Bắt đầu một cuộc trò chuyện mới từ trang trò chuyện"}
 										</p>
 									)}
 								</div>

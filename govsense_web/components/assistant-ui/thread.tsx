@@ -23,6 +23,7 @@ import {
 	RefreshCwIcon,
 	SquareIcon,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { type FC, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -134,10 +135,11 @@ const ThreadContent: FC<{ header?: React.ReactNode }> = ({ header }) => {
 };
 
 const ThreadScrollToBottom: FC = () => {
+	const t = useTranslations("chat");
 	return (
 		<ThreadPrimitive.ScrollToBottom asChild>
 			<TooltipIconButton
-				tooltip="Scroll to bottom"
+				tooltip={t("scroll_to_bottom")}
 				variant="outline"
 				className="aui-thread-scroll-to-bottom -top-12 absolute z-10 self-center rounded-full p-4 disabled:invisible dark:bg-background dark:hover:bg-accent"
 			>
@@ -147,52 +149,47 @@ const ThreadScrollToBottom: FC = () => {
 	);
 };
 
-const getTimeBasedGreeting = (user?: { display_name?: string | null; email?: string }): string => {
+const getTimeBasedGreeting = (
+	user: { display_name?: string | null; email?: string } | undefined,
+	t: ReturnType<typeof useTranslations<"chat">>
+): string => {
 	const hour = new Date().getHours();
 
 	// Extract first name: prefer display_name, fall back to email extraction
 	let firstName: string | null = null;
 
 	if (user?.display_name?.trim()) {
-		// Use display_name if available and not empty
-		// Extract first name from display_name (take first word)
 		const nameParts = user.display_name.trim().split(/\s+/);
 		firstName = nameParts[0].charAt(0).toUpperCase() + nameParts[0].slice(1).toLowerCase();
 	} else if (user?.email) {
-		// Fall back to email extraction if display_name is not available
 		firstName =
 			user.email.split("@")[0].split(".")[0].charAt(0).toUpperCase() +
 			user.email.split("@")[0].split(".")[0].slice(1);
 	}
 
-	// Array of greeting variations for each time period
-	const morningGreetings = ["Good morning", "Fresh start today", "Morning", "Hey there"];
+	// Greeting key variations for each time period
+	const morningKeys = ["greeting_morning", "greeting_fresh_start", "greeting_morning_short", "greeting_hey"] as const;
+	const afternoonKeys = ["greeting_afternoon", "greeting_afternoon_short", "greeting_hey", "greeting_hi"] as const;
+	const eveningKeys = ["greeting_evening", "greeting_evening_short", "greeting_hey", "greeting_hi"] as const;
+	const nightKeys = ["greeting_night", "greeting_evening_short", "greeting_hey", "greeting_winding_down"] as const;
+	const lateNightKeys = ["greeting_still_up", "greeting_night_owl", "greeting_late", "greeting_hi"] as const;
 
-	const afternoonGreetings = ["Good afternoon", "Afternoon", "Hey there", "Hi there"];
-
-	const eveningGreetings = ["Good evening", "Evening", "Hey there", "Hi there"];
-
-	const nightGreetings = ["Good night", "Evening", "Hey there", "Winding down"];
-
-	const lateNightGreetings = ["Still up", "Night owl mode", "Up past bedtime", "Hi there"];
-
-	// Select a random greeting based on time
-	let greeting: string;
+	let keys: readonly string[];
 	if (hour < 5) {
-		// Late night: midnight to 5 AM
-		greeting = lateNightGreetings[Math.floor(Math.random() * lateNightGreetings.length)];
+		keys = lateNightKeys;
 	} else if (hour < 12) {
-		greeting = morningGreetings[Math.floor(Math.random() * morningGreetings.length)];
+		keys = morningKeys;
 	} else if (hour < 18) {
-		greeting = afternoonGreetings[Math.floor(Math.random() * afternoonGreetings.length)];
+		keys = afternoonKeys;
 	} else if (hour < 22) {
-		greeting = eveningGreetings[Math.floor(Math.random() * eveningGreetings.length)];
+		keys = eveningKeys;
 	} else {
-		// Night: 10 PM to midnight
-		greeting = nightGreetings[Math.floor(Math.random() * nightGreetings.length)];
+		keys = nightKeys;
 	}
 
-	// Add personalization with first name if available
+	const key = keys[Math.floor(Math.random() * keys.length)];
+	const greeting = t(key as Parameters<typeof t>[0]);
+
 	if (firstName) {
 		return `${greeting}, ${firstName}!`;
 	}
@@ -202,9 +199,10 @@ const getTimeBasedGreeting = (user?: { display_name?: string | null; email?: str
 
 const ThreadWelcome: FC = () => {
 	const { data: user } = useAtomValue(currentUserAtom);
+	const t = useTranslations("chat");
 
 	// Memoize greeting so it doesn't change on re-renders (only on user change)
-	const greeting = useMemo(() => getTimeBasedGreeting(user), [user]);
+	const greeting = useMemo(() => getTimeBasedGreeting(user, t), [user, t]);
 
 	return (
 		<div className="aui-thread-welcome-root mx-auto flex w-full max-w-(--thread-max-width) grow flex-col items-center px-4 relative">
@@ -491,6 +489,7 @@ interface ComposerActionProps {
 }
 
 const ComposerAction: FC<ComposerActionProps> = ({ isBlockedByOtherUser = false }) => {
+	const t = useTranslations("chat");
 	// Check if any attachments are still being processed (running AND progress < 100)
 	// When progress is 100, processing is done but waiting for send()
 	const hasProcessingAttachments = useAssistantState(({ composer }) =>
@@ -540,7 +539,7 @@ const ComposerAction: FC<ComposerActionProps> = ({ isBlockedByOtherUser = false 
 			{hasProcessingAttachments && (
 				<div className="flex items-center gap-1.5 text-muted-foreground text-xs">
 					<Loader2 className="size-3 animate-spin" />
-					<span>Processing...</span>
+					<span>{t("processing")}</span>
 				</div>
 			)}
 
@@ -548,7 +547,7 @@ const ComposerAction: FC<ComposerActionProps> = ({ isBlockedByOtherUser = false 
 			{!hasModelConfigured && !hasProcessingAttachments && (
 				<div className="flex items-center gap-1.5 text-amber-600 dark:text-amber-400 text-xs">
 					<AlertCircle className="size-3" />
-					<span>Select a model</span>
+					<span>{t("select_model")}</span>
 				</div>
 			)}
 
@@ -557,14 +556,14 @@ const ComposerAction: FC<ComposerActionProps> = ({ isBlockedByOtherUser = false 
 					<TooltipIconButton
 						tooltip={
 							isBlockedByOtherUser
-								? "Wait for AI to finish responding"
+								? t("wait_for_ai")
 								: !hasModelConfigured
-									? "Please select a model from the header to start chatting"
+									? t("select_model_hint")
 									: hasProcessingAttachments
-										? "Wait for attachments to process"
+										? t("wait_attachments")
 										: isComposerEmpty
-											? "Enter a message to send"
-											: "Send message"
+											? t("enter_message")
+											: t("send_message")
 						}
 						side="bottom"
 						type="submit"
@@ -574,7 +573,7 @@ const ComposerAction: FC<ComposerActionProps> = ({ isBlockedByOtherUser = false 
 							"aui-composer-send size-8 rounded-full",
 							isSendDisabled && "cursor-not-allowed opacity-50"
 						)}
-						aria-label="Send message"
+						aria-label={t("send_message")}
 						disabled={isSendDisabled}
 					>
 						<ArrowUpIcon className="aui-composer-send-icon size-4" />
@@ -589,7 +588,7 @@ const ComposerAction: FC<ComposerActionProps> = ({ isBlockedByOtherUser = false 
 						variant="default"
 						size="icon"
 						className="aui-composer-cancel size-8 rounded-full"
-						aria-label="Stop generating"
+						aria-label={t("stop_generating")}
 					>
 						<SquareIcon className="aui-composer-cancel-icon size-3 fill-current" />
 					</Button>
@@ -659,6 +658,7 @@ const AssistantMessageInner: FC = () => {
 };
 
 const AssistantActionBar: FC = () => {
+	const t = useTranslations("chat");
 	return (
 		<ActionBarPrimitive.Root
 			hideWhenRunning
@@ -667,7 +667,7 @@ const AssistantActionBar: FC = () => {
 			className="aui-assistant-action-bar-root -ml-1 col-start-3 row-start-2 flex gap-1 text-muted-foreground data-floating:absolute data-floating:rounded-md data-floating:border data-floating:bg-background data-floating:p-1 data-floating:shadow-sm"
 		>
 			<ActionBarPrimitive.Copy asChild>
-				<TooltipIconButton tooltip="Copy">
+				<TooltipIconButton tooltip={t("copy")}>
 					<AssistantIf condition={({ message }) => message.isCopied}>
 						<CheckIcon />
 					</AssistantIf>
@@ -677,12 +677,12 @@ const AssistantActionBar: FC = () => {
 				</TooltipIconButton>
 			</ActionBarPrimitive.Copy>
 			<ActionBarPrimitive.ExportMarkdown asChild>
-				<TooltipIconButton tooltip="Export as Markdown">
+				<TooltipIconButton tooltip={t("export_markdown")}>
 					<DownloadIcon />
 				</TooltipIconButton>
 			</ActionBarPrimitive.ExportMarkdown>
 			<ActionBarPrimitive.Reload asChild>
-				<TooltipIconButton tooltip="Refresh">
+				<TooltipIconButton tooltip={t("refresh")}>
 					<RefreshCwIcon />
 				</TooltipIconButton>
 			</ActionBarPrimitive.Reload>
@@ -691,6 +691,7 @@ const AssistantActionBar: FC = () => {
 };
 
 const EditComposer: FC = () => {
+	const t = useTranslations("chat");
 	return (
 		<MessagePrimitive.Root className="aui-edit-composer-wrapper mx-auto flex w-full max-w-(--thread-max-width) flex-col px-2 py-3">
 			<ComposerPrimitive.Root className="aui-edit-composer-root ml-auto flex w-full max-w-[85%] flex-col rounded-2xl bg-muted">
@@ -701,11 +702,11 @@ const EditComposer: FC = () => {
 				<div className="aui-edit-composer-footer mx-3 mb-3 flex items-center gap-2 self-end">
 					<ComposerPrimitive.Cancel asChild>
 						<Button variant="ghost" size="sm">
-							Cancel
+							{t("cancel_edit")}
 						</Button>
 					</ComposerPrimitive.Cancel>
 					<ComposerPrimitive.Send asChild>
-						<Button size="sm">Update</Button>
+						<Button size="sm">{t("update_edit")}</Button>
 					</ComposerPrimitive.Send>
 				</div>
 			</ComposerPrimitive.Root>
@@ -714,6 +715,7 @@ const EditComposer: FC = () => {
 };
 
 const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({ className, ...rest }) => {
+	const t = useTranslations("chat");
 	return (
 		<BranchPickerPrimitive.Root
 			hideWhenSingleBranch
@@ -724,7 +726,7 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({ className, ...rest
 			{...rest}
 		>
 			<BranchPickerPrimitive.Previous asChild>
-				<TooltipIconButton tooltip="Previous">
+				<TooltipIconButton tooltip={t("previous")}>
 					<ChevronLeftIcon />
 				</TooltipIconButton>
 			</BranchPickerPrimitive.Previous>
@@ -732,7 +734,7 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({ className, ...rest
 				<BranchPickerPrimitive.Number /> / <BranchPickerPrimitive.Count />
 			</span>
 			<BranchPickerPrimitive.Next asChild>
-				<TooltipIconButton tooltip="Next">
+				<TooltipIconButton tooltip={t("next")}>
 					<ChevronRightIcon />
 				</TooltipIconButton>
 			</BranchPickerPrimitive.Next>

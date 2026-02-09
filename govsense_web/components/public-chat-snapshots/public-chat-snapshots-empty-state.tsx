@@ -8,8 +8,8 @@ interface PublicChatSnapshotsEmptyStateProps {
 }
 
 export function PublicChatSnapshotsEmptyState({
-	title = "No public chat links",
-	description = "When you create public links to share chats, they will appear here.",
+	title = "Không có liên kết trò chuyện công khai nào",
+	description = "Khi bạn tạo liên kết công khai để chia sẻ cuộc trò chuyện, chúng sẽ xuất hiện ở đây.",
 }: PublicChatSnapshotsEmptyStateProps) {
 	return (
 		<div className="flex flex-col items-center justify-center py-12 text-center">

@@ -8,6 +8,7 @@ import {
 } from "@assistant-ui/react";
 import { useAtom, useAtomValue } from "jotai";
 import { CheckIcon, CopyIcon, DownloadIcon, MessageSquare, RefreshCwIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { FC } from "react";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -96,6 +97,7 @@ function parseMessageId(assistantUiMessageId: string | undefined): number | null
 }
 
 export const AssistantMessage: FC = () => {
+	const t = useTranslations("chat");
 	const [messageHeight, setMessageHeight] = useState<number | undefined>(undefined);
 	const [isSheetOpen, setIsSheetOpen] = useState(false);
 	const messageRef = useRef<HTMLDivElement>(null);
@@ -235,11 +237,9 @@ export const AssistantMessage: FC = () => {
 					>
 						<MessageSquare className={cn("size-4", hasComments && "fill-current")} />
 						{hasComments ? (
-							<span>
-								{commentCount} {commentCount === 1 ? "comment" : "comments"}
-							</span>
+							<span>{t("comment_count", { count: commentCount })}</span>
 						) : (
-							<span>Add comment</span>
+							<span>{t("add_comment")}</span>
 						)}
 					</button>
 				</div>
@@ -261,6 +261,7 @@ export const AssistantMessage: FC = () => {
 
 const AssistantActionBar: FC = () => {
 	const { isLast } = useMessage();
+	const t = useTranslations("chat");
 
 	return (
 		<ActionBarPrimitive.Root
@@ -270,7 +271,7 @@ const AssistantActionBar: FC = () => {
 			className="aui-assistant-action-bar-root -ml-1 col-start-3 row-start-2 flex gap-1 text-muted-foreground md:data-floating:absolute md:data-floating:rounded-md md:data-floating:border md:data-floating:bg-background md:data-floating:p-1 md:data-floating:shadow-sm [&>button]:opacity-100 md:[&>button]:opacity-[var(--aui-button-opacity,1)]"
 		>
 			<ActionBarPrimitive.Copy asChild>
-				<TooltipIconButton tooltip="Copy">
+				<TooltipIconButton tooltip={t("copy")}>
 					<AssistantIf condition={({ message }) => message.isCopied}>
 						<CheckIcon />
 					</AssistantIf>
@@ -280,14 +281,14 @@ const AssistantActionBar: FC = () => {
 				</TooltipIconButton>
 			</ActionBarPrimitive.Copy>
 			<ActionBarPrimitive.ExportMarkdown asChild>
-				<TooltipIconButton tooltip="Export as Markdown">
+				<TooltipIconButton tooltip={t("export_markdown")}>
 					<DownloadIcon />
 				</TooltipIconButton>
 			</ActionBarPrimitive.ExportMarkdown>
 			{/* Only allow regenerating the last assistant message */}
 			{isLast && (
 				<ActionBarPrimitive.Reload asChild>
-					<TooltipIconButton tooltip="Refresh">
+					<TooltipIconButton tooltip={t("refresh")}>
 						<RefreshCwIcon />
 					</TooltipIconButton>
 				</ActionBarPrimitive.Reload>

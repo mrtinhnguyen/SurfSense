@@ -13,11 +13,11 @@ export const EditComposer: FC = () => {
 				<div className="aui-edit-composer-footer mx-3 mb-3 flex items-center gap-2 self-end">
 					<ComposerPrimitive.Cancel asChild>
 						<Button variant="ghost" size="sm">
-							Cancel
+							Hủy bỏ
 						</Button>
 					</ComposerPrimitive.Cancel>
 					<ComposerPrimitive.Send asChild>
-						<Button size="sm">Update</Button>
+						<Button size="sm">Cập nhật</Button>
 					</ComposerPrimitive.Send>
 				</div>
 			</ComposerPrimitive.Root>

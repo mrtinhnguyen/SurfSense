@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type {
 	GlobalNewLLMConfig,
+	LiteLLMProvider,
 	NewLLMConfigPublic,
 } from "@/contracts/types/new-llm-config.types";
 import { cn } from "@/lib/utils";
@@ -148,7 +149,7 @@ export function ModelConfigSidebar({
 					agent_llm_id: config.id,
 				},
 			});
-			toast.success(`Now using ${config.name}`);
+			toast.success(`Hiện tại đang sử dụng ${config.name}`);
 			onOpenChange(false);
 		} catch (error) {
 			console.error("Failed to set model:", error);
@@ -219,17 +220,17 @@ export function ModelConfigSidebar({
 												className="gap-1 text-xs bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300"
 											>
 												<Zap className="size-3" />
-												Recommended
+												Khuyến nghị
 											</Badge>
 										) : isGlobal ? (
 											<Badge variant="secondary" className="gap-1 text-xs">
 												<Globe className="size-3" />
-												Global
+												Hệ thống
 											</Badge>
 										) : mode !== "create" ? (
 											<Badge variant="outline" className="gap-1 text-xs">
 												<User className="size-3" />
-												Custom
+												Tùy chỉnh
 											</Badge>
 										) : null}
 										{config && !isAutoMode && (
@@ -245,7 +246,7 @@ export function ModelConfigSidebar({
 								className="h-8 w-8 rounded-full"
 							>
 								<X className="h-4 w-4" />
-								<span className="sr-only">Close</span>
+								<span className="sr-only">Đóng</span>
 							</Button>
 						</div>
 
@@ -257,8 +258,7 @@ export function ModelConfigSidebar({
 									<Alert className="mb-6 border-violet-500/30 bg-violet-500/5">
 										<Shuffle className="size-4 text-violet-500" />
 										<AlertDescription className="text-sm text-violet-700 dark:text-violet-400">
-											Auto mode automatically distributes requests across all available LLM
-											providers to optimize performance and avoid rate limits.
+											Chế độ tự động tự động phân bổ yêu cầu giữa các nhà cung cấp LLM hiện có để tăng hiệu suất và hạn chế bị giới hạn truy cập.
 										</AlertDescription>
 									</Alert>
 								)}
@@ -268,8 +268,7 @@ export function ModelConfigSidebar({
 									<Alert className="mb-6 border-amber-500/30 bg-amber-500/5">
 										<AlertCircle className="size-4 text-amber-500" />
 										<AlertDescription className="text-sm text-amber-700 dark:text-amber-400">
-											Global configurations are read-only. To customize settings, create a new
-											configuration based on this template.
+											Cấu hình hệ thống chỉ có thể đọc. Để tùy chỉnh cài đặt, hãy tạo một cấu hình mới dựa trên mẫu này.
 										</AlertDescription>
 									</Alert>
 								)}
@@ -282,7 +281,7 @@ export function ModelConfigSidebar({
 										onCancel={() => onOpenChange(false)}
 										isSubmitting={isSubmitting}
 										mode="create"
-										submitLabel="Create & Use"
+										submitLabel="Tạo & Sử dụng"
 									/>
 								) : isAutoMode && config ? (
 									// Special view for Auto mode
@@ -291,7 +290,7 @@ export function ModelConfigSidebar({
 										<div className="space-y-4">
 											<div className="space-y-1.5">
 												<div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-													How It Works
+													Cách hoạt động
 												</div>
 												<p className="text-sm text-muted-foreground">{config.description}</p>
 											</div>
@@ -300,17 +299,17 @@ export function ModelConfigSidebar({
 
 											<div className="space-y-3">
 												<div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-													Key Benefits
+													Lợi ích chính
 												</div>
 												<div className="space-y-2">
 													<div className="flex items-start gap-3 p-3 rounded-lg bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-800/50">
 														<Zap className="size-4 text-violet-600 dark:text-violet-400 mt-0.5 shrink-0" />
 														<div>
 															<p className="text-sm font-medium text-violet-900 dark:text-violet-100">
-																Automatic Load Balancing
+																Tự động phân bổ tải
 															</p>
 															<p className="text-xs text-violet-700 dark:text-violet-300">
-																Distributes requests across all configured LLM providers
+																Phân bổ yêu cầu giữa tất cả các nhà cung cấp LLM được cấu hình để tối ưu hóa hiệu suất và độ tin cậy
 															</p>
 														</div>
 													</div>
@@ -318,10 +317,10 @@ export function ModelConfigSidebar({
 														<Zap className="size-4 text-violet-600 dark:text-violet-400 mt-0.5 shrink-0" />
 														<div>
 															<p className="text-sm font-medium text-violet-900 dark:text-violet-100">
-																Rate Limit Protection
+																Bảo vệ giới hạn tỷ lệ
 															</p>
 															<p className="text-xs text-violet-700 dark:text-violet-300">
-																Automatically handles rate limits with cooldowns and retries
+																Tự động xử lý giới hạn tỷ lệ với thời gian chờ và thử lại thông minh để duy trì trải nghiệm người dùng mượt mà
 															</p>
 														</div>
 													</div>
@@ -329,10 +328,10 @@ export function ModelConfigSidebar({
 														<Zap className="size-4 text-violet-600 dark:text-violet-400 mt-0.5 shrink-0" />
 														<div>
 															<p className="text-sm font-medium text-violet-900 dark:text-violet-100">
-																Automatic Failover
+																Dự phòng tự động
 															</p>
 															<p className="text-xs text-violet-700 dark:text-violet-300">
-																Falls back to other providers if one becomes unavailable
+																Tự động chuyển sang các nhà cung cấp khác nếu một nhà cung cấp trở nên không khả dụng, đảm bảo thời gian hoạt động liên tục
 															</p>
 														</div>
 													</div>
@@ -347,7 +346,7 @@ export function ModelConfigSidebar({
 												className="flex-1"
 												onClick={() => onOpenChange(false)}
 											>
-												Close
+												Đóng
 											</Button>
 											<Button
 												className="flex-1 gap-2 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700"
@@ -355,11 +354,11 @@ export function ModelConfigSidebar({
 												disabled={isSubmitting}
 											>
 												{isSubmitting ? (
-													<>Loading...</>
+													<>Đang tải...</>
 												) : (
 													<>
 														<ChevronRight className="size-4" />
-														Use Auto Mode
+														Dùng chế độ tự động
 													</>
 												)}
 											</Button>
@@ -373,14 +372,14 @@ export function ModelConfigSidebar({
 											<div className="grid gap-4 sm:grid-cols-2">
 												<div className="space-y-1.5">
 													<div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-														Configuration Name
+														Tên cấu hình
 													</div>
 													<p className="text-sm font-medium">{config.name}</p>
 												</div>
 												{config.description && (
 													<div className="space-y-1.5">
 														<div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-															Description
+															Mô tả
 														</div>
 														<p className="text-sm text-muted-foreground">{config.description}</p>
 													</div>
@@ -392,7 +391,7 @@ export function ModelConfigSidebar({
 											<div className="grid gap-4 sm:grid-cols-2">
 												<div className="space-y-1.5">
 													<div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-														Provider
+														Nhà cung cấp
 													</div>
 													<p className="text-sm font-medium">{config.provider}</p>
 												</div>
@@ -409,13 +408,13 @@ export function ModelConfigSidebar({
 											<div className="grid gap-4 sm:grid-cols-2">
 												<div className="space-y-2">
 													<div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-														Citations
+														Nguồn trích dẫn
 													</div>
 													<Badge
 														variant={config.citations_enabled ? "default" : "secondary"}
 														className="w-fit"
 													>
-														{config.citations_enabled ? "Enabled" : "Disabled"}
+														{config.citations_enabled ? "Đã bật" : "Đã tắt"}
 													</Badge>
 												</div>
 											</div>
@@ -425,7 +424,7 @@ export function ModelConfigSidebar({
 													<div className="h-px bg-border/50" />
 													<div className="space-y-1.5">
 														<div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-															System Instructions
+															Hướng dẫn hệ thống
 														</div>
 														<div className="p-3 rounded-lg bg-muted/50 border border-border/50">
 															<p className="text-xs font-mono text-muted-foreground whitespace-pre-wrap line-clamp-10">
@@ -444,7 +443,7 @@ export function ModelConfigSidebar({
 												className="flex-1"
 												onClick={() => onOpenChange(false)}
 											>
-												Close
+												Đóng
 											</Button>
 											<Button
 												className="flex-1 gap-2"
@@ -452,11 +451,11 @@ export function ModelConfigSidebar({
 												disabled={isSubmitting}
 											>
 												{isSubmitting ? (
-													<>Loading...</>
+													<>Đang tải...</>
 												) : (
 													<>
 														<ChevronRight className="size-4" />
-														Use This Model
+														Dùng Model Này
 													</>
 												)}
 											</Button>
@@ -469,10 +468,10 @@ export function ModelConfigSidebar({
 										initialData={{
 											name: config.name,
 											description: config.description,
-											provider: config.provider,
+											provider: config.provider as LiteLLMProvider,
 											custom_provider: config.custom_provider,
 											model_name: config.model_name,
-											api_key: config.api_key,
+											api_key: "api_key" in config ? (config.api_key as string) : "",
 											api_base: config.api_base,
 											litellm_params: config.litellm_params,
 											system_instructions: config.system_instructions,
@@ -484,7 +483,7 @@ export function ModelConfigSidebar({
 										onCancel={() => onOpenChange(false)}
 										isSubmitting={isSubmitting}
 										mode="edit"
-										submitLabel="Save Changes"
+										submitLabel="Lưu thay đổi"
 									/>
 								) : null}
 							</div>

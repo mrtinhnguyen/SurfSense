@@ -48,15 +48,15 @@ export const ThinkingStepsDisplay: FC<{ steps: ThinkingStep[]; isThreadRunning?:
 	// Generate header text
 	const getHeaderText = () => {
 		if (allCompleted) {
-			return `Reviewed ${completedSteps} ${completedSteps === 1 ? "step" : "steps"}`;
+			return `Đã xem xét ${completedSteps} ${completedSteps === 1 ? "bước" : "bước"}`;
 		}
 		if (inProgressStep) {
 			return inProgressStep.title;
 		}
 		if (isProcessing) {
-			return `Processing ${completedSteps}/${steps.length} steps`;
+			return `Đang xử lý ${completedSteps}/${steps.length} bước`;
 		}
-		return `Reviewed ${completedSteps} ${completedSteps === 1 ? "step" : "steps"}`;
+		return `Đã xem xét ${completedSteps} ${completedSteps === 1 ? "bước" : "bước"}`;
 	};
 
 	return (

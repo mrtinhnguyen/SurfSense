@@ -74,8 +74,8 @@ export function GeneralSettingsManager({ searchSpaceId }: GeneralSettingsManager
 			setHasChanges(false);
 			await fetchSearchSpace();
 		} catch (error: any) {
-			console.error("Error saving search space details:", error);
-			toast.error(error.message || "Failed to save search space details");
+			console.error("Lỗi khi lưu thông tin không gian tìm kiếm:", error);
+			toast.error(error.message || "Không thể lưu thông tin không gian tìm kiếm.");
 		} finally {
 			setSaving(false);
 		}
@@ -111,17 +111,16 @@ export function GeneralSettingsManager({ searchSpaceId }: GeneralSettingsManager
 			<Alert className="py-3 md:py-4">
 				<Info className="h-3 w-3 md:h-4 md:w-4 shrink-0" />
 				<AlertDescription className="text-xs md:text-sm">
-					Update your search space name and description. These details help identify and organize
-					your workspace.
+					Cập nhật tên và mô tả không gian tìm kiếm. Những chi tiết này giúp xác định và tổ chức không gian làm việc của bạn.
 				</AlertDescription>
 			</Alert>
 
 			{/* Search Space Details Card */}
 			<Card>
 				<CardHeader className="px-3 md:px-6 pt-3 md:pt-6 pb-2 md:pb-3">
-					<CardTitle className="text-base md:text-lg">Search Space Details</CardTitle>
+					<CardTitle className="text-base md:text-lg">Thông tin không gian tìm kiếm</CardTitle>
 					<CardDescription className="text-xs md:text-sm">
-						Manage the basic information for this search space.
+						Quản lý thông tin cơ bản cho không gian tìm kiếm này.
 					</CardDescription>
 				</CardHeader>
 				<CardContent className="space-y-4 md:space-y-5 px-3 md:px-6 pb-3 md:pb-6">

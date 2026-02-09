@@ -149,7 +149,7 @@ export class ImageErrorBoundary extends Component<
 					<div className="aspect-square bg-muted flex items-center justify-center">
 						<div className="flex flex-col items-center gap-2 text-muted-foreground">
 							<ImageIcon className="size-8" />
-							<p className="text-sm">Failed to load image</p>
+							<p className="text-sm">Lỗi khi tải hình ảnh</p>
 						</div>
 					</div>
 				</Card>
@@ -176,7 +176,7 @@ export function ImageSkeleton({ maxWidth = "512px" }: { maxWidth?: string }) {
 /**
  * Image Loading State
  */
-export function ImageLoading({ title = "Loading image..." }: { title?: string }) {
+export function ImageLoading({ title = "Đang tải hình ảnh..." }: { title?: string }) {
 	return (
 		<Card className="w-full max-w-md overflow-hidden">
 			<div className="aspect-square bg-muted flex items-center justify-center">
@@ -231,7 +231,7 @@ export function Image({
 				<div className="aspect-square bg-muted flex items-center justify-center">
 					<div className="flex flex-col items-center gap-2 text-muted-foreground">
 						<ImageIcon className="size-8" />
-						<p className="text-sm">Image not available</p>
+						<p className="text-sm">Hình ảnh không khả dụng</p>
 					</div>
 				</div>
 			</Card>

@@ -40,7 +40,7 @@ export class PlanErrorBoundary extends Component<PlanErrorBoundaryProps, PlanErr
 				<Card className="w-full max-w-xl border-destructive/50">
 					<CardContent className="pt-6">
 						<div className="flex items-center gap-2 text-destructive">
-							<span className="text-sm">Failed to render plan</span>
+							<span className="text-sm">Lỗi khi hiển thị kế hoạch</span>
 						</div>
 					</CardContent>
 				</Card>

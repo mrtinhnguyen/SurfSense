@@ -229,10 +229,17 @@ class BaseApiService {
 			}
 
 			return data;
-		} catch (error) {
-			console.error("Request failed:", JSON.stringify(error));
+		} catch (error: any) {
+			console.error("Request failed", {
+				name: error?.name,
+				status: error?.status,
+				statusText: error?.statusText,
+				message: error?.message,
+				data: error?.data,
+				raw: error,
+			});
 			throw error;
-		}
+			}
 	}
 
 	async get<T>(

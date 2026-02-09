@@ -121,7 +121,7 @@ const DocumentUploadPopupContent: FC<{
 	return (
 		<Dialog open={isOpen} onOpenChange={onOpenChange}>
 			<DialogContent className="max-w-4xl w-[95vw] sm:w-full h-[calc(100dvh-2rem)] sm:h-[85vh] flex flex-col p-0 gap-0 overflow-hidden border border-border bg-muted text-foreground [&>button]:right-3 sm:[&>button]:right-12 [&>button]:top-3 sm:[&>button]:top-10 [&>button]:opacity-80 hover:[&>button]:opacity-100 [&>button]:z-[100] [&>button_svg]:size-4 sm:[&>button_svg]:size-5">
-				<DialogTitle className="sr-only">Upload Document</DialogTitle>
+				<DialogTitle className="sr-only">Tải lên Tài liệu</DialogTitle>
 
 				{/* Scrollable container for mobile */}
 				<div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
@@ -134,10 +134,10 @@ const DocumentUploadPopupContent: FC<{
 							</div>
 							<div className="flex-1 min-w-0 pr-8 sm:pr-0">
 								<h2 className="text-base sm:text-2xl font-semibold tracking-tight">
-									Upload Documents
+									Tải lên Tài liệu
 								</h2>
 								<p className="text-xs sm:text-base text-muted-foreground mt-0.5 sm:mt-1 line-clamp-1 sm:line-clamp-none">
-									Upload and sync your documents to your search space
+									Tải lên và đồng bộ tài liệu của bạn vào không gian tìm kiếm của bạn
 								</p>
 							</div>
 						</div>
@@ -148,17 +148,17 @@ const DocumentUploadPopupContent: FC<{
 						{!isLoading && !hasDocumentSummaryLLM ? (
 							<Alert variant="destructive" className="mb-4">
 								<AlertTriangle className="h-4 w-4" />
-								<AlertTitle>LLM Configuration Required</AlertTitle>
+								<AlertTitle>Cấu hình LLM cần thiết</AlertTitle>
 								<AlertDescription className="mt-2">
 									<p className="mb-3">
 										{isAutoMode && !hasGlobalConfigs
-											? "Auto mode is selected but no global LLM configurations are available. Please configure a custom LLM in Settings to process and summarize your uploaded documents."
-											: "You need to configure a Document Summary LLM before uploading files. This LLM is used to process and summarize your uploaded documents."}
+											? "Chế độ tự động đang được chọn nhưng chưa có cấu hình LLM toàn cục nào khả dụng. Vui lòng cấu hình một LLM tùy chỉnh trong phần Cài đặt để xử lý và tóm tắt tài liệu đã tải lên."
+											: "Bạn cần cấu hình mô hình AI dùng để tóm tắt tài liệu trước khi tải lên tệp tin. Mô hình này dùng để xử lý và tổng hợp tài liệu đã tải lên."}
 									</p>
 									<Button asChild size="sm" variant="outline">
 										<Link href={`/dashboard/${searchSpaceId}/settings`}>
 											<Settings className="mr-2 h-4 w-4" />
-											Go to Settings
+											Đi đến Cài đặt
 										</Link>
 									</Button>
 								</AlertDescription>

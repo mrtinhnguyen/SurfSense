@@ -102,17 +102,17 @@ export function parseSerializableArticle(data: unknown): ArticleProps {
 	const parsed = result.data;
 	return {
 		id: parsed.id,
-		assetId: parsed.assetId,
+		assetId: parsed.assetId ?? undefined,
 		title: parsed.title,
-		description: parsed.description,
-		content: parsed.content,
-		href: parsed.href,
-		domain: parsed.domain,
-		author: parsed.author,
-		date: parsed.date,
-		wordCount: parsed.word_count ?? parsed.wordCount,
-		wasTruncated: parsed.was_truncated ?? parsed.wasTruncated,
-		error: parsed.error,
+		description: parsed.description ?? undefined,
+		content: parsed.content ?? undefined,
+		href: parsed.href ?? undefined,
+		domain: parsed.domain ?? undefined,
+		author: parsed.author ?? undefined,
+		date: parsed.date ?? undefined,
+		wordCount: parsed.word_count ?? parsed.wordCount ?? undefined,
+		wasTruncated: parsed.was_truncated ?? parsed.wasTruncated ?? undefined,
+		error: parsed.error ?? undefined,
 	};
 }
 
@@ -166,7 +166,7 @@ export function Article({
 							<AlertCircleIcon className="size-5 text-destructive" />
 						</div>
 						<div className="flex-1 min-w-0">
-							<p className="font-medium text-destructive text-sm">Failed to scrape webpage</p>
+							<p className="font-medium text-destructive text-sm">Lỗi khi trích xuất nội dung trang web</p>
 							{href && <p className="text-muted-foreground text-xs mt-0.5 truncate">{href}</p>}
 							<p className="text-muted-foreground text-xs mt-1">{error}</p>
 						</div>
@@ -228,7 +228,7 @@ export function Article({
 											</span>
 										</TooltipTrigger>
 										<TooltipContent>
-											<p>Source: {domain}</p>
+											<p>Nguồn: {domain}</p>
 										</TooltipContent>
 									</Tooltip>
 								)}
@@ -242,7 +242,7 @@ export function Article({
 											</span>
 										</TooltipTrigger>
 										<TooltipContent>
-											<p>Author: {author}</p>
+											<p>Tác giả: {author}</p>
 										</TooltipContent>
 									</Tooltip>
 								)}
@@ -266,8 +266,8 @@ export function Article({
 										<TooltipContent>
 											<p>
 												{wasTruncated
-													? "Content was truncated due to length"
-													: "Full article content available"}
+													? "Nội dung bị cắt ngắn do độ dài vượt quá giới hạn"
+													: "Nội dung đầy đủ của bài viết có sẵn"}
 											</p>
 										</TooltipContent>
 									</Tooltip>
@@ -386,7 +386,7 @@ export class ArticleErrorBoundary extends Component<ErrorBoundaryProps, ErrorBou
 						<CardContent className="p-4">
 							<div className="flex items-center gap-3">
 								<AlertCircleIcon className="size-5 text-destructive" />
-								<p className="text-sm text-destructive">Failed to render article</p>
+								<p className="text-sm text-destructive">Lỗi khi hiển thị bài viết</p>
 							</div>
 						</CardContent>
 					</Card>

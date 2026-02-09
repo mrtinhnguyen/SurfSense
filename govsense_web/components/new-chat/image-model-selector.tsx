@@ -117,10 +117,10 @@ export function ImageModelSelector({ className, onAddNew, onEdit }: ImageModelSe
 					search_space_id: Number(searchSpaceId),
 					data: { image_generation_config_id: configId },
 				});
-				toast.success("Image model updated");
+				toast.success("Đã cập nhật mô hình xử lý hình ảnh");
 				setOpen(false);
-			} catch {
-				toast.error("Failed to switch image model");
+			} catch (error) {
+				toast.error("Lỗi khi chuyển đổi mô hình xử lý hình ảnh");
 			}
 		},
 		[currentConfig, searchSpaceId, updatePreferences]
@@ -136,7 +136,7 @@ export function ImageModelSelector({ className, onAddNew, onEdit }: ImageModelSe
 				className={cn("h-8 gap-2 px-3 text-sm border-border/60", className)}
 			>
 				<Plus className="size-4 text-teal-600" />
-				<span className="hidden md:inline">Add Image Model</span>
+				<span className="hidden md:inline">Thêm Mô hình Xử lý Hình ảnh</span>
 			</Button>
 		);
 	}
@@ -168,21 +168,21 @@ export function ImageModelSelector({ className, onAddNew, onEdit }: ImageModelSe
 									variant="secondary"
 									className="ml-1 text-[10px] px-1.5 py-0 h-4 bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300"
 								>
-									Auto
+									Tự động
 								</Badge>
 							) : (
 								<Badge
 									variant="secondary"
 									className="ml-1 text-[10px] px-1.5 py-0 h-4 bg-teal-50 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300"
 								>
-									Image
+									Hình ảnh
 								</Badge>
 							)}
 						</>
 					) : (
 						<>
 							<ImageIcon className="h-4 w-4 text-muted-foreground" />
-							<span className="text-muted-foreground hidden md:inline">Image Model</span>
+							<span className="text-muted-foreground hidden md:inline">Mô hình Xử lý Hình ảnh</span>
 						</>
 					)}
 					<ChevronDown
@@ -203,7 +203,7 @@ export function ImageModelSelector({ className, onAddNew, onEdit }: ImageModelSe
 					{totalModels > 3 && (
 						<div className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2">
 							<CommandInput
-								placeholder="Search image models..."
+								placeholder="Tìm kiếm mô hình xử lý hình ảnh..."
 								value={searchQuery}
 								onValueChange={setSearchQuery}
 								className="h-7 md:h-8 text-xs md:text-sm border-0 bg-transparent focus:ring-0 placeholder:text-muted-foreground/60"
@@ -214,7 +214,7 @@ export function ImageModelSelector({ className, onAddNew, onEdit }: ImageModelSe
 						<CommandEmpty className="py-8 text-center">
 							<div className="flex flex-col items-center gap-2">
 								<ImageIcon className="size-8 text-muted-foreground" />
-								<p className="text-sm text-muted-foreground">No image models found</p>
+								<p className="text-sm text-muted-foreground">Không tìm thấy mô hình xử lý hình ảnh</p>
 							</div>
 						</CommandEmpty>
 
@@ -223,7 +223,7 @@ export function ImageModelSelector({ className, onAddNew, onEdit }: ImageModelSe
 							<CommandGroup>
 								<div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground tracking-wider">
 									<Globe className="size-3.5" />
-									Global Image Models
+									Mô hình Hình ảnh hệ thống
 								</div>
 							{filteredGlobal.map((config) => {
 								const isSelected = currentConfig?.id === config.id;
@@ -255,7 +255,7 @@ export function ImageModelSelector({ className, onAddNew, onEdit }: ImageModelSe
 															variant="secondary"
 															className="text-[9px] px-1 py-0 h-3.5 bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300 border-0"
 														>
-															Recommended
+															Khuyến nghị
 														</Badge>
 													)}
 													{isSelected && <Check className="size-3.5 text-primary shrink-0" />}
@@ -288,7 +288,7 @@ export function ImageModelSelector({ className, onAddNew, onEdit }: ImageModelSe
 								<CommandGroup>
 									<div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground tracking-wider">
 										<User className="size-3.5" />
-										Your Image Models
+										Mô hình Hình ảnh của bạn
 									</div>
 								{filteredUser.map((config) => {
 									const isSelected = currentConfig?.id === config.id;
@@ -352,7 +352,7 @@ export function ImageModelSelector({ className, onAddNew, onEdit }: ImageModelSe
 									}}
 								>
 									<Plus className="size-4 text-teal-600" />
-									<span className="text-sm font-medium">Add Image Model</span>
+									<span className="text-sm font-medium">Thêm Mô hình Xử lý Hình ảnh</span>
 								</Button>
 							</div>
 						)}

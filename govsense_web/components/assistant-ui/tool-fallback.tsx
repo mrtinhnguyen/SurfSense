@@ -51,7 +51,7 @@ export const ToolFallback: ToolCallMessagePartComponent = ({
 					{cancelledReason && (
 						<div className="aui-tool-fallback-cancelled-root px-4">
 							<p className="aui-tool-fallback-cancelled-header font-semibold text-muted-foreground">
-								Cancelled reason:
+								Lý do hủy bỏ:
 							</p>
 							<p className="aui-tool-fallback-cancelled-reason text-muted-foreground">
 								{cancelledReason}

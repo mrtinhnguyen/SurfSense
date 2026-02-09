@@ -673,16 +673,16 @@ export function LayoutDataProvider({
 					<DialogHeader>
 						<DialogTitle className="flex items-center gap-2">
 							<PencilIcon className="h-5 w-5" />
-							<span>{tSidebar("rename_chat") || "Rename Chat"}</span>
+							<span>{tSidebar("rename_chat") || "Đổi tên cuộc trò chuyện"}</span>
 						</DialogTitle>
 						<DialogDescription>
-							{tSidebar("rename_chat_description") || "Enter a new name for this conversation."}
+							{tSidebar("rename_chat_description") || "Nhập tên mới cho cuộc trò chuyện này."}
 						</DialogDescription>
 					</DialogHeader>
 					<Input
 						value={newChatTitle}
 						onChange={(e) => setNewChatTitle(e.target.value)}
-						placeholder={tSidebar("chat_title_placeholder") || "Chat title"}
+						placeholder={tSidebar("chat_title_placeholder") || "Tên cuộc trò chuyện"}
 						onKeyDown={(e) => {
 							if (e.key === "Enter" && !isRenamingChat && newChatTitle.trim()) {
 								confirmRenameChat();
@@ -705,12 +705,12 @@ export function LayoutDataProvider({
 							{isRenamingChat ? (
 								<>
 									<span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-									{tSidebar("renaming") || "Renaming..."}
+									{tSidebar("renaming") || "Đang đổi tên..."}
 								</>
 							) : (
 								<>
 									<PencilIcon className="h-4 w-4" />
-									{tSidebar("rename") || "Rename"}
+									{tSidebar("rename") || "Đổi tên"}
 								</>
 							)}
 						</Button>

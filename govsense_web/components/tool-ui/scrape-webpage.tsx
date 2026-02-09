@@ -60,7 +60,7 @@ function ScrapeErrorState({ url, error }: { url: string; error: string }) {
 					<AlertCircleIcon className="size-6 text-destructive" />
 				</div>
 				<div className="flex-1 min-w-0">
-					<p className="font-medium text-destructive text-sm">Failed to scrape webpage</p>
+					<p className="font-medium text-destructive text-sm">Lỗi khi trích xuất trang web</p>
 					<p className="text-muted-foreground text-xs mt-0.5 truncate">{url}</p>
 					<p className="text-muted-foreground text-xs mt-1">{error}</p>
 				</div>
@@ -77,7 +77,7 @@ function ScrapeCancelledState({ url }: { url: string }) {
 		<div className="my-4 rounded-xl border border-muted p-4 text-muted-foreground max-w-md">
 			<p className="flex items-center gap-2">
 				<FileTextIcon className="size-4" />
-				<span className="line-through truncate">Scraping: {url}</span>
+				<span className="line-through truncate">Đang trích xuất: {url}</span>
 			</p>
 		</div>
 	);
@@ -93,7 +93,7 @@ function ParsedArticle({ result }: { result: unknown }) {
 		<Article
 			{...article}
 			maxWidth="480px"
-			responseActions={[{ id: "open", label: "Open Source", variant: "default" }]}
+			responseActions={[{ id: "open", label: "Mở nguồn", variant: "default" }]}
 			onResponseAction={(id) => {
 				if (id === "open" && article.href) {
 					window.open(article.href, "_blank", "noopener,noreferrer");
@@ -124,7 +124,7 @@ export const ScrapeWebpageToolUI = makeAssistantToolUI<ScrapeWebpageArgs, Scrape
 		if (status.type === "running" || status.type === "requires-action") {
 			return (
 				<div className="my-4">
-					<ArticleLoading title={`Scraping ${url}...`} />
+					<ArticleLoading title={`Đang trích xuất ${url}...`} />
 				</div>
 			);
 		}
@@ -148,7 +148,7 @@ export const ScrapeWebpageToolUI = makeAssistantToolUI<ScrapeWebpageArgs, Scrape
 		if (!result) {
 			return (
 				<div className="my-4">
-					<ArticleLoading title={`Extracting content from ${url}...`} />
+					<ArticleLoading title={`Đang trích xuất nội dung từ ${url}...`} />
 				</div>
 			);
 		}

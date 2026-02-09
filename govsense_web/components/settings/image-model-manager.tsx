@@ -254,9 +254,9 @@ export function ImageModelManager({ searchSpaceId }: ImageModelManagerProps) {
 				},
 			});
 			setHasPrefChanges(false);
-			toast.success("Image generation model preference saved!");
+			toast.success("Mô hình tạo hình ảnh được lưu!");
 		} catch {
-			toast.error("Failed to save preference");
+			toast.error("Không thể lưu tùy chọn mô hình tạo hình ảnh");
 		} finally {
 			setIsSavingPref(false);
 		}
@@ -282,7 +282,7 @@ export function ImageModelManager({ searchSpaceId }: ImageModelManagerProps) {
 					className="flex items-center gap-2 text-xs md:text-sm h-8 md:h-9"
 				>
 					<RefreshCw className={cn("h-3 w-3 md:h-4 md:w-4", configsLoading && "animate-spin")} />
-					Refresh
+					Làm mới
 				</Button>
 			</div>
 
@@ -306,7 +306,7 @@ export function ImageModelManager({ searchSpaceId }: ImageModelManagerProps) {
 						<span className="font-medium">
 							{globalConfigs.filter((g) => !("is_auto_mode" in g && g.is_auto_mode)).length} global image model(s)
 						</span>{" "}
-						available from your administrator.
+						khả dụng từ quản trị viên của bạn.
 					</AlertDescription>
 				</Alert>
 			)}
@@ -321,9 +321,9 @@ export function ImageModelManager({ searchSpaceId }: ImageModelManagerProps) {
 									<ImageIcon className="w-4 h-4 md:w-5 md:h-5" />
 								</div>
 								<div>
-									<CardTitle className="text-base md:text-lg">Active Image Model</CardTitle>
+									<CardTitle className="text-base md:text-lg">Mô hình tạo hình ảnh đang hoạt động</CardTitle>
 									<CardDescription className="text-xs md:text-sm">
-										Select which model to use for image generation
+										Chọn mô hình để sử dụng cho việc tạo hình ảnh trong không gian tìm kiếm này.
 									</CardDescription>
 								</div>
 							</div>
@@ -338,7 +338,7 @@ export function ImageModelManager({ searchSpaceId }: ImageModelManagerProps) {
 								</SelectTrigger>
 								<SelectContent>
 									<SelectItem value="unassigned">
-										<span className="text-muted-foreground">Unassigned</span>
+										<span className="text-muted-foreground">Chưa gán</span>
 									</SelectItem>
 									{globalConfigs.length > 0 && (
 										<>
@@ -383,10 +383,10 @@ export function ImageModelManager({ searchSpaceId }: ImageModelManagerProps) {
 							{hasPrefChanges && (
 								<div className="flex gap-2 pt-1">
 									<Button size="sm" onClick={handleSavePref} disabled={isSavingPref} className="text-xs h-8">
-										{isSavingPref ? "Saving..." : "Save"}
+										{isSavingPref ? "Đang lưu..." : "Lưu"}
 									</Button>
 									<Button size="sm" variant="outline" onClick={() => { setSelectedPrefId(preferences.image_generation_config_id ?? ""); setHasPrefChanges(false); }} className="text-xs h-8">
-										Reset
+										Đặt lại
 									</Button>
 								</div>
 							)}
@@ -408,10 +408,10 @@ export function ImageModelManager({ searchSpaceId }: ImageModelManagerProps) {
 			{!isLoading && (
 				<div className="space-y-4 md:space-y-6">
 					<div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-						<h3 className="text-lg md:text-xl font-semibold tracking-tight">Your Image Models</h3>
+						<h3 className="text-lg md:text-xl font-semibold tracking-tight">Mô hình tạo hình ảnh của bạn</h3>
 						<Button onClick={openNewDialog} className="flex items-center gap-2 text-xs md:text-sm h-8 md:h-9">
 							<Plus className="h-3 w-3 md:h-4 md:w-4" />
-							Add Image Model
+							Thêm mô hình tạo hình ảnh
 						</Button>
 					</div>
 
@@ -421,13 +421,13 @@ export function ImageModelManager({ searchSpaceId }: ImageModelManagerProps) {
 								<div className="rounded-full bg-gradient-to-br from-teal-500/10 to-cyan-500/10 p-4 md:p-6 mb-4">
 									<Wand2 className="h-8 w-8 md:h-12 md:w-12 text-teal-600 dark:text-teal-400" />
 								</div>
-								<h3 className="text-lg font-semibold mb-2">No Image Models Yet</h3>
+								<h3 className="text-lg font-semibold mb-2">Chưa có mô hình tạo hình ảnh nào</h3>
 								<p className="text-xs md:text-sm text-muted-foreground max-w-sm mb-4">
-									Add your own image generation model (DALL-E 3, GPT Image 1, etc.)
+									Thêm mô hình tạo hình ảnh của riêng bạn (DALL-E 3, GPT Image 1, v.v.)
 								</p>
 								<Button onClick={openNewDialog} size="lg" className="gap-2 text-xs md:text-sm">
 									<Plus className="h-3 w-3 md:h-4 md:w-4" />
-									Add First Image Model
+									Thêm mô hình tạo hình ảnh đầu tiên
 								</Button>
 							</CardContent>
 						</Card>
@@ -483,7 +483,7 @@ export function ImageModelManager({ searchSpaceId }: ImageModelManagerProps) {
 																				<Trash2 className="h-3.5 w-3.5" />
 																			</Button>
 																		</TooltipTrigger>
-																		<TooltipContent>Delete</TooltipContent>
+																		<TooltipContent>Xóa</TooltipContent>
 																	</Tooltip>
 																</TooltipProvider>
 															</div>
@@ -509,14 +509,14 @@ export function ImageModelManager({ searchSpaceId }: ImageModelManagerProps) {
 							{editingConfig ? "Edit Image Model" : "Add Image Model"}
 						</DialogTitle>
 						<DialogDescription>
-							{editingConfig ? "Update your image generation model" : "Configure a new image generation model (DALL-E 3, GPT Image 1, etc.)"}
+							{editingConfig ? "Cập nhật mô hình tạo hình ảnh của bạn" : "Cấu hình mô hình tạo hình ảnh mới (DALL-E 3, GPT Image 1, v.v.)"}
 						</DialogDescription>
 					</DialogHeader>
 
 					<div className="space-y-4 pt-2">
 						{/* Name */}
 						<div className="space-y-2">
-							<Label className="text-sm font-medium">Name *</Label>
+							<Label className="text-sm font-medium">Tên *</Label>
 							<Input
 								placeholder="e.g., My DALL-E 3"
 								value={formData.name}
@@ -526,9 +526,9 @@ export function ImageModelManager({ searchSpaceId }: ImageModelManagerProps) {
 
 						{/* Description */}
 						<div className="space-y-2">
-							<Label className="text-sm font-medium">Description</Label>
+							<Label className="text-sm font-medium">Mô tả</Label>
 							<Input
-								placeholder="Optional description"
+								placeholder="Mô tả tùy chọn cho mô hình này"
 								value={formData.description}
 								onChange={(e) => setFormData((p) => ({ ...p, description: e.target.value }))}
 							/>
@@ -538,7 +538,7 @@ export function ImageModelManager({ searchSpaceId }: ImageModelManagerProps) {
 
 						{/* Provider */}
 						<div className="space-y-2">
-							<Label className="text-sm font-medium">Provider *</Label>
+							<Label className="text-sm font-medium">Nhà cung cấp *</Label>
 							<Select
 								value={formData.provider}
 								onValueChange={(val) => setFormData((p) => ({ ...p, provider: val, model_name: "" }))}
@@ -561,25 +561,25 @@ export function ImageModelManager({ searchSpaceId }: ImageModelManagerProps) {
 
 						{/* Model Name */}
 						<div className="space-y-2">
-							<Label className="text-sm font-medium">Model Name *</Label>
+							<Label className="text-sm font-medium">Tên mô hình *</Label>
 							{suggestedModels.length > 0 ? (
 								<Popover open={modelComboboxOpen} onOpenChange={setModelComboboxOpen}>
 									<PopoverTrigger asChild>
 										<Button variant="outline" role="combobox" className="w-full justify-between font-normal">
-											{formData.model_name || "Select or type a model..."}
+											{formData.model_name || "Chọn hoặc nhập tên mô hình..."}
 											<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 										</Button>
 									</PopoverTrigger>
 									<PopoverContent className="w-full p-0" align="start">
 										<Command>
 											<CommandInput
-												placeholder="Search or type model name..."
+												placeholder="Tìm kiếm hoặc nhập tên mô hình..."
 												value={formData.model_name}
 												onValueChange={(val) => setFormData((p) => ({ ...p, model_name: val }))}
 											/>
 											<CommandList>
 												<CommandEmpty>
-													<span className="text-xs text-muted-foreground">Type a custom model name</span>
+													<span className="text-xs text-muted-foreground">Không tìm thấy mô hình phù hợp. Nhập tên mô hình tùy chỉnh.</span>
 												</CommandEmpty>
 												<CommandGroup>
 													{suggestedModels.map((m) => (
@@ -660,7 +660,7 @@ export function ImageModelManager({ searchSpaceId }: ImageModelManagerProps) {
 								disabled={isSubmitting || !formData.name || !formData.provider || !formData.model_name || !formData.api_key}
 							>
 								{isSubmitting ? <Spinner size="sm" className="mr-2" /> : null}
-								{editingConfig ? "Save Changes" : "Create & Use"}
+								{editingConfig ? "Lưu thay đổi" : "Tạo & Sử dụng"}
 							</Button>
 						</div>
 					</div>
@@ -673,16 +673,16 @@ export function ImageModelManager({ searchSpaceId }: ImageModelManagerProps) {
 					<AlertDialogHeader>
 						<AlertDialogTitle className="flex items-center gap-2">
 							<Trash2 className="h-5 w-5 text-destructive" />
-							Delete Image Model
+							Xóa Mô Hình Hình Ảnh
 						</AlertDialogTitle>
 						<AlertDialogDescription>
-							Are you sure you want to delete <span className="font-semibold text-foreground">{configToDelete?.name}</span>?
+							Bạn có chắc chắn muốn xóa mô hình hình ảnh <span className="font-semibold text-foreground">{configToDelete?.name}</span> không?
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
-						<AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+						<AlertDialogCancel disabled={isDeleting}>Hủy</AlertDialogCancel>
 						<AlertDialogAction onClick={handleDelete} disabled={isDeleting} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-							{isDeleting ? <><Spinner size="sm" className="mr-2" />Deleting</> : <><Trash2 className="mr-2 h-4 w-4" />Delete</>}
+							{isDeleting ? <><Spinner size="sm" className="mr-2" />Đang xóa</> : <><Trash2 className="mr-2 h-4 w-4" />Xóa</>}
 						</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>

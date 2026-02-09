@@ -570,7 +570,7 @@ export function InboxSidebar({
 										<DrawerHeader className="px-4 pb-3 pt-2">
 											<DrawerTitle className="flex items-center gap-2 text-base font-semibold">
 												<ListFilter className="size-5" />
-												{t("filter") || "Filter"}
+												{t("filter") || "Bộ lọc"}
 											</DrawerTitle>
 										</DrawerHeader>
 										<div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -764,11 +764,11 @@ export function InboxSidebar({
 									disabled={totalUnreadCount === 0}
 								>
 									<CheckCheck className="h-4 w-4 text-muted-foreground" />
-									<span className="sr-only">{t("mark_all_read") || "Mark all as read"}</span>
+									<span className="sr-only">{t("mark_all_read") || "Đánh dấu tất cả là đã đọc"}</span>
 								</Button>
 							</TooltipTrigger>
 							<TooltipContent className="z-80">
-								{t("mark_all_read") || "Mark all as read"}
+								{t("mark_all_read") || "Đánh dấu tất cả là đã đọc"}
 							</TooltipContent>
 						</Tooltip>
 						{/* Close button - mobile only */}
@@ -782,10 +782,10 @@ export function InboxSidebar({
 										onClick={() => onOpenChange(false)}
 									>
 										<ChevronLeft className="h-4 w-4 text-muted-foreground" />
-										<span className="sr-only">{t("close") || "Close"}</span>
+										<span className="sr-only">{t("close") || "Đóng"}</span>
 									</Button>
 								</TooltipTrigger>
-								<TooltipContent className="z-80">{t("close") || "Close"}</TooltipContent>
+								<TooltipContent className="z-80">{t("close") || "Đóng"}</TooltipContent>
 							</Tooltip>
 						)}
 						{/* Dock/Undock button - desktop only */}
@@ -814,11 +814,11 @@ export function InboxSidebar({
 										) : (
 											<ChevronRight className="h-4 w-4 text-muted-foreground" />
 										)}
-										<span className="sr-only">{isDocked ? "Collapse panel" : "Expand panel"}</span>
+										<span className="sr-only">{isDocked ? "Thu gọn bảng điều khiển" : "Mở rộng bảng điều khiển"}</span>
 									</Button>
 								</TooltipTrigger>
 								<TooltipContent className="z-80">
-									{isDocked ? "Collapse panel" : "Expand panel"}
+									{isDocked ? "Thu gọn bảng điều khiển" : "Mở rộng bảng điều khiển"}
 								</TooltipContent>
 							</Tooltip>
 						)}
@@ -829,7 +829,7 @@ export function InboxSidebar({
 					<Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
 					<Input
 						type="text"
-						placeholder={t("search_inbox") || "Search inbox"}
+						placeholder={t("search_inbox") || "Tìm kiếm trong hộp thư đến"}
 						value={searchQuery}
 						onChange={(e) => setSearchQuery(e.target.value)}
 						className="pl-9 pr-8 h-9"
@@ -842,7 +842,7 @@ export function InboxSidebar({
 							onClick={handleClearSearch}
 						>
 							<X className="h-3.5 w-3.5" />
-							<span className="sr-only">{t("clear_search") || "Clear search"}</span>
+							<span className="sr-only">{t("clear_search") || "Xóa tìm kiếm"}</span>
 						</Button>
 					)}
 				</div>
@@ -860,7 +860,7 @@ export function InboxSidebar({
 					>
 						<span className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-muted transition-colors">
 							<MessageSquare className="h-4 w-4" />
-							<span>{t("comments") || "Comments"}</span>
+							<span>{t("comments") || "Bình luận"}</span>
 							<span className="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-primary/20 text-muted-foreground text-xs font-medium">
 								{formatInboxCount(unreadCommentsCount)}
 							</span>
@@ -956,10 +956,10 @@ export function InboxSidebar({
 					<div className="text-center py-8">
 						<Search className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
 						<p className="text-sm text-muted-foreground">
-							{t("no_results_found") || "No results found"}
+							{t("no_results_found") || "Không có kết quả nào được tìm thấy"}
 						</p>
 						<p className="text-xs text-muted-foreground/70 mt-1">
-							{t("try_different_search") || "Try a different search term"}
+							{t("try_different_search") || "Thử tìm kiếm mới"}
 						</p>
 					</div>
 				) : (
@@ -982,7 +982,7 @@ export function InboxSidebar({
 		return (
 			<aside
 				className="h-full w-[360px] shrink-0 bg-background flex flex-col border-r"
-				aria-label={t("inbox") || "Inbox"}
+				aria-label={t("inbox") || "Hộp thư đến"}
 			>
 				{inboxContent}
 			</aside>

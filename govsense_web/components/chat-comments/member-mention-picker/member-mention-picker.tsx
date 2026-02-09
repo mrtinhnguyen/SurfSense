@@ -32,7 +32,7 @@ export function MemberMentionPicker({
 	if (filteredMembers.length === 0) {
 		return (
 			<div className="px-3 py-6 text-center text-sm text-muted-foreground">
-				{query ? "No members found" : "No members available"}
+				{query ? "Không tìm thấy thành viên nào cả" : "Không có thành viên nào khả dụng"}
 			</div>
 		);
 	}

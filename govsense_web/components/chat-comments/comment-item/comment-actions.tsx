@@ -31,14 +31,14 @@ export function CommentActions({ canEdit, canDelete, onEdit, onDelete }: Comment
 				{canEdit && (
 					<DropdownMenuItem onClick={onEdit}>
 						<Pencil className="mr-2 size-4" />
-						Edit
+						Sửa
 					</DropdownMenuItem>
 				)}
 				{canEdit && canDelete && <DropdownMenuSeparator />}
 				{canDelete && (
 					<DropdownMenuItem onClick={onDelete} className="text-destructive focus:text-destructive">
 						<Trash2 className="mr-2 size-4" />
-						Delete
+						Xóa
 					</DropdownMenuItem>
 				)}
 			</DropdownMenuContent>

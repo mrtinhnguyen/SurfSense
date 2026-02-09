@@ -56,7 +56,7 @@ function LinkPreviewErrorState({ url, error }: { url: string; error: string }) {
 					<AlertCircleIcon className="size-6 text-destructive" />
 				</div>
 				<div className="flex-1 min-w-0">
-					<p className="font-medium text-destructive text-sm">Failed to load preview</p>
+					<p className="font-medium text-destructive text-sm">Lỗi khi tải bản xem trước</p>
 					<p className="text-muted-foreground text-xs mt-0.5 truncate">{url}</p>
 					<p className="text-muted-foreground text-xs mt-1">{error}</p>
 				</div>
@@ -73,7 +73,7 @@ function LinkPreviewCancelledState({ url }: { url: string }) {
 		<div className="my-4 rounded-xl border border-muted p-4 text-muted-foreground max-w-md">
 			<p className="flex items-center gap-2">
 				<LinkIcon className="size-4" />
-				<span className="line-through truncate">Preview: {url}</span>
+				<span className="line-through truncate">Bản xem trước: {url}</span>
 			</p>
 		</div>
 	);
@@ -89,7 +89,7 @@ function ParsedMediaCard({ result }: { result: unknown }) {
 		<MediaCard
 			{...card}
 			maxWidth="420px"
-			responseActions={[{ id: "open", label: "Open", variant: "default" }]}
+			responseActions={[{ id: "open", label: "Mở", variant: "default" }]}
 			onResponseAction={(id) => {
 				if (id === "open" && card.href) {
 					window.open(card.href, "_blank", "noopener,noreferrer");
@@ -120,7 +120,7 @@ export const LinkPreviewToolUI = makeAssistantToolUI<LinkPreviewArgs, LinkPrevie
 		if (status.type === "running" || status.type === "requires-action") {
 			return (
 				<div className="my-4">
-					<MediaCardLoading title={`Loading preview for ${url}...`} />
+					<MediaCardLoading title={`Đang tải bản xem trước cho ${url}...`} />
 				</div>
 			);
 		}
@@ -144,7 +144,7 @@ export const LinkPreviewToolUI = makeAssistantToolUI<LinkPreviewArgs, LinkPrevie
 		if (!result) {
 			return (
 				<div className="my-4">
-					<MediaCardLoading title={`Fetching metadata for ${url}...`} />
+					<MediaCardLoading title={`Đang lấy metadata cho ${url}...`} />
 				</div>
 			);
 		}
@@ -208,7 +208,7 @@ export const MultiLinkPreviewToolUI = makeAssistantToolUI<
 			return (
 				<div className="my-4 grid gap-4 sm:grid-cols-2">
 					{urls.slice(0, 4).map((url, index) => (
-						<MediaCardLoading key={`loading-${url}-${index}`} title="Loading..." />
+						<MediaCardLoading key={`loading-${url}-${index}`} title="Đang tải..." />
 					))}
 				</div>
 			);
@@ -220,7 +220,7 @@ export const MultiLinkPreviewToolUI = makeAssistantToolUI<
 				<div className="my-4 text-muted-foreground text-sm">
 					<p className="flex items-center gap-2">
 						<LinkIcon className="size-4" />
-						<span>Link previews cancelled</span>
+						<span>Bản xem trước liên kết đã bị hủy</span>
 					</p>
 				</div>
 			);

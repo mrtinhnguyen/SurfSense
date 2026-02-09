@@ -47,7 +47,7 @@ function WriteTodosLoading() {
 		<div className="my-4 w-full max-w-xl rounded-2xl border bg-card/60 px-5 py-4 shadow-sm">
 			<div className="flex items-center gap-3">
 				<Spinner size="md" className="text-primary" />
-				<span className="text-sm text-muted-foreground">Creating plan...</span>
+				<span className="text-sm text-muted-foreground">Đang tạo kế hoạch...</span>
 			</div>
 		</div>
 	);
@@ -77,7 +77,7 @@ export const WriteTodosToolUI = makeAssistantToolUI<WriteTodosData, WriteTodosDa
 		const hasTodos = data?.todos && data.todos.length > 0;
 
 		// Fixed title for all plans in conversation
-		const planTitle = "Plan";
+		const planTitle = "Kế hoạch";
 
 		// SYNCHRONOUS ownership check
 		const isOwner = useMemo(() => {

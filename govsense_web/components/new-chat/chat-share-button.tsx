@@ -34,14 +34,14 @@ const visibilityOptions: {
 }[] = [
 	{
 		value: "PRIVATE",
-		label: "Private",
-		description: "Only you can access this chat",
+		label: "Riêng tư",
+		description: "Chỉ bạn mới có thể truy cập cuộc trò chuyện này (Only You)",
 		icon: User,
 	},
 	{
 		value: "SEARCH_SPACE",
-		label: "Search Space",
-		description: "All members of this search space can access",
+		label: "Không gian tìm kiếm",
+		description: "Tất cả các thành viên trong không gian tìm kiếm này đều có thể truy cập",
 		icon: Users,
 	},
 ];
@@ -102,14 +102,14 @@ export function ChatShareButton({ thread, onVisibilityChange, className }: ChatS
 
 				onVisibilityChange?.(newVisibility);
 				toast.success(
-					newVisibility === "SEARCH_SPACE" ? "Chat shared with search space" : "Chat is now private"
+					newVisibility === "SEARCH_SPACE" ? "Cuộc trò chuyện đã được chia sẻ với không gian tìm kiếm" : "Cuộc trò chuyện hiện tại là riêng tư"
 				);
 				setOpen(false);
 			} catch (error) {
-				console.error("Failed to update visibility:", error);
+				console.error("Lỗi khi cập nhật trạng thái chia sẻ cuộc trò chuyện:", error);
 				// Revert Jotai state on error
 				setThreadVisibility(thread.visibility ?? "PRIVATE");
-				toast.error("Failed to update sharing settings");
+				toast.error("Lỗi khi cập nhật cài đặt chia sẻ cuộc trò chuyện");
 			}
 		},
 		[thread, currentVisibility, onVisibilityChange, queryClient, setThreadVisibility]
@@ -134,7 +134,7 @@ export function ChatShareButton({ thread, onVisibilityChange, className }: ChatS
 	}
 
 	const CurrentIcon = currentVisibility === "PRIVATE" ? User : Users;
-	const buttonLabel = currentVisibility === "PRIVATE" ? "Private" : "Shared";
+	const buttonLabel = currentVisibility === "PRIVATE" ? "Riêng tư" : "Đã chia sẻ";
 
 	return (
 		<div className={cn("flex items-center gap-1", className)}>
@@ -233,7 +233,7 @@ export function ChatShareButton({ thread, onVisibilityChange, className }: ChatS
 											</span>
 										</div>
 										<p className="text-xs text-muted-foreground mt-0.5 leading-snug">
-											Creates a shareable snapshot of this chat
+											Tạo một bản chụp chia sẻ của cuộc trò chuyện này mà bất kỳ ai có liên kết đều có thể truy cập
 										</p>
 									</div>
 								</button>
@@ -257,8 +257,8 @@ export function ChatShareButton({ thread, onVisibilityChange, className }: ChatS
 					</TooltipTrigger>
 					<TooltipContent>
 						{snapshotCount === 1
-							? "This chat has a public link"
-							: `This chat has ${snapshotCount} public links`}
+							? "Cuộc trò chuyện này có một liên kết công khai"
+							: `Cuộc trò chuyện này có ${snapshotCount} liên kết công khai`}
 					</TooltipContent>
 				</Tooltip>
 			)}

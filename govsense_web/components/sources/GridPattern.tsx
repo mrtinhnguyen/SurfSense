@@ -1,6 +1,6 @@
 export function GridPattern() {
 	const columns = 41;
-	const rows = 11;
+	const rows = 20;
 	return (
 		<div className="flex bg-transparent flex-shrink-0 flex-wrap justify-center items-center gap-x-px gap-y-px scale-105">
 			{Array.from({ length: rows }).map((_, row) =>

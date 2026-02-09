@@ -193,7 +193,7 @@ export function AllSharedChatsSidebar({
 				queryClient.invalidateQueries({ queryKey: ["threads", searchSpaceId] });
 			} catch (error) {
 				console.error("Error archiving thread:", error);
-				toast.error(t("error_archiving_chat") || "Failed to archive chat");
+				toast.error(t("error_archiving_chat") || "Lỗi khi lưu trữ cuộc trò chuyện");
 			} finally {
 				setArchivingThreadId(null);
 			}
@@ -240,14 +240,14 @@ export function AllSharedChatsSidebar({
 						<div className="shrink-0 p-4 pb-2 space-y-3">
 							<div className="flex items-center gap-2">
 								<Users className="h-5 w-5 text-primary" />
-								<h2 className="text-lg font-semibold">{t("shared_chats") || "Shared Chats"}</h2>
+								<h2 className="text-lg font-semibold">{t("shared_chats") || "Các cuộc trò chuyện chia sẻ"}</h2>
 							</div>
 
 							<div className="relative">
 								<Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
 								<Input
 									type="text"
-									placeholder={t("search_chats") || "Search chats..."}
+									placeholder={t("search_chats") || "Tìm kiếm các cuộc trò chuyện..."}
 									value={searchQuery}
 									onChange={(e) => setSearchQuery(e.target.value)}
 									className="pl-9 pr-8 h-9"
@@ -260,7 +260,7 @@ export function AllSharedChatsSidebar({
 										onClick={handleClearSearch}
 									>
 										<X className="h-3.5 w-3.5" />
-										<span className="sr-only">{t("clear_search") || "Clear search"}</span>
+										<span className="sr-only">{t("clear_search") || "Xóa tìm kiếm"}</span>
 									</Button>
 								)}
 							</div>

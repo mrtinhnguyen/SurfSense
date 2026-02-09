@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronDown, ChevronRight, MessageSquare } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CommentComposer } from "../comment-composer/comment-composer";
@@ -16,6 +17,7 @@ export function CommentThread({
 	onDeleteComment,
 	isSubmitting = false,
 }: CommentThreadProps) {
+	const t = useTranslations("comments");
 	const [isRepliesExpanded, setIsRepliesExpanded] = useState(true);
 	const [isReplyComposerOpen, setIsReplyComposerOpen] = useState(false);
 	const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
@@ -100,7 +102,7 @@ export function CommentThread({
 								) : (
 									<ChevronRight className="mr-1 size-3" />
 								)}
-								{thread.replies.length} replies
+								{thread.replies.length} phản hồi
 							</Button>
 						)}
 
@@ -132,8 +134,8 @@ export function CommentThread({
 								<CommentComposer
 									members={members}
 									membersLoading={membersLoading}
-									placeholder="Reply or @mention"
-									submitLabel="Reply"
+									placeholder="Phản hồi hoặc @mencion"
+									submitLabel="Phản hồi"
 									isSubmitting={isSubmitting}
 									onSubmit={handleReplySubmit}
 									onCancel={handleReplyCancel}
@@ -143,7 +145,7 @@ export function CommentThread({
 						) : (
 							<Button variant="ghost" size="sm" className="h-7 px-2 text-xs" onClick={handleReply}>
 								<MessageSquare className="mr-1 size-3" />
-								Reply
+								Phản hồi
 							</Button>
 						)}
 					</div>
@@ -155,7 +157,7 @@ export function CommentThread({
 				<div className="ml-7 mt-1">
 					<Button variant="ghost" size="sm" className="h-7 px-2 text-xs" onClick={handleReply}>
 						<MessageSquare className="mr-1 size-3" />
-						Reply
+						{t("reply_button")}
 					</Button>
 				</div>
 			)}

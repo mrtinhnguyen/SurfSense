@@ -52,7 +52,7 @@ export function PublicChatSnapshotRow({
 					size="sm"
 					onClick={() => onCopy(snapshot)}
 					className="h-8 px-2"
-					title="Copy link"
+					title="Sao chép liên kết"
 				>
 					<Copy className="h-4 w-4" />
 				</Button>
@@ -63,7 +63,7 @@ export function PublicChatSnapshotRow({
 						onClick={() => onDelete(snapshot)}
 						disabled={isDeleting}
 						className="h-8 px-2 text-destructive hover:text-destructive hover:bg-destructive/10"
-						title="Delete link"
+						title="Xóa liên kết"
 					>
 						<Trash2 className="h-4 w-4" />
 					</Button>

@@ -1,6 +1,7 @@
 "use client";
 
 import { Send, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverAnchor, PopoverContent } from "@/components/ui/popover";
@@ -79,14 +80,17 @@ function findMentionTrigger(
 export function CommentComposer({
 	members,
 	membersLoading = false,
-	placeholder = "Comment or @mention",
-	submitLabel = "Send",
+	placeholder,
+	submitLabel,
 	isSubmitting = false,
 	onSubmit,
 	onCancel,
 	autoFocus = false,
 	initialValue = "",
 }: CommentComposerProps) {
+	const t = useTranslations("comments");
+	const resolvedPlaceholder = placeholder ?? t("placeholder");
+	const resolvedSubmitLabel = submitLabel ?? t("send_button");
 	const [displayContent, setDisplayContent] = useState(initialValue);
 	const [insertedMentions, setInsertedMentions] = useState<InsertedMention[]>([]);
 	const [mentionsInitialized, setMentionsInitialized] = useState(false);
@@ -269,7 +273,7 @@ export function CommentComposer({
 						value={displayContent}
 						onChange={handleInputChange}
 						onKeyDown={handleKeyDown}
-						placeholder={placeholder}
+						placeholder={resolvedPlaceholder}
 						className="min-h-[40px] max-h-[200px] resize-none overflow-y-auto scrollbar-thin"
 						rows={1}
 						disabled={isSubmitting}
@@ -304,7 +308,7 @@ export function CommentComposer({
 						disabled={isSubmitting}
 					>
 						<X className="mr-1 size-4" />
-						Cancel
+						{t("cancel_button")}
 					</Button>
 				)}
 				<Button
@@ -315,7 +319,7 @@ export function CommentComposer({
 					className={cn(!canSubmit && "opacity-50")}
 				>
 					<Send className="mr-1 size-4" />
-					{submitLabel}
+					{resolvedSubmitLabel}
 				</Button>
 			</div>
 		</div>

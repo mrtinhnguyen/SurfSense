@@ -29,7 +29,7 @@ export function PublicChatFooter({ shareToken }: PublicChatFooterProps) {
 			// Redirect to the new chat page with cloned content
 			router.push(`/dashboard/${response.search_space_id}/new-chat/${response.thread_id}`);
 		} catch (error) {
-			const message = error instanceof Error ? error.message : "Failed to copy chat";
+			const message = error instanceof Error ? error.message : "Lỗi khi sao chép cuộc trò chuyện công khai.";
 			toast.error(message);
 			setIsCloning(false);
 		}
@@ -64,7 +64,7 @@ export function PublicChatFooter({ shareToken }: PublicChatFooterProps) {
 		<div className="mx-auto flex max-w-(--thread-max-width) items-center justify-center px-4 py-4">
 			<Button size="lg" onClick={handleCopyAndContinue} disabled={isCloning} className="gap-2">
 				{isCloning ? <Loader2 className="size-4 animate-spin" /> : <Copy className="size-4" />}
-				Copy and continue this chat
+				Sao chép và tiếp tục cuộc trò chuyện này
 			</Button>
 		</div>
 	);

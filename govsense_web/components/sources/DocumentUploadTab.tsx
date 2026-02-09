@@ -111,8 +111,8 @@ const FILE_TYPE_CONFIG: Record<string, Record<string, string[]>> = {
 const cardClass = "border border-border bg-slate-400/5 dark:bg-white/5";
 
 // Upload limits
-const MAX_FILES = 10;
-const MAX_TOTAL_SIZE_MB = 200;
+const MAX_FILES = 100;
+const MAX_TOTAL_SIZE_MB = 999;
 const MAX_TOTAL_SIZE_BYTES = MAX_TOTAL_SIZE_MB * 1024 * 1024;
 
 export function DocumentUploadTab({
@@ -169,7 +169,7 @@ export function DocumentUploadTab({
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({
 		onDrop,
 		accept: acceptedFileTypes,
-		maxSize: 50 * 1024 * 1024, // 50MB per file
+		maxSize: 99 * 1024 * 1024, // 50MB per file
 		noClick: false,
 		disabled: files.length >= MAX_FILES,
 	});

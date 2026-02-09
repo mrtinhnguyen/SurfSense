@@ -148,7 +148,7 @@ export class MediaCardErrorBoundary extends Component<
 							<LinkIcon className="size-5 text-destructive" />
 						</div>
 						<div className="min-w-0 flex-1">
-							<p className="font-medium text-destructive text-sm">Failed to load preview</p>
+							<p className="font-medium text-destructive text-sm">Lỗi khi tải bản xem trước</p>
 							<p className="text-muted-foreground text-xs truncate">
 								{this.state.error?.message || "An error occurred"}
 							</p>

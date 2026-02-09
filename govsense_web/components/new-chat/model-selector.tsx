@@ -192,7 +192,7 @@ export function ModelSelector({ onEdit, onAddNew, className }: ModelSelectorProp
 					{isLoading ? (
 						<>
 							<Spinner size="sm" className="text-muted-foreground" />
-							<span className="text-muted-foreground hidden md:inline">Loading</span>
+							<span className="text-muted-foreground hidden md:inline">Đang tải</span>
 						</>
 					) : currentConfig ? (
 						<>
@@ -205,7 +205,7 @@ export function ModelSelector({ onEdit, onAddNew, className }: ModelSelectorProp
 									variant="secondary"
 									className="ml-1 text-[10px] px-1.5 py-0 h-4 bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300"
 								>
-									Balanced
+									Cân bằng tự động
 								</Badge>
 							) : (
 								<Badge variant="secondary" className="ml-1 text-[10px] px-1.5 py-0 h-4 bg-muted/80">
@@ -217,7 +217,7 @@ export function ModelSelector({ onEdit, onAddNew, className }: ModelSelectorProp
 					) : (
 						<>
 							<Bot className="h-4 w-4 text-muted-foreground" />
-							<span className="text-muted-foreground hidden md:inline">Select Model</span>
+							<span className="text-muted-foreground hidden md:inline">Chọn Model</span>
 						</>
 					)}
 					<ChevronDown
@@ -241,7 +241,7 @@ export function ModelSelector({ onEdit, onAddNew, className }: ModelSelectorProp
 					{totalModels > 3 && (
 						<div className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2">
 							<CommandInput
-								placeholder="Search models"
+								placeholder="Tìm kiếm model"
 								value={searchQuery}
 								onValueChange={setSearchQuery}
 								className="h-7 md:h-8 text-xs md:text-sm border-0 bg-transparent focus:ring-0 placeholder:text-muted-foreground/60"
@@ -253,8 +253,8 @@ export function ModelSelector({ onEdit, onAddNew, className }: ModelSelectorProp
 						<CommandEmpty className="py-8 text-center">
 							<div className="flex flex-col items-center gap-2">
 								<Bot className="size-8 text-muted-foreground" />
-								<p className="text-sm text-muted-foreground">No models found</p>
-								<p className="text-xs text-muted-foreground/60">Try a different search term</p>
+								<p className="text-sm text-muted-foreground">Không tìm thấy model nào</p>
+								<p className="text-xs text-muted-foreground/60">Thử một từ khóa tìm kiếm khác</p>
 							</div>
 						</CommandEmpty>
 
@@ -263,7 +263,7 @@ export function ModelSelector({ onEdit, onAddNew, className }: ModelSelectorProp
 							<CommandGroup>
 								<div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground tracking-wider">
 									<Globe className="size-3.5" />
-									Global Models
+									Model hệ thống
 								</div>
 								{filteredGlobalConfigs.map((config) => {
 									const isSelected = currentConfig?.id === config.id;
@@ -293,7 +293,7 @@ export function ModelSelector({ onEdit, onAddNew, className }: ModelSelectorProp
 																	variant="secondary"
 																	className="text-[9px] px-1 py-0 h-3.5 bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300 border-0"
 																>
-																	Recommended
+																	Đề xuất
 																</Badge>
 															)}
 															{isSelected && <Check className="size-3.5 text-primary shrink-0" />}
@@ -307,7 +307,7 @@ export function ModelSelector({ onEdit, onAddNew, className }: ModelSelectorProp
 																	variant="outline"
 																	className="text-[9px] px-1 py-0 h-3.5 bg-primary/10 text-primary border-primary/20"
 																>
-																	Citations
+																	Nguồn trích dẫn
 																</Badge>
 															)}
 														</div>
@@ -339,7 +339,7 @@ export function ModelSelector({ onEdit, onAddNew, className }: ModelSelectorProp
 							<CommandGroup>
 								<div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground tracking-wider">
 									<User className="size-3.5" />
-									Your Configurations
+									Cấu hình của bạn
 								</div>
 								{filteredUserConfigs.map((config) => {
 									const isSelected = currentConfig?.id === config.id;
@@ -371,7 +371,7 @@ export function ModelSelector({ onEdit, onAddNew, className }: ModelSelectorProp
 																	variant="outline"
 																	className="text-[9px] px-1 py-0 h-3.5 bg-primary/10 text-primary border-primary/20"
 																>
-																	Citations
+																	Nguồn trích dẫn
 																</Badge>
 															)}
 														</div>
@@ -404,7 +404,7 @@ export function ModelSelector({ onEdit, onAddNew, className }: ModelSelectorProp
 								}}
 							>
 								<Plus className="size-4 text-primary" />
-								<span className="text-sm font-medium">Add New Configuration</span>
+								<span className="text-sm font-medium">Thêm cấu hình mới</span>
 							</Button>
 						</div>
 					</CommandList>
