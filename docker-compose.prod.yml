@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./govsense_backend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8182:8000"
+    volumes:
+      - shared_temp:/tmp
+      - ./govsense_backend/app/config/global_llm_config.yaml:/app/app/config/global_llm_config.yaml:ro
+    env_file:
+      - ./govsense_backend/.env
+    environment:
+      - PYTHONPATH=/app
+      - UVICORN_LOOP=asyncio
+      - UNSTRUCTURED_HAS_PATCHED_LOOP=1
+      - LANGCHAIN_TRACING_V2=false
+      - LANGSMITH_TRACING=false
+      - UVICORN_PROXY_HEADERS=true
+      - UVICORN_FORWARDED_ALLOW_IPS=*
+
+  electric:
+    image: electricsql/electric:latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5133:3000"
+    environment:
+      - DATABASE_URL=postgresql://${ELECTRIC_DB_USER}:${ELECTRIC_DB_PASSWORD}@${DB_HOST:-103.104.119.144}:${DB_PORT:-5432}/${DB_NAME:-hub_sodttghanoi}?sslmode=disable
+      - ELECTRIC_INSECURE=true
+      - ELECTRIC_WRITE_TO_PG_MODE=direct
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/v1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./govsense_web
+      args:
+        NEXT_PUBLIC_FASTAPI_BACKEND_URL: ${NEXT_PUBLIC_FASTAPI_BACKEND_URL:-https://server.govsense.tonyx.dev}
+        NEXT_PUBLIC_FASTAPI_BACKEND_AUTH_TYPE: ${NEXT_PUBLIC_FASTAPI_BACKEND_AUTH_TYPE:-LOCAL}
+        NEXT_PUBLIC_ETL_SERVICE: ${NEXT_PUBLIC_ETL_SERVICE:-UNSTRUCTURED}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3333:3000"
+    env_file:
+      - ./govsense_web/.env
+    environment:
+      - NEXT_PUBLIC_ELECTRIC_URL=${NEXT_PUBLIC_ELECTRIC_URL:-https://govsense.tonyx.dev/electric}
+      - NEXT_PUBLIC_ELECTRIC_AUTH_MODE=insecure
+    depends_on:
+      - backend
+      - electric
+
+volumes:
+  shared_temp:

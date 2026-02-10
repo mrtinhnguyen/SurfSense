@@ -452,17 +452,17 @@ async def stream_new_chat(
 
         # Determine step title and action verb based on context
         if attachments and (mentioned_documents or mentioned_govsense_docs):
-            last_active_step_title = "Analyzing your content"
-            action_verb = "Reading"
+            last_active_step_title = "Đang phân tích nội dung"
+            action_verb = "Đang đọc"
         elif attachments:
-            last_active_step_title = "Reading your content"
-            action_verb = "Reading"
+            last_active_step_title = "Đang đọc nội dung đính kèm"
+            action_verb = "Đang đọc"
         elif mentioned_documents or mentioned_govsense_docs:
-            last_active_step_title = "Analyzing referenced content"
-            action_verb = "Analyzing"
+            last_active_step_title = "Đang phân tích nội dung được tham chiếu"
+            action_verb = "Đang phân tích"
         else:
-            last_active_step_title = "Understanding your request"
-            action_verb = "Processing"
+            last_active_step_title = "Đang tìm hiểu yêu cầu của bạn"
+            action_verb = "Đang xử lý"
 
         # Build the message with inline context about attachments/documents
         processing_parts = []
@@ -585,13 +585,13 @@ async def stream_new_chat(
                         if isinstance(tool_input, dict)
                         else str(tool_input)
                     )
-                    last_active_step_title = "Searching knowledge base"
+                    last_active_step_title = "Đang tìm kiếm trong cơ sở tri thức"
                     last_active_step_items = [
-                        f"Query: {query[:100]}{'...' if len(query) > 100 else ''}"
+                        f"Câu lệnh: {query[:100]}{'...' if len(query) > 100 else ''}"
                     ]
                     yield streaming_service.format_thinking_step(
                         step_id=tool_step_id,
-                        title="Searching knowledge base",
+                        title="Đang tìm kiếm trong cơ sở tri thức",
                         status="in_progress",
                         items=last_active_step_items,
                     )
@@ -601,13 +601,13 @@ async def stream_new_chat(
                         if isinstance(tool_input, dict)
                         else str(tool_input)
                     )
-                    last_active_step_title = "Fetching link preview"
+                    last_active_step_title = "Đang lấy thông tin từ link"
                     last_active_step_items = [
                         f"URL: {url[:80]}{'...' if len(url) > 80 else ''}"
                     ]
                     yield streaming_service.format_thinking_step(
                         step_id=tool_step_id,
-                        title="Fetching link preview",
+                        title="Đang lấy thông tin từ link",
                         status="in_progress",
                         items=last_active_step_items,
                     )
@@ -622,13 +622,13 @@ async def stream_new_chat(
                         if isinstance(tool_input, dict)
                         else ""
                     )
-                    last_active_step_title = "Analyzing the image"
+                    last_active_step_title = "Đang phân tích hình ảnh"
                     last_active_step_items = [
-                        f"Analyzing: {title[:50] if title else src[:50]}{'...' if len(title or src) > 50 else ''}"
+                        f"Phân tích: {title[:50] if title else src[:50]}{'...' if len(title or src) > 50 else ''}"
                     ]
                     yield streaming_service.format_thinking_step(
                         step_id=tool_step_id,
-                        title="Analyzing the image",
+                        title="Đang phân tích hình ảnh",
                         status="in_progress",
                         items=last_active_step_items,
                     )
@@ -638,70 +638,16 @@ async def stream_new_chat(
                         if isinstance(tool_input, dict)
                         else str(tool_input)
                     )
-                    last_active_step_title = "Scraping webpage"
+                    last_active_step_title = "Đang scraping webpage"
                     last_active_step_items = [
                         f"URL: {url[:80]}{'...' if len(url) > 80 else ''}"
                     ]
                     yield streaming_service.format_thinking_step(
                         step_id=tool_step_id,
-                        title="Scraping webpage",
+                        title="Đang scraping webpage",
                         status="in_progress",
                         items=last_active_step_items,
                     )
-                # elif tool_name == "write_todos":  # Disabled for now
-                #     # Track write_todos calls for better messaging
-                #     write_todos_call_count += 1
-                #     todos = (
-                #         tool_input.get("todos", [])
-                #         if isinstance(tool_input, dict)
-                #         else []
-                #     )
-                #     todo_count = len(todos) if isinstance(todos, list) else 0
-
-                #     if write_todos_call_count == 1:
-                #         # First call - creating the plan
-                #         last_active_step_title = "Creating plan"
-                #         last_active_step_items = [f"Defining {todo_count} tasks..."]
-                #     else:
-                #         # Subsequent calls - updating the plan
-                #         # Try to provide context about what's being updated
-                #         in_progress_count = (
-                #             sum(
-                #                 1
-                #                 for t in todos
-                #                 if isinstance(t, dict)
-                #                 and t.get("status") == "in_progress"
-                #             )
-                #             if isinstance(todos, list)
-                #             else 0
-                #         )
-                #         completed_count = (
-                #             sum(
-                #                 1
-                #                 for t in todos
-                #                 if isinstance(t, dict)
-                #                 and t.get("status") == "completed"
-                #             )
-                #             if isinstance(todos, list)
-                #             else 0
-                #         )
-
-                #         last_active_step_title = "Updating progress"
-                #         last_active_step_items = (
-                #             [
-                #                 f"Progress: {completed_count}/{todo_count} completed",
-                #                 f"In progress: {in_progress_count} tasks",
-                #             ]
-                #             if completed_count > 0
-                #             else [f"Working on {todo_count} tasks"]
-                #         )
-
-                #     yield streaming_service.format_thinking_step(
-                #         step_id=tool_step_id,
-                #         title=last_active_step_title,
-                #         status="in_progress",
-                #         items=last_active_step_items,
-                #     )
                 elif tool_name == "generate_podcast":
                     podcast_title = (
                         tool_input.get("podcast_title", "GovSense Podcast")
@@ -714,29 +660,20 @@ async def stream_new_chat(
                         if isinstance(tool_input, dict)
                         else ""
                     )
-                    last_active_step_title = "Generating podcast"
+                    last_active_step_title = "Đang tạo podcast"
                     last_active_step_items = [
-                        f"Title: {podcast_title}",
-                        f"Content: {content_len:,} characters",
-                        "Preparing audio generation...",
+                        f"Tiêu đề: {podcast_title}",
+                        f"Nội dung: {content_len:,} ký tự",
+                        "Đang chuẩn bị tạo audio...",
                     ]
                     yield streaming_service.format_thinking_step(
                         step_id=tool_step_id,
-                        title="Generating podcast",
+                        title="Đang tạo podcast",
                         status="in_progress",
                         items=last_active_step_items,
                     )
-                # elif tool_name == "ls":
-                #     last_active_step_title = "Exploring files"
-                #     last_active_step_items = []
-                #     yield streaming_service.format_thinking_step(
-                #         step_id=tool_step_id,
-                #         title="Exploring files",
-                #         status="in_progress",
-                #         items=None,
-                #     )
                 else:
-                    last_active_step_title = f"Using {tool_name.replace('_', ' ')}"
+                    last_active_step_title = f"Đang sử dụng {tool_name.replace('_', ' ')}"
                     last_active_step_items = []
                     yield streaming_service.format_thinking_step(
                         step_id=tool_step_id,
@@ -764,12 +701,6 @@ async def stream_new_chat(
                 tool_name = event.get("name", "unknown_tool")
                 raw_output = event.get("data", {}).get("output", "")
 
-                # Handle deepagents' write_todos Command object specially
-                # Disabled for now
-                # if tool_name == "write_todos" and hasattr(raw_output, "update"):
-                #     # deepagents returns a Command object - extract todos directly
-                #     tool_output = extract_todos_from_deepagents(raw_output)
-                # elif hasattr(raw_output, "content"):
                 if hasattr(raw_output, "content"):
                     # It's a ToolMessage object - extract the content
                     content = raw_output.content
@@ -802,18 +733,18 @@ async def stream_new_chat(
                 completed_step_ids.add(original_step_id)
                 if tool_name == "search_knowledge_base":
                     # Get result count if available
-                    result_info = "Search completed"
+                    result_info = "Hoàn thành tìm kiếm"
                     if isinstance(tool_output, dict):
                         result_len = tool_output.get("result_length", 0)
                         if result_len > 0:
                             result_info = (
-                                f"Found relevant information ({result_len} chars)"
+                                f"Tìm thấy {result_len} mục phù hợp"
                             )
                     # Include original query in completed items
                     completed_items = [*last_active_step_items, result_info]
                     yield streaming_service.format_thinking_step(
                         step_id=original_step_id,
-                        title="Searching knowledge base",
+                        title="Tìm kiếm trong cơ sở tri thức hoàn thành",
                         status="completed",
                         items=completed_items,
                     )
@@ -826,12 +757,12 @@ async def stream_new_chat(
                         if has_error:
                             completed_items = [
                                 *last_active_step_items,
-                                f"Error: {tool_output.get('error', 'Failed to fetch')}",
+                                f"Lỗi: {tool_output.get('error', 'Không thể tải liên kết')}",
                             ]
                         else:
                             completed_items = [
                                 *last_active_step_items,
-                                f"Title: {title[:60]}{'...' if len(title) > 60 else ''}",
+                                f"Tiêu đề: {title[:60]}{'...' if len(title) > 60 else ''}",
                                 f"Domain: {domain}" if domain else "Preview loaded",
                             ]
                     else:
@@ -856,7 +787,7 @@ async def stream_new_chat(
                         completed_items = [*last_active_step_items, "Image analyzed"]
                     yield streaming_service.format_thinking_step(
                         step_id=original_step_id,
-                        title="Analyzing the image",
+                        title="Đang phân tích hình ảnh",
                         status="completed",
                         items=completed_items,
                     )
@@ -869,19 +800,19 @@ async def stream_new_chat(
                         if has_error:
                             completed_items = [
                                 *last_active_step_items,
-                                f"Error: {tool_output.get('error', 'Failed to scrape')[:50]}",
+                                f"Lỗi: {tool_output.get('error', 'Không thể trích xuất nội dung')[:50]}",
                             ]
                         else:
                             completed_items = [
                                 *last_active_step_items,
-                                f"Title: {title[:50]}{'...' if len(title) > 50 else ''}",
-                                f"Extracted: {word_count:,} words",
+                                f"Tiêu đề: {title[:50]}{'...' if len(title) > 50 else ''}",
+                                f"Đã trích xuất: {word_count:,} từ",
                             ]
                     else:
                         completed_items = [*last_active_step_items, "Content extracted"]
                     yield streaming_service.format_thinking_step(
                         step_id=original_step_id,
-                        title="Scraping webpage",
+                        title="Trích xuất nội dung trang web",
                         status="completed",
                         items=completed_items,
                     )
@@ -900,15 +831,15 @@ async def stream_new_chat(
 
                     if podcast_status == "processing":
                         completed_items = [
-                            f"Title: {podcast_title}",
-                            "Audio generation started",
-                            "Processing in background...",
+                            f"Tiêu đề: {podcast_title}",
+                            "Tạo audio đã bắt đầu",
+                            "Đang xử lý trong nền...",
                         ]
                     elif podcast_status == "already_generating":
                         completed_items = [
-                            f"Title: {podcast_title}",
-                            "Podcast already in progress",
-                            "Please wait for it to complete",
+                            f"Tiêu đề: {podcast_title}",
+                            "Podcast đang được tạo",
+                            "Vui lòng đợi hoàn thành hoặc kiểm tra trang podcast của bạn để xem khi nào nó sẵn sàng.",
                         ]
                     elif podcast_status == "error":
                         error_msg = (
@@ -925,67 +856,67 @@ async def stream_new_chat(
 
                     yield streaming_service.format_thinking_step(
                         step_id=original_step_id,
-                        title="Generating podcast",
+                        title="Tạo podcast",
                         status="completed",
                         items=completed_items,
                     )
-                # elif tool_name == "write_todos":  # Disabled for now
-                #     # Build completion items for planning/updating
-                #     if isinstance(tool_output, dict):
-                #         todos = tool_output.get("todos", [])
-                #         todo_count = len(todos) if isinstance(todos, list) else 0
-                #         completed_count = (
-                #             sum(
-                #                 1
-                #                 for t in todos
-                #                 if isinstance(t, dict)
-                #                 and t.get("status") == "completed"
-                #             )
-                #             if isinstance(todos, list)
-                #             else 0
-                #         )
-                #         in_progress_count = (
-                #             sum(
-                #                 1
-                #                 for t in todos
-                #                 if isinstance(t, dict)
-                #                 and t.get("status") == "in_progress"
-                #             )
-                #             if isinstance(todos, list)
-                #             else 0
-                #         )
+                elif tool_name == "write_todos":  # Disabled for now
+                     # Build completion items for planning/updating
+                     if isinstance(tool_output, dict):
+                         todos = tool_output.get("todos", [])
+                         todo_count = len(todos) if isinstance(todos, list) else 0
+                         completed_count = (
+                             sum(
+                                 1
+                                 for t in todos
+                                 if isinstance(t, dict)
+                                 and t.get("status") == "completed"
+                             )
+                             if isinstance(todos, list)
+                             else 0
+                         )
+                         in_progress_count = (
+                             sum(
+                                 1
+                                 for t in todos
+                                 if isinstance(t, dict)
+                                 and t.get("status") == "in_progress"
+                             )
+                             if isinstance(todos, list)
+                             else 0
+                         )
 
-                #         # Use context-aware completion message
-                #         if last_active_step_title == "Creating plan":
-                #             completed_items = [f"Created {todo_count} tasks"]
-                #         else:
-                #             # Updating progress - show stats
-                #             completed_items = [
-                #                 f"Progress: {completed_count}/{todo_count} completed",
-                #             ]
-                #             if in_progress_count > 0:
-                #                 # Find the currently in-progress task name
-                #                 in_progress_task = next(
-                #                     (
-                #                         t.get("content", "")[:40]
-                #                         for t in todos
-                #                         if isinstance(t, dict)
-                #                         and t.get("status") == "in_progress"
-                #                     ),
-                #                     None,
-                #                 )
-                #                 if in_progress_task:
-                #                     completed_items.append(
-                #                         f"Current: {in_progress_task}..."
-                #                     )
-                #     else:
-                #         completed_items = ["Plan updated"]
-                #     yield streaming_service.format_thinking_step(
-                #         step_id=original_step_id,
-                #         title=last_active_step_title,
-                #         status="completed",
-                #         items=completed_items,
-                #     )
+                         # Use context-aware completion message
+                         if last_active_step_title == "Đang lập kê hoạch":
+                             completed_items = [f"Đã tạo {todo_count} nhiệm vụ"]
+                         else:
+                             # Updating progress - show stats
+                             completed_items = [
+                                 f"Tiến độ: Hoàn thành {completed_count}/{todo_count}",
+                             ]
+                             if in_progress_count > 0:
+                                 # Find the currently in-progress task name
+                                 in_progress_task = next(
+                                     (
+                                         t.get("content", "")[:40]
+                                         for t in todos
+                                         if isinstance(t, dict)
+                                         and t.get("status") == "in_progress"
+                                     ),
+                                     None,
+                                 )
+                                 if in_progress_task:
+                                     completed_items.append(
+                                         f"Hiện tại: {in_progress_task}..."
+                                     )
+                     else:
+                         completed_items = ["Kế hoạch đã được cập nhật"]
+                     yield streaming_service.format_thinking_step(
+                         step_id=original_step_id,
+                         title=last_active_step_title,
+                         status="completed",
+                         items=completed_items,
+                     )
                 elif tool_name == "ls":
                     # Build completion items showing file names found
                     if isinstance(tool_output, dict):
@@ -1019,18 +950,18 @@ async def stream_new_chat(
                             completed_items = [f"[{name}]" for name in file_names[:4]]
                             completed_items.append(f"(+{len(file_names) - 4} more)")
                     else:
-                        completed_items = ["No files found"]
+                        completed_items = ["Không tìm thấy tệp tin nào"]
 
                     yield streaming_service.format_thinking_step(
                         step_id=original_step_id,
-                        title="Exploring files",
+                        title="Đang khám phá các tệp tin",
                         status="completed",
                         items=completed_items,
                     )
                 else:
                     yield streaming_service.format_thinking_step(
                         step_id=original_step_id,
-                        title=f"Using {tool_name.replace('_', ' ')}",
+                        title=f"Đang sử dụng công cụ {tool_name.replace('_', ' ')}",
                         status="completed",
                         items=last_active_step_items,
                     )
@@ -1058,7 +989,7 @@ async def stream_new_chat(
                         and tool_output.get("status") == "success"
                     ):
                         yield streaming_service.format_terminal_info(
-                            f"Podcast generated successfully: {tool_output.get('title', 'Podcast')}",
+                            f"Podcast đã được tạo thành công: {tool_output.get('title', 'Podcast')}",
                             "success",
                         )
                     else:
@@ -1110,7 +1041,7 @@ async def stream_new_chat(
                             "alt", "Image"
                         )
                         yield streaming_service.format_terminal_info(
-                            f"Image analyzed: {title[:40]}{'...' if len(title) > 40 else ''}",
+                            f"Hình ảnh đã phân tích: {title[:40]}{'...' if len(title) > 40 else ''}",
                             "success",
                         )
                 elif tool_name == "scrape_webpage":
@@ -1163,27 +1094,6 @@ async def stream_new_chat(
                     yield streaming_service.format_terminal_info(
                         "Knowledge base search completed", "success"
                     )
-                # elif tool_name == "write_todos":  # Disabled for now
-                #     # Stream the full write_todos result so frontend can render the Plan component
-                #     yield streaming_service.format_tool_output_available(
-                #         tool_call_id,
-                #         tool_output
-                #         if isinstance(tool_output, dict)
-                #         else {"result": tool_output},
-                #     )
-                #     # Send terminal message with plan info
-                #     if isinstance(tool_output, dict):
-                #         todos = tool_output.get("todos", [])
-                #         todo_count = len(todos) if isinstance(todos, list) else 0
-                #         yield streaming_service.format_terminal_info(
-                #             f"Plan created ({todo_count} tasks)",
-                #             "success",
-                #         )
-                #     else:
-                #         yield streaming_service.format_terminal_info(
-                #             "Plan created",
-                #             "success",
-                #         )
                 else:
                     # Default handling for other tools
                     yield streaming_service.format_tool_output_available(

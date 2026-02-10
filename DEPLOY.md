@@ -202,7 +202,7 @@ services:
     build: ./govsense_backend
     restart: unless-stopped
     ports:
-      - "127.0.0.1:8000:8000"
+      - "127.0.0.1:8182:8000"
     volumes:
       - shared_temp:/tmp
     env_file:
@@ -240,7 +240,7 @@ services:
         NEXT_PUBLIC_ETL_SERVICE: ${NEXT_PUBLIC_ETL_SERVICE:-UNSTRUCTURED}
     restart: unless-stopped
     ports:
-      - "127.0.0.1:3000:3000"
+      - "127.0.0.1:3333:3000"
     env_file:
       - ./govsense_web/.env
     environment:
@@ -273,7 +273,7 @@ server {
     # Certbot sẽ tự thêm redirect HTTPS
 
     location / {
-        proxy_pass http://127.0.0.1:3000;
+        proxy_pass http://127.0.0.1:3333;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
@@ -318,7 +318,7 @@ server {
     client_max_body_size 100M;
 
     location / {
-        proxy_pass http://127.0.0.1:8000;
+        proxy_pass http://127.0.0.1:8182;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
@@ -573,6 +573,195 @@ BACKEND_URL=https://server.govsense.tonyx.dev
 # Certbot tự renew qua cron, nhưng có thể force renew:
 sudo certbot renew --force-renewal
 sudo systemctl reload nginx
+```
+
+---
+
+## 14. Cấu hình LLM (AI Models)
+
+Sau khi deploy thành công, cần cấu hình model AI để Chat, Tóm tắt tài liệu, và Sinh hình ảnh hoạt động.
+
+### 14a. Copy file cấu hình lên server
+
+```bash
+cd /opt/govsense
+
+# File cấu hình đã có sẵn trong repo
+ls govsense_backend/app/config/global_llm_config.yaml
+```
+
+### 14b. Thêm API Key thật
+
+```bash
+# Chỉnh sửa trực tiếp trên server
+nano govsense_backend/app/config/global_llm_config.yaml
+```
+
+Tìm và thay thế:
+- `THAY_BANG_GOOGLE_API_KEY` → API key Google Gemini (lấy tại https://aistudio.google.com/apikey)
+- `THAY_BANG_OPENAI_API_KEY` → API key OpenAI (lấy tại https://platform.openai.com/api-keys)
+
+### 14c. Restart backend để áp dụng
+
+```bash
+# CHỈ restart backend (không cần rebuild)
+docker compose -f docker-compose.prod.yml restart backend
+
+# Xem logs để đảm bảo model được load
+docker compose -f docker-compose.prod.yml logs backend --tail=30 | grep -i "router\|llm\|model\|initialized"
+
+# Kết quả mong đợi:
+# Info: LLM Router initialized with 3 models (strategy: usage-based-routing)
+# Info: Image Generation Router initialized with 1 models (strategy: usage-based-routing)
+```
+
+### 14d. Test LLM từ trong container
+
+```bash
+# Vào container backend
+docker compose -f docker-compose.prod.yml exec backend bash
+
+# Test Gemini
+python -c "
+from litellm import completion
+resp = completion(
+    model='gemini/gemini-2.0-flash',
+    messages=[{'role':'user','content':'Xin chào, bạn là ai?'}],
+    api_key='THAY_BANG_GOOGLE_API_KEY'
+)
+print('Gemini OK:', resp.choices[0].message.content[:100])
+"
+
+# Test OpenAI
+python -c "
+from litellm import completion
+resp = completion(
+    model='gpt-4o-mini',
+    messages=[{'role':'user','content':'Xin chào, bạn là ai?'}],
+    api_key='THAY_BANG_OPENAI_API_KEY'
+)
+print('OpenAI OK:', resp.choices[0].message.content[:100])
+"
+
+# Test Image Generation
+python -c "
+from litellm import image_generation
+resp = image_generation(
+    model='dall-e-3',
+    prompt='A simple blue circle on white background',
+    api_key='THAY_BANG_OPENAI_API_KEY'
+)
+print('DALL-E OK:', resp.data[0].url[:80])
+"
+
+# Thoát container
+exit
+```
+
+### 14e. Test từ trình duyệt
+
+1. Truy cập https://govsense.tonyx.dev
+2. Đăng ký / Đăng nhập
+3. Tạo Search Space mới
+4. Vào **Settings** > **Model Configuration** → Phải thấy 3 model (Gemini, GPT-4o Mini, GPT-4o)
+5. Vào **Settings** > **LLM Roles**:
+   - Agent LLM → chọn **Auto** (khuyến nghị) hoặc model cụ thể
+   - Document Summary → chọn **Auto** hoặc **Gemini 2.0 Flash**
+   - Image Generation → chọn **DALL-E 3**
+6. Mở **New Chat** → Gửi tin nhắn test → Phải nhận được trả lời từ AI
+
+### 14f. Khi cần thêm/sửa/xóa model
+
+```bash
+# 1. Chỉnh sửa file YAML
+nano /opt/govsense/govsense_backend/app/config/global_llm_config.yaml
+
+# 2. Restart backend (KHÔNG cần rebuild)
+docker compose -f docker-compose.prod.yml restart backend
+
+# 3. Kiểm tra logs
+docker compose -f docker-compose.prod.yml logs backend --tail=20
+
+# Lưu ý: User KHÔNG cần refresh trang
+# Model mới sẽ xuất hiện trong Settings > Model Configuration
+```
+
+### 14g. Cấu hình model khuyến nghị
+
+| Vai trò | Chọn model | Lý do |
+|---------|-----------|-------|
+| **Agent LLM** (Chat) | Auto | Tự cân bằng giữa Gemini + GPT-4o Mini |
+| **Document Summary** | Gemini 2.0 Flash | Rẻ nhất, context 1M token |
+| **Image Generation** | DALL-E 3 | Chất lượng cao nhất |
+
+Chi phí ước tính với cấu hình trên: **~$5-20/tháng** cho cơ quan nhỏ (10-50 người dùng).
+
+---
+
+## 15. Cập nhật code và Redeploy
+
+### Cập nhật toàn bộ (code + rebuild)
+
+```bash
+cd /opt/govsense
+
+# 1. Pull code mới
+git pull origin main
+
+# 2. Rebuild images (chỉ build lại service có thay đổi)
+docker compose -f docker-compose.prod.yml build
+
+# 3. Restart với image mới
+docker compose -f docker-compose.prod.yml up -d
+
+# 4. Kiểm tra
+docker compose -f docker-compose.prod.yml ps
+docker compose -f docker-compose.prod.yml logs -f --tail=50
+```
+
+### Chỉ cập nhật backend (không cần rebuild frontend)
+
+```bash
+cd /opt/govsense
+git pull origin main
+docker compose -f docker-compose.prod.yml up -d --build backend
+```
+
+### Chỉ cập nhật frontend
+
+```bash
+cd /opt/govsense
+git pull origin main
+
+# Frontend cần rebuild vì NEXT_PUBLIC_ được bake vào lúc build
+docker compose -f docker-compose.prod.yml up -d --build frontend
+```
+
+### Chỉ thay đổi cấu hình (không cần rebuild)
+
+```bash
+# Thay đổi .env hoặc global_llm_config.yaml
+nano govsense_backend/.env
+nano govsense_backend/app/config/global_llm_config.yaml
+
+# Restart không rebuild
+docker compose -f docker-compose.prod.yml restart backend
+```
+
+### Rollback nếu có lỗi
+
+```bash
+cd /opt/govsense
+
+# Xem lịch sử commit
+git log --oneline -10
+
+# Rollback về commit trước
+git checkout <commit-hash>
+
+# Rebuild và restart
+docker compose -f docker-compose.prod.yml build
+docker compose -f docker-compose.prod.yml up -d
 ```
 
 ---
