@@ -22,16 +22,20 @@ export function FooterNew() {
 		//   href: "#",
 		// },
 		{
-			title: "Liên hệ",
+			title: "Tin tức & Thông báo",
+			href: "https://sodantoctongiao.hanoi.gov.vn/tin-hoat-dong-cua-ban",
+		},
+		{
+			title: "Dữ liệu Dân Tộc & Tôn giáo Hà Nội",
+			href: "https://dulieudantoctongiao.hanoi.gov.vn/",
+		},
+		{
+			title: "Bản đồ số",
+			href: "http://gis-hanoi.digital-connect.vn/",
+		},
+		{
+			title: "Liên hệ hỗ trợ",
 			href: "/contact",
-		},
-		{
-			title: "Nhật ký cập nhật",
-			href: "/changelog",
-		},
-		{
-			title: "Hướng dẫn sử dụng",
-			href: "/docs",
 		},
 	];
 
