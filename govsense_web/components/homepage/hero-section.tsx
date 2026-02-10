@@ -110,32 +110,6 @@ export function HeroSection() {
 			</p>
 			<div className="mb-10 mt-8 flex w-full flex-col items-center justify-center gap-4 px-8 sm:flex-row md:mb-20">
 				<GetStartedButton />
-				<ContactSalesButton />
-			</div>
-			<div
-				ref={containerRef}
-				className="relative mx-auto max-w-7xl rounded-[32px] border border-neutral-200/50 bg-neutral-100 p-2 backdrop-blur-lg md:p-4 dark:border-neutral-700 dark:bg-neutral-800/50"
-			>
-				<div className="rounded-[24px] border border-neutral-200 bg-white p-2 dark:border-neutral-700 dark:bg-black">
-					{/* Light mode image */}
-					<Image
-						src="/homepage/main_demo.webp"
-						alt="header"
-						width={1920}
-						height={1080}
-						className="rounded-[20px] block dark:hidden"
-						unoptimized
-					/>
-					{/* Dark mode image */}
-					<Image
-						src="/homepage/main_demo.webp"
-						alt="header"
-						width={1920}
-						height={1080}
-						className="rounded-[20px] hidden dark:block"
-						unoptimized
-					/>
-				</div>
 			</div>
 		</div>
 	);

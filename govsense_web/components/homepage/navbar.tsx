@@ -20,9 +20,9 @@ export const Navbar = () => {
 
 	const navItems = [
 		//{ name: "Bảng giá", link: "/pricing" },
-		{ name: "Liên hệ", link: "/contact" },
-		{ name: "Nhật ký", link: "/changelog" },
-		{ name: "Hướng dẫn sử dụng", link: "/docs" },
+		{ name: "Tin tức & Thông báo", link: "https://sodantoctongiao.hanoi.gov.vn/tin-hoat-dong-cua-ban" },
+		{ name: "Dữ liệu Dân Tộc & Tôn giáo Hà Nội", link: "https://dulieudantoctongiao.hanoi.gov.vn/" },
+		{ name: "Bản đồ số", link: "http://gis-hanoi.digital-connect.vn/" },
 	];
 
 	useEffect(() => {
