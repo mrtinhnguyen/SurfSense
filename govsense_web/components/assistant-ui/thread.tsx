@@ -68,12 +68,14 @@ import { cn } from "@/lib/utils";
 
 /** Placeholder texts that cycle in new chats when input is empty */
 const CYCLING_PLACEHOLDERS = [
-	"Hỏi GovSense bất cứ điều gì hoặc @nhắc đến tài liệu.",
-	"Tạo podcast từ các hướng dẫn trong sổ tay cơ quan.",
-	"Tổng hợp chính sách nghỉ phép từ Kho dữ liệu.",
-	"Cho tôi tổng quan về các nhiệm vụ khẩn cấp.",
-	"Tạo bảng tóm tắt các email và lịch họp quan trọng hôm nay.",
-	"Kiểm tra xem các tin nhắn có đề cập đến vấn đề nào không.",
+	"Hỏi GovSense về công tác dân tộc, tôn giáo hoặc @nhắc đến tài liệu.",
+	"Tra cứu thủ tục đăng ký hoạt động tôn giáo và tải biểu mẫu.",
+	"Tổng hợp báo cáo công tác dân tộc quý này từ Kho dữ liệu.",
+	"Hướng dẫn thủ tục cấp đăng ký cho cơ sở tôn giáo.",
+	"Soạn công văn báo cáo tình hình tôn giáo trên địa bàn.",
+	"Tra cứu chính sách hỗ trợ đồng bào dân tộc thiểu số tại Hà Nội.",
+	"Tìm biểu mẫu thủ tục hành chính liên quan đến tín ngưỡng, tôn giáo.",
+	"Cho tôi tổng quan lịch họp giao ban và nhiệm vụ tuần này.",
 ];
 
 interface ThreadProps {
