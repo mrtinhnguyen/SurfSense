@@ -1,5 +1,6 @@
 "use client";
 
+import { useAtom } from "jotai";
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import {
@@ -9,15 +10,17 @@ import {
 	LogIn,
 	Shield,
 	Sparkles,
+	UserPlus,
 	Users,
 	XCircle,
 } from "lucide-react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { use, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { loginMutationAtom, registerMutationAtom } from "@/atoms/auth/auth-mutation.atoms";
 import { acceptInviteMutationAtom } from "@/atoms/invites/invites-mutation.atoms";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,13 +34,15 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import type { AcceptInviteResponse } from "@/contracts/types/invites.types";
 import { invitesApiService } from "@/lib/apis/invites-api.service";
-import { getBearerToken } from "@/lib/auth-utils";
+import { getBearerToken, setBearerToken, setRefreshToken } from "@/lib/auth-utils";
 import {
 	trackSearchSpaceInviteAccepted,
 	trackSearchSpaceInviteDeclined,
 	trackSearchSpaceUserAdded,
 } from "@/lib/posthog/events";
 import { cacheKeys } from "@/lib/query-client/cache-keys";
+
+type AuthTab = "login" | "register";
 
 export default function InviteAcceptPage() {
 	const params = useParams();
@@ -79,6 +84,18 @@ export default function InviteAcceptPage() {
 	const [error, setError] = useState<string | null>(null);
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
+	// Auth form state
+	const [authTab, setAuthTab] = useState<AuthTab>("register");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [confirmPassword, setConfirmPassword] = useState("");
+	const [authError, setAuthError] = useState<string | null>(null);
+
+	const [{ mutateAsync: register, isPending: isRegistering }] = useAtom(registerMutationAtom);
+	const [{ mutateAsync: login, isPending: isLoggingIn }] = useAtom(loginMutationAtom);
+
+	const isAuthPending = isRegistering || isLoggingIn;
+
 	// Check if user is logged in
 	useEffect(() => {
 		if (typeof window !== "undefined") {
@@ -100,12 +117,12 @@ export default function InviteAcceptPage() {
 				trackSearchSpaceInviteAccepted(
 					result.search_space_id,
 					result.search_space_name,
-					result.role_name
+					result.role_name,
 				);
 				trackSearchSpaceUserAdded(
 					result.search_space_id,
 					result.search_space_name,
-					result.role_name
+					result.role_name,
 				);
 			}
 		} catch (err: any) {
@@ -121,13 +138,73 @@ export default function InviteAcceptPage() {
 		router.push("/dashboard");
 	};
 
-	const handleLoginRedirect = () => {
-		// Store the invite code to redirect back after login
-		localStorage.setItem("pending_invite_code", inviteCode);
-		// Save the current invite page URL so we can return after authentication
-		localStorage.setItem("govsense_redirect_path", `/invite/${inviteCode}`);
-		// Redirect to login (we manually set the path above since invite pages need special handling)
-		window.location.href = "/login";
+	const handleRegisterAndAccept = async (e: React.FormEvent) => {
+		e.preventDefault();
+		setAuthError(null);
+
+		if (password !== confirmPassword) {
+			setAuthError("Mật khẩu không khớp");
+			return;
+		}
+
+		try {
+			// Step 1: Register
+			await register({
+				email,
+				password,
+				is_active: true,
+				is_superuser: false,
+				is_verified: false,
+			});
+
+			// Step 2: Auto-login after registration
+			const loginResult = await login({
+				username: email,
+				password,
+			});
+
+			if (loginResult.access_token) {
+				setBearerToken(loginResult.access_token);
+				if (loginResult.refresh_token) {
+					setRefreshToken(loginResult.refresh_token);
+				}
+				setIsLoggedIn(true);
+
+				// Step 3: Store pending invite for auto-accept
+				localStorage.setItem("pending_invite_code", inviteCode);
+			}
+		} catch (err: any) {
+			const message =
+				err?.message || err?.detail || "Đăng ký thất bại. Vui lòng thử lại.";
+			setAuthError(message);
+		}
+	};
+
+	const handleLoginAndAccept = async (e: React.FormEvent) => {
+		e.preventDefault();
+		setAuthError(null);
+
+		try {
+			const loginResult = await login({
+				username: email,
+				password,
+			});
+
+			if (loginResult.access_token) {
+				setBearerToken(loginResult.access_token);
+				if (loginResult.refresh_token) {
+					setRefreshToken(loginResult.refresh_token);
+				}
+				setIsLoggedIn(true);
+
+				// Store pending invite for auto-accept
+				localStorage.setItem("pending_invite_code", inviteCode);
+			}
+		} catch (err: any) {
+			const message =
+				err?.message || err?.detail || "Đăng nhập thất bại. Vui lòng thử lại.";
+			setAuthError(message);
+		}
 	};
 
 	// Check for pending invite after login
@@ -141,6 +218,171 @@ export default function InviteAcceptPage() {
 			}
 		}
 	}, [isLoggedIn, inviteCode]);
+
+	const renderInviteInfo = () => (
+		<div className="bg-muted/50 rounded-lg p-4 space-y-3">
+			<div className="flex items-center gap-3">
+				<div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+					<Users className="h-5 w-5 text-primary" />
+				</div>
+				<div>
+					<p className="font-medium">{inviteInfo?.search_space_name}</p>
+					<p className="text-sm text-muted-foreground">Không gian làm việc</p>
+				</div>
+			</div>
+			{inviteInfo?.role_name && (
+				<div className="flex items-center gap-3">
+					<div className="h-10 w-10 rounded-lg bg-violet-500/10 flex items-center justify-center">
+						<Shield className="h-5 w-5 text-violet-500" />
+					</div>
+					<div>
+						<p className="font-medium">{inviteInfo.role_name}</p>
+						<p className="text-sm text-muted-foreground">Vai trò dự kiến</p>
+					</div>
+				</div>
+			)}
+		</div>
+	);
+
+	const renderAuthForm = () => (
+		<>
+			<CardHeader className="text-center pb-4">
+				<motion.div
+					initial={{ scale: 0 }}
+					animate={{ scale: 1 }}
+					transition={{ type: "spring", stiffness: 200, damping: 15 }}
+					className="mx-auto mb-4 h-20 w-20 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center ring-4 ring-primary/20"
+				>
+					<Sparkles className="h-10 w-10 text-primary" />
+				</motion.div>
+				<CardTitle className="text-2xl">Lời mời tham gia!</CardTitle>
+				<CardDescription>
+					{authTab === "register"
+						? "Tạo tài khoản để tham gia "
+						: "Đăng nhập để tham gia "}
+					{inviteInfo?.search_space_name || "không gian này"}
+				</CardDescription>
+			</CardHeader>
+			<CardContent className="space-y-4">
+				{renderInviteInfo()}
+
+				{/* Tab switcher */}
+				<div className="flex rounded-lg bg-muted p-1 gap-1">
+					<button
+						type="button"
+						onClick={() => {
+							setAuthTab("register");
+							setAuthError(null);
+						}}
+						className={`flex-1 flex items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all ${
+							authTab === "register"
+								? "bg-background text-foreground shadow-sm"
+								: "text-muted-foreground hover:text-foreground"
+						}`}
+					>
+						<UserPlus className="h-4 w-4" />
+						Đăng ký
+					</button>
+					<button
+						type="button"
+						onClick={() => {
+							setAuthTab("login");
+							setAuthError(null);
+						}}
+						className={`flex-1 flex items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all ${
+							authTab === "login"
+								? "bg-background text-foreground shadow-sm"
+								: "text-muted-foreground hover:text-foreground"
+						}`}
+					>
+						<LogIn className="h-4 w-4" />
+						Đăng nhập
+					</button>
+				</div>
+
+				{/* Auth form */}
+				<form
+					onSubmit={authTab === "register" ? handleRegisterAndAccept : handleLoginAndAccept}
+					className="space-y-3"
+				>
+					<AnimatePresence>
+						{authError && (
+							<motion.div
+								initial={{ opacity: 0, y: -10 }}
+								animate={{ opacity: 1, y: 0 }}
+								exit={{ opacity: 0, y: -10 }}
+								className="flex items-center gap-2 p-3 bg-destructive/10 text-destructive rounded-lg text-sm"
+							>
+								<AlertCircle className="h-4 w-4 shrink-0" />
+								{authError}
+							</motion.div>
+						)}
+					</AnimatePresence>
+
+					<div>
+						<input
+							type="email"
+							required
+							placeholder="Email"
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+							disabled={isAuthPending}
+							className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 disabled:opacity-50"
+						/>
+					</div>
+
+					<div>
+						<input
+							type="password"
+							required
+							placeholder="Mật khẩu"
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							disabled={isAuthPending}
+							className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 disabled:opacity-50"
+						/>
+					</div>
+
+					{authTab === "register" && (
+						<motion.div
+							initial={{ opacity: 0, height: 0 }}
+							animate={{ opacity: 1, height: "auto" }}
+							exit={{ opacity: 0, height: 0 }}
+						>
+							<input
+								type="password"
+								required
+								placeholder="Xác nhận mật khẩu"
+								value={confirmPassword}
+								onChange={(e) => setConfirmPassword(e.target.value)}
+								disabled={isAuthPending}
+								className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 disabled:opacity-50"
+							/>
+						</motion.div>
+					)}
+
+					<Button type="submit" className="w-full gap-2" disabled={isAuthPending}>
+						{isAuthPending ? (
+							<>
+								<Spinner size="sm" />
+								Đang xử lý...
+							</>
+						) : authTab === "register" ? (
+							<>
+								<UserPlus className="h-4 w-4" />
+								Đăng ký & Tham gia
+							</>
+						) : (
+							<>
+								<LogIn className="h-4 w-4" />
+								Đăng nhập & Tham gia
+							</>
+						)}
+					</Button>
+				</form>
+			</CardContent>
+		</>
+	);
 
 	return (
 		<div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-background via-background to-primary/5">
@@ -247,52 +489,7 @@ export default function InviteAcceptPage() {
 							</CardFooter>
 						</>
 					) : !isLoggedIn ? (
-						<>
-							<CardHeader className="text-center pb-4">
-								<motion.div
-									initial={{ scale: 0 }}
-									animate={{ scale: 1 }}
-									transition={{ type: "spring", stiffness: 200, damping: 15 }}
-									className="mx-auto mb-4 h-20 w-20 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center ring-4 ring-primary/20"
-								>
-									<Sparkles className="h-10 w-10 text-primary" />
-								</motion.div>
-								<CardTitle className="text-2xl">Lời mời tham gia!</CardTitle>
-								<CardDescription>
-									Đăng nhập để tham gia {inviteInfo?.search_space_name || "không gian này"}
-								</CardDescription>
-							</CardHeader>
-							<CardContent className="space-y-4">
-								<div className="bg-muted/50 rounded-lg p-4 space-y-3">
-									<div className="flex items-center gap-3">
-										<div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-											<Users className="h-5 w-5 text-primary" />
-										</div>
-										<div>
-											<p className="font-medium">{inviteInfo?.search_space_name}</p>
-											<p className="text-sm text-muted-foreground">Không gian làm việc</p>
-										</div>
-									</div>
-									{inviteInfo?.role_name && (
-										<div className="flex items-center gap-3">
-											<div className="h-10 w-10 rounded-lg bg-violet-500/10 flex items-center justify-center">
-												<Shield className="h-5 w-5 text-violet-500" />
-											</div>
-											<div>
-												<p className="font-medium">{inviteInfo.role_name}</p>
-												<p className="text-sm text-muted-foreground">Vai trò dự kiến</p>
-											</div>
-										</div>
-									)}
-								</div>
-							</CardContent>
-							<CardFooter>
-								<Button className="w-full gap-2" onClick={handleLoginRedirect}>
-									<LogIn className="h-4 w-4" />
-									Đăng nhập để Tiếp nhận
-								</Button>
-							</CardFooter>
-						</>
+						renderAuthForm()
 					) : (
 						<>
 							<CardHeader className="text-center pb-4">
@@ -306,32 +503,12 @@ export default function InviteAcceptPage() {
 								</motion.div>
 								<CardTitle className="text-2xl">Lời mời tham gia!</CardTitle>
 								<CardDescription>
-									Chấp nhận lời mời để tham gia {inviteInfo?.search_space_name || "không gian này"}
+									Chấp nhận lời mời để tham gia{" "}
+									{inviteInfo?.search_space_name || "không gian này"}
 								</CardDescription>
 							</CardHeader>
 							<CardContent className="space-y-4">
-								<div className="bg-muted/50 rounded-lg p-4 space-y-3">
-									<div className="flex items-center gap-3">
-										<div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-											<Users className="h-5 w-5 text-primary" />
-										</div>
-										<div>
-											<p className="font-medium">{inviteInfo?.search_space_name}</p>
-											<p className="text-sm text-muted-foreground">Không gian làm việc</p>
-										</div>
-									</div>
-									{inviteInfo?.role_name && (
-										<div className="flex items-center gap-3">
-											<div className="h-10 w-10 rounded-lg bg-violet-500/10 flex items-center justify-center">
-												<Shield className="h-5 w-5 text-violet-500" />
-											</div>
-											<div>
-												<p className="font-medium">{inviteInfo.role_name}</p>
-												<p className="text-sm text-muted-foreground">Vai trò dự kiến</p>
-											</div>
-										</div>
-									)}
-								</div>
+								{renderInviteInfo()}
 
 								{error && (
 									<motion.div

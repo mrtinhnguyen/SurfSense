@@ -8,6 +8,7 @@ export const loginRequest = z.object({
 
 export const loginResponse = z.object({
 	access_token: z.string(),
+	refresh_token: z.string().optional(),
 	token_type: z.string(),
 });
 
