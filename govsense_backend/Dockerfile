@@ -20,6 +20,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxrender1 \
     dos2unix \
     git \
+    poppler-utils \
+    libreoffice-core \
+    libreoffice-writer \
     && rm -rf /var/lib/apt/lists/*
 
 # Update certificates and install SSL tools
