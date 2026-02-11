@@ -79,7 +79,7 @@ async def _process_extension_document(
     class IndividualDocument(BaseModel):
         model_config = ConfigDict(populate_by_name=True)
         metadata: DocumentMetadata
-        page_content: str = Field(alias="pageContent")
+        pageContent: str = Field(alias="page_content")  # noqa: N815
 
     individual_document = IndividualDocument(**individual_document_dict)
 
