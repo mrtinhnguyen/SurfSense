@@ -221,6 +221,9 @@ class Config:
     AUTH_TYPE = os.getenv("AUTH_TYPE")
     REGISTRATION_ENABLED = os.getenv("REGISTRATION_ENABLED", "TRUE").upper() == "TRUE"
 
+    # Auto-join: invite code for shared search space (users auto-join on registration)
+    DEFAULT_SEARCH_SPACE_INVITE_CODE = os.getenv("DEFAULT_SEARCH_SPACE_INVITE_CODE")
+
     # Google OAuth
     GOOGLE_OAUTH_CLIENT_ID = os.getenv("GOOGLE_OAUTH_CLIENT_ID")
     GOOGLE_OAUTH_CLIENT_SECRET = os.getenv("GOOGLE_OAUTH_CLIENT_SECRET")

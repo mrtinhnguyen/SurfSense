@@ -1,5 +1,6 @@
 import logging
 import uuid
+from datetime import datetime, timezone
 
 import httpx
 from fastapi import Depends, Request, Response
@@ -12,10 +13,12 @@ from fastapi_users.authentication import (
 )
 from fastapi_users.db import SQLAlchemyUserDatabase
 from pydantic import BaseModel
+from sqlalchemy import select
 
 from app.config import config
 from app.db import (
     SearchSpace,
+    SearchSpaceInvite,
     SearchSpaceMembership,
     SearchSpaceRole,
     User,
@@ -23,6 +26,7 @@ from app.db import (
     get_default_roles_config,
     get_user_db,
 )
+from app.utils.rbac import get_default_role
 from app.utils.refresh_tokens import create_refresh_token
 
 logger = logging.getLogger(__name__)
@@ -168,6 +172,86 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         except Exception as e:
             logger.error(
                 f"Failed to create default search space for user {user.id}: {e}"
+            )
+
+        # Auto-join shared search space if configured
+        if config.DEFAULT_SEARCH_SPACE_INVITE_CODE:
+            try:
+                await self._auto_join_shared_space(user)
+            except Exception as e:
+                logger.warning(f"Auto-join shared space failed for user {user.id}: {e}")
+
+    async def _auto_join_shared_space(self, user: User) -> None:
+        """
+        Automatically join user to a shared search space using the configured invite code.
+        Failure here does NOT block registration.
+        """
+        invite_code = config.DEFAULT_SEARCH_SPACE_INVITE_CODE
+
+        async with async_session_maker() as session:
+            # Find the invite by code
+            result = await session.execute(
+                select(SearchSpaceInvite).filter(
+                    SearchSpaceInvite.invite_code == invite_code,
+                    SearchSpaceInvite.is_active.is_(True),
+                )
+            )
+            invite = result.scalars().first()
+
+            if not invite:
+                logger.warning(f"Auto-join invite code '{invite_code}' not found or inactive")
+                return
+
+            # Check expiry
+            if invite.expires_at and invite.expires_at < datetime.now(timezone.utc):
+                logger.warning(f"Auto-join invite code '{invite_code}' has expired")
+                return
+
+            # Check max uses
+            if invite.max_uses and invite.uses_count >= invite.max_uses:
+                logger.warning(f"Auto-join invite code '{invite_code}' has reached max uses")
+                return
+
+            # Check if user is already a member
+            existing_membership = await session.execute(
+                select(SearchSpaceMembership).filter(
+                    SearchSpaceMembership.user_id == user.id,
+                    SearchSpaceMembership.search_space_id == invite.search_space_id,
+                )
+            )
+            if existing_membership.scalars().first():
+                logger.info(f"User {user.id} already a member of search space {invite.search_space_id}")
+                return
+
+            # Determine role: use invite's role or fallback to default role
+            role_id = invite.role_id
+            if not role_id:
+                default_role = await get_default_role(session, invite.search_space_id)
+                if default_role:
+                    role_id = default_role.id
+                else:
+                    logger.warning(
+                        f"No role found for auto-join to search space {invite.search_space_id}"
+                    )
+                    return
+
+            # Create membership
+            membership = SearchSpaceMembership(
+                user_id=user.id,
+                search_space_id=invite.search_space_id,
+                role_id=role_id,
+                is_owner=False,
+                invited_by_invite_id=invite.id,
+            )
+            session.add(membership)
+
+            # Increment uses count
+            invite.uses_count = (invite.uses_count or 0) + 1
+
+            await session.commit()
+            logger.info(
+                f"User {user.id} auto-joined search space {invite.search_space_id} "
+                f"via invite '{invite_code}'"
             )
 
     async def on_after_forgot_password(
