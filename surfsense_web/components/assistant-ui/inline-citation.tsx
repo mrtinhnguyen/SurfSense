@@ -8,30 +8,40 @@ interface InlineCitationProps {
 	chunkId: number;
 	citationNumber: number;
 	isDocsChunk?: boolean;
+	isTthcChunk?: boolean;
 }
 
 /**
  * Inline citation component for the new chat.
  * Renders a clickable numbered badge that opens the SourceDetailPanel with document chunk details.
- * Supports both regular knowledge base chunks and GovSense documentation chunks.
+ * Supports regular knowledge base chunks, GovSense documentation chunks, and TTHC chunks.
  */
 export const InlineCitation: FC<InlineCitationProps> = ({
 	chunkId,
 	citationNumber,
 	isDocsChunk = false,
+	isTthcChunk = false,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
+
+	const sourceType = isDocsChunk ? "GOVSENSE_DOCS" : isTthcChunk ? "TTHC" : "";
+	const title = isDocsChunk
+		? "GovSense Documentation"
+		: isTthcChunk
+			? "Administrative Procedure"
+			: "Source";
 
 	return (
 		<SourceDetailPanel
 			open={isOpen}
 			onOpenChange={setIsOpen}
 			chunkId={chunkId}
-			sourceType={isDocsChunk ? "GOVSENSE_DOCS" : ""}
-			title={isDocsChunk ? "Tài liệu GovSense" : "Source"}
+			sourceType={sourceType}
+			title={title}
 			description=""
 			url=""
 			isDocsChunk={isDocsChunk}
+			isTthcChunk={isTthcChunk}
 		>
 			<span
 				onClick={() => setIsOpen(true)}

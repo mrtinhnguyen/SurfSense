@@ -17,11 +17,13 @@ import type {
 	GetDocumentByChunkResponse,
 	GetGovsenseDocsByChunkResponse,
 } from "@/contracts/types/document.types";
+import type { TthcProcedureWithChunks } from "@/contracts/types/tthc.types";
 import { documentsApiService } from "@/lib/apis/documents-api.service";
+import { tthcApiService } from "@/lib/apis/tthc-api.service";
 import { cacheKeys } from "@/lib/query-client/cache-keys";
 import { cn } from "@/lib/utils";
 
-type DocumentData = GetDocumentByChunkResponse | GetGovsenseDocsByChunkResponse;
+type DocumentData = GetDocumentByChunkResponse | GetGovsenseDocsByChunkResponse | TthcProcedureWithChunks;
 
 interface SourceDetailPanelProps {
 	open: boolean;
@@ -33,6 +35,7 @@ interface SourceDetailPanelProps {
 	url?: string;
 	children?: ReactNode;
 	isDocsChunk?: boolean;
+	isTthcChunk?: boolean;
 }
 
 const formatDocumentType = (type: string) => {
@@ -114,6 +117,7 @@ export function SourceDetailPanel({
 	url,
 	children,
 	isDocsChunk = false,
+	isTthcChunk = false,
 }: SourceDetailPanelProps) {
 	const t = useTranslations("dashboard");
 	const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -128,15 +132,22 @@ export function SourceDetailPanel({
 		setMounted(true);
 	}, []);
 
+	const cacheKey = isTthcChunk
+		? cacheKeys.documents.byChunk(`tthc-${chunkId}`)
+		: isDocsChunk
+			? cacheKeys.documents.byChunk(`doc-${chunkId}`)
+			: cacheKeys.documents.byChunk(chunkId.toString());
+
 	const {
 		data: documentData,
 		isLoading: isDocumentByChunkFetching,
 		error: documentByChunkFetchingError,
 	} = useQuery<DocumentData>({
-		queryKey: isDocsChunk
-			? cacheKeys.documents.byChunk(`doc-${chunkId}`)
-			: cacheKeys.documents.byChunk(chunkId.toString()),
+		queryKey: cacheKey,
 		queryFn: async () => {
+			if (isTthcChunk) {
+				return tthcApiService.getByChunkIdGlobal(chunkId);
+			}
 			if (isDocsChunk) {
 				return documentsApiService.getGovsenseDocByChunk(chunkId);
 			}
@@ -330,7 +341,7 @@ export function SourceDetailPanel({
 						>
 							<div className="min-w-0 flex-1">
 								<h2 className="text-xl font-semibold truncate">
-									{documentData?.title || title || "Nguồn tài liệu"}
+									{documentData?.title || (documentData && "name" in documentData ? documentData.name : null) || title || "Nguồn tài liệu"}
 								</h2>
 								<p className="text-sm text-muted-foreground mt-0.5">
 									{documentData && "document_type" in documentData

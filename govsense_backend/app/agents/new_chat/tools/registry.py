@@ -51,6 +51,7 @@ from .mcp_tool import load_mcp_tools
 from .podcast import create_generate_podcast_tool
 from .scrape_webpage import create_scrape_webpage_tool
 from .search_govsense_docs import create_search_govsense_docs_tool
+from .search_tthc import create_search_tthc_tool
 from .user_memory import create_recall_memory_tool, create_save_memory_tool
 
 # =============================================================================
@@ -179,6 +180,18 @@ BUILTIN_TOOLS: list[ToolDefinition] = [
             db_session=deps["db_session"],
         ),
         requires=["user_id", "search_space_id", "db_session"],
+    ),
+    # =========================================================================
+    # TTHC (Thủ tục hành chính) search tool
+    # =========================================================================
+    ToolDefinition(
+        name="search_tthc",
+        description="Search administrative procedures (TTHC) database",
+        factory=lambda deps: create_search_tthc_tool(
+            search_space_id=deps["search_space_id"],
+            db_session=deps["db_session"],
+        ),
+        requires=["search_space_id", "db_session"],
     ),
     # =========================================================================
     # ADD YOUR CUSTOM TOOLS BELOW

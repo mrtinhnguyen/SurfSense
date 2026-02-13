@@ -297,6 +297,12 @@ class Permission(str, Enum):
     PUBLIC_SHARING_CREATE = "public_sharing:create"
     PUBLIC_SHARING_DELETE = "public_sharing:delete"
 
+    # TTHC (Thủ tục hành chính)
+    TTHC_CREATE = "tthc:create"
+    TTHC_READ = "tthc:read"
+    TTHC_UPDATE = "tthc:update"
+    TTHC_DELETE = "tthc:delete"
+
     # Full access wildcard
     FULL_ACCESS = "*"
 
@@ -345,6 +351,10 @@ DEFAULT_ROLE_PERMISSIONS = {
         # Public Sharing (can create and view, no delete)
         Permission.PUBLIC_SHARING_VIEW.value,
         Permission.PUBLIC_SHARING_CREATE.value,
+        # TTHC (create, read, update — no delete)
+        Permission.TTHC_CREATE.value,
+        Permission.TTHC_READ.value,
+        Permission.TTHC_UPDATE.value,
     ],
     "Viewer": [
         # Documents (read only)
@@ -372,6 +382,8 @@ DEFAULT_ROLE_PERMISSIONS = {
         Permission.SETTINGS_VIEW.value,
         # Public Sharing (view only)
         Permission.PUBLIC_SHARING_VIEW.value,
+        # TTHC (read only)
+        Permission.TTHC_READ.value,
     ],
 }
 
@@ -879,6 +891,62 @@ class GovSenseDocsChunk(BaseModel, TimestampMixin):
     document = relationship("GovSenseDocsDocument", back_populates="chunks")
 
 
+class TthcProcedure(BaseModel, TimestampMixin):
+    """
+    Thủ tục hành chính (Administrative Procedure) storage.
+    Structured fields + combined text for vector search.
+    """
+
+    __tablename__ = "tthc_procedures"
+
+    name = Column(String(500), nullable=False, index=True)
+    code = Column(String(100), nullable=True, index=True)
+    content_hash = Column(String, nullable=False, index=True)
+    deadline = Column(String(500))  # Thời hạn giải quyết
+    location = Column(String(500))  # Nơi tiếp nhận / Địa điểm thực hiện
+    method = Column(Text)  # Cách thức thực hiện
+    legal_basis = Column(Text)  # Căn cứ pháp lý
+    form_attachments = Column(JSONB)  # Biểu mẫu đính kèm [{name, url}]
+    fee = Column(String(500))  # Lệ phí
+    result = Column(String(500))  # Kết quả thực hiện
+    subjects = Column(String(500))  # Đối tượng thực hiện
+    implementing_agency = Column(String(500))  # Cơ quan thực hiện
+    content = Column(Text, nullable=False)  # Combined text for chunking/embedding
+    embedding = Column(Vector(config.embedding_model_instance.dimension))
+    updated_at = Column(TIMESTAMP(timezone=True), nullable=True, index=True)
+
+    search_space_id = Column(
+        Integer, ForeignKey("searchspaces.id", ondelete="CASCADE"), nullable=False
+    )
+    search_space = relationship("SearchSpace", back_populates="tthc_procedures")
+
+    created_by_id = Column(
+        UUID(as_uuid=True), ForeignKey("user.id", ondelete="SET NULL"), nullable=True
+    )
+
+    chunks = relationship(
+        "TthcChunk",
+        back_populates="procedure",
+        cascade="all, delete-orphan",
+    )
+
+
+class TthcChunk(BaseModel, TimestampMixin):
+    """Chunk storage for TTHC procedures (for vector search)."""
+
+    __tablename__ = "tthc_chunks"
+
+    content = Column(Text, nullable=False)
+    embedding = Column(Vector(config.embedding_model_instance.dimension))
+
+    procedure_id = Column(
+        Integer,
+        ForeignKey("tthc_procedures.id", ondelete="CASCADE"),
+        nullable=False,
+    )
+    procedure = relationship("TthcProcedure", back_populates="chunks")
+
+
 class Podcast(BaseModel, TimestampMixin):
     """Podcast model for storing generated podcasts."""
 
@@ -1116,6 +1184,13 @@ class SearchSpace(BaseModel, TimestampMixin):
         "SearchSpaceInvite",
         back_populates="search_space",
         order_by="SearchSpaceInvite.id",
+        cascade="all, delete-orphan",
+    )
+
+    tthc_procedures = relationship(
+        "TthcProcedure",
+        back_populates="search_space",
+        order_by="TthcProcedure.id.desc()",
         cascade="all, delete-orphan",
     )
 

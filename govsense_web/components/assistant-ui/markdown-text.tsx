@@ -15,13 +15,13 @@ import { InlineCitation } from "@/components/assistant-ui/inline-citation";
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
 import { cn } from "@/lib/utils";
 
-// Citation pattern: [citation:CHUNK_ID] or [citation:doc-CHUNK_ID]
+// Citation pattern: [citation:CHUNK_ID] or [citation:doc-CHUNK_ID] or [citation:tthc-CHUNK_ID]
 // Also matches Chinese brackets 【】 and handles zero-width spaces that LLM sometimes inserts
-const CITATION_REGEX = /[[【]\u200B?citation:(doc-)?(\d+)\u200B?[\]】]/g;
+const CITATION_REGEX = /[[【]\u200B?citation:(doc-|tthc-)?(\d+)\u200B?[\]】]/g;
 
 // Track chunk IDs to citation numbers mapping for consistent numbering
 // This map is reset when a new message starts rendering
-// Uses string keys to differentiate between doc and regular chunks (e.g., "doc-123" vs "123")
+// Uses string keys to differentiate between doc, tthc, and regular chunks (e.g., "doc-123", "tthc-45", "123")
 let chunkIdToCitationNumber: Map<string, number> = new Map();
 let nextCitationNumber = 1;
 
@@ -35,10 +35,10 @@ export function resetCitationCounter() {
 
 /**
  * Gets or assigns a citation number for a chunk ID
- * Uses string key to differentiate between doc and regular chunks
+ * Uses string key with prefix to differentiate between doc, tthc, and regular chunks
  */
-function getCitationNumber(chunkId: number, isDocsChunk: boolean): number {
-	const key = isDocsChunk ? `doc-${chunkId}` : String(chunkId);
+function getCitationNumber(chunkId: number, prefix: string): number {
+	const key = prefix ? `${prefix}${chunkId}` : String(chunkId);
 	const existingNumber = chunkIdToCitationNumber.get(key);
 	if (existingNumber === undefined) {
 		chunkIdToCitationNumber.set(key, nextCitationNumber++);
@@ -48,7 +48,7 @@ function getCitationNumber(chunkId: number, isDocsChunk: boolean): number {
 
 /**
  * Parses text and replaces [citation:XXX] patterns with InlineCitation components
- * Supports both regular chunks [citation:123] and docs chunks [citation:doc-123]
+ * Supports regular chunks [citation:123], docs chunks [citation:doc-123], and TTHC chunks [citation:tthc-123]
  */
 function parseTextWithCitations(text: string): ReactNode[] {
 	const parts: ReactNode[] = [];
@@ -65,17 +65,20 @@ function parseTextWithCitations(text: string): ReactNode[] {
 			parts.push(text.substring(lastIndex, match.index));
 		}
 
-		// Check if this is a docs chunk (has "doc-" prefix)
-		const isDocsChunk = match[1] === "doc-";
+		// Detect prefix: "doc-", "tthc-", or empty
+		const prefix = match[1] || "";
+		const isDocsChunk = prefix === "doc-";
+		const isTthcChunk = prefix === "tthc-";
 		const chunkId = Number.parseInt(match[2], 10);
-		const citationNumber = getCitationNumber(chunkId, isDocsChunk);
+		const citationNumber = getCitationNumber(chunkId, prefix);
 		parts.push(
 			<InlineCitation
-				key={`citation-${isDocsChunk ? "doc-" : ""}${chunkId}-${instanceIndex}`}
+				key={`citation-${prefix}${chunkId}-${instanceIndex}`}
 				chunkId={chunkId}
 				citationNumber={citationNumber}
 				isDocsChunk={isDocsChunk}
-			/>
+				isTthcChunk={isTthcChunk}
+			/>,
 		);
 
 		lastIndex = match.index + match[0].length;

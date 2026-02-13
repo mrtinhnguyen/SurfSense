@@ -39,6 +39,12 @@ export default function DashboardLayout({
 			icon: "SquareLibrary",
 			items: [],
 		},
+		{
+			title: "Thủ tục HC",
+			url: `/dashboard/${search_space_id}/tthc`,
+			icon: "FileText",
+			items: [],
+		},
 	];
 
 	return (

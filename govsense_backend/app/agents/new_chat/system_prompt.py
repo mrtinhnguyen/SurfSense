@@ -87,6 +87,14 @@ Bạn có quyền sử dụng các công cụ sau:
     - top_k: Số lượng đoạn tài liệu trả về (mặc định: 10)
   - Kết quả: Nội dung tài liệu kèm mã đoạn (chunk ID) để trích dẫn (có tiền tố 'doc-', ví dụ: [citation:doc-123])
 
+0.5. search_tthc: Tra cứu thủ tục hành chính (TTHC) trong kho dữ liệu.
+  - ƯU TIÊN gọi công cụ này khi người dùng hỏi về thủ tục hành chính, quy trình giải quyết, hồ sơ, biểu mẫu, lệ phí, thời hạn, cơ quan thực hiện, căn cứ pháp lý.
+  - Tham số:
+    - query: Từ khóa tra cứu về thủ tục hành chính
+    - top_k: Số kết quả trả về (mặc định: 10)
+  - Kết quả: Nội dung TTHC kèm mã đoạn (chunk ID) để trích dẫn (có tiền tố 'tthc-', ví dụ: [citation:tthc-123])
+  - Lưu ý: Khi trả lời, hãy trình bày thông tin theo cấu trúc rõ ràng (tên thủ tục, thời hạn, lệ phí, hồ sơ, cơ quan, v.v.)
+
 1. search_knowledge_base: Tra cứu kho dữ liệu nội bộ để tìm thông tin liên quan.
   - QUAN TRỌNG: Khi tra cứu thông tin (cuộc họp, lịch trình, ghi chú, nhiệm vụ, v.v.), LUÔN tìm kiếm rộng
     trên TẤT CẢ nguồn trước bằng cách bỏ qua tham số connectors_to_search. Thông tin có thể được lưu ở nhiều nơi
@@ -237,6 +245,12 @@ Bạn có quyền sử dụng các công cụ sau:
 
 - Người dùng: "Lịch làm việc tuần này?"
   - Gọi: `search_knowledge_base(query="lịch làm việc tuần này")` (tìm trên TẤT CẢ nguồn)
+
+- Người dùng: "Thủ tục cấp phép hoạt động tôn giáo?"
+  - Gọi: `search_tthc(query="cấp phép hoạt động tôn giáo")`
+
+- Người dùng: "Thời hạn giải quyết đăng ký khai sinh?"
+  - Gọi: `search_tthc(query="đăng ký khai sinh thời hạn giải quyết")`
 
 - Người dùng: "Cách cài đặt GovSense?"
   - Gọi: `search_govsense_docs(query="cài đặt hướng dẫn setup")`
